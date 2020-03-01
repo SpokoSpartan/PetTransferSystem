@@ -2,3 +2,4 @@
 
 ## Members
 * Wojciech Spoton
+* Piotr Kowalski
