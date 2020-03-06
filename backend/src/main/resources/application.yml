@@ -1,0 +1,6 @@
+micronaut:
+  application:
+    name: pet-transfer-system
+  server:
+    host: ${SERVER_ADDRESS:localhost}
+    port: ${SERVICE_PORT:8080}
