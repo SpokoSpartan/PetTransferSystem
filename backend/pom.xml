@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pwr.it.app</groupId>
-    <artifactId>pet-transfer-system</artifactId>
+    <artifactId>pet-transfer-system-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
