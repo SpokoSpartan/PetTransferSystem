@@ -1,7 +1,12 @@
 # Pets Transfer System
 
+### Table of contents
+1. App description
+2. Technologies
+3. Installation guide
+4. Project members
 
-## App description
+## 1. App description
 Pet Transfer System will be an application for private non-profit organizations, that rescue and organize adoptions of pets, specifically exotic ones. Known systems are designed for cats and dogs. We would like to expand this type of application to exotic animals. Also, we would like to design a user-friendly interface (system found by us seems to be difficult to use, because of the non-intuitive interface).
 
 ##### Functionality offered by the product:
@@ -24,7 +29,7 @@ Pet Transfer System will be an application for private non-profit organizations,
 * probably the site with communication data
 
 
-## Technologies
+## 2. Technologies
 ##### Backend
 * [Java](https://docs.oracle.com/en/java/)
 * [Micronaut](https://micronaut.io/)
@@ -40,11 +45,20 @@ Pet Transfer System will be an application for private non-profit organizations,
 * [AWS](https://aws.amazon.com/)
 * [Travis CI](https://travis-ci.org/)
 
+## 3. Installation guide
+#### Install
+1. Install [Maven](https://maven.apache.org/install.html) and [Docker](https://docs.docker.com/install/)
+2. In project directory execute ```mvn clean install```
+#### Run
+1. Install [Compose](https://docs.docker.com/compose/install/)
+2. In project directory execute ```docker-compose up```
 
-## Project members
+
+## 4. Project members
 * Agnieszka Musiał
 * Jacek Zalewski
 * Jani Johansson
 * Piotr Kowalski
 * Wojciech Spoton
+* Kacper Sierakowski
 
