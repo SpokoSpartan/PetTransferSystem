@@ -10,3 +10,7 @@ services:
     image: pwrproject/pet-transfer-system-api:latest
     container_name: api
     network_mode: host
+  auth:
+    image: pwrproject/pet-transfer-system-auth:latest
+    container_name: auth
+    network_mode: host
