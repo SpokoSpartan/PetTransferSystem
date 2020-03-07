@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
 @Validated
-@Controller("/pets")
+@Controller("/api/pets")
 @RequiredArgsConstructor
 public class PetController {
 
