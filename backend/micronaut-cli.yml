@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: com.pwr.it.app
+---
+testFramework: junit
+sourceLanguage: java
