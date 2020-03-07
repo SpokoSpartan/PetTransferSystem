@@ -1,0 +1,12 @@
+version: '2'
+services:
+  client:
+    image: pwrproject/pet-transfer-system-client:latest
+    container_name: client
+    network_mode: host
+    depends_on:
+      - api
+  api:
+    image: pwrproject/pet-transfer-system-api:latest
+    container_name: api
+    network_mode: host
