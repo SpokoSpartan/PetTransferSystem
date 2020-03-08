@@ -1,20 +1,22 @@
 package com.pwr.it.app.web.controller;
 
+import com.pwr.it.app.data.domain.Pet;
+import com.pwr.it.app.data.repository.PetRepository;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.validation.Validated;
 import lombok.RequiredArgsConstructor;
-
-import javax.validation.constraints.NotBlank;
 
 @Validated
 @Controller("/api/pets")
 @RequiredArgsConstructor
 public class PetController {
 
-    @Get("/test")
-    public String testMethod(@NotBlank String petName) {
-        return "Server working correctly. Pet name is: " + petName + ".";
+    private final PetRepository petRepository;
+
+    @Get("/all")
+    public Iterable<Pet> test() {
+        return petRepository.findAll();
     }
 
 }
