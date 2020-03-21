@@ -8,7 +8,13 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import javax.inject.Singleton;
-import java.util.*;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -66,6 +72,7 @@ public class StatusSeeder {
         return new Random().nextInt(maxNumber);
     }
 
+    @Transactional
     private Set<Status> initStatuses(List<Status> statuses) {
         return StreamSupport.stream(
                 statusRepository.saveAll(statuses).spliterator(), false)

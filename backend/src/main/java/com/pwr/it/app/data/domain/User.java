@@ -25,7 +25,7 @@ public class User {
     @ManyToOne(cascade = {
             CascadeType.MERGE,
             CascadeType.DETACH},
-            fetch = FetchType.LAZY)
+            fetch = FetchType.EAGER)
     @JoinColumn(name = "users-organizations")
     private Organization organization;
     private String uuid = UUID.randomUUID().toString();

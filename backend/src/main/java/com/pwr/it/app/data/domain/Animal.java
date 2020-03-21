@@ -1,8 +1,22 @@
 package com.pwr.it.app.data.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,22 +34,23 @@ public class Animal {
     private String name;
     @ManyToOne(cascade = {
             CascadeType.MERGE,
-            CascadeType.PERSIST},
+            CascadeType.DETACH},
             fetch = FetchType.LAZY)
     @JoinColumn(name = "animals-species")
     private Species species;
     @ManyToOne(cascade = {
             CascadeType.MERGE,
-            CascadeType.PERSIST},
+            CascadeType.DETACH},
             fetch = FetchType.LAZY)
     @JoinColumn(name = "animals-race")
     private Race race;
     @OneToMany(cascade = {
             CascadeType.MERGE,
-            CascadeType.PERSIST},
+            CascadeType.DETACH},
             fetch = FetchType.LAZY)
     @JoinColumn(name = "animals-status")
     private Set<Status> statuses;
+    @Column(length = 1000)
     private String description;
     @Basic
     private Date birthDate;
@@ -44,13 +59,13 @@ public class Animal {
     private Date shelterJoinDate;
     @ManyToOne(cascade = {
             CascadeType.MERGE,
-            CascadeType.PERSIST},
+            CascadeType.DETACH},
             fetch = FetchType.LAZY)
     @JoinColumn(name = "animals-user")
     private User user;
     @OneToMany(cascade = {
             CascadeType.MERGE,
-            CascadeType.PERSIST},
+            CascadeType.DETACH},
             fetch = FetchType.LAZY)
     @JoinColumn(name = "animals-treatment-history")
     private Set<TreatmentHistory> treatmentHistories = new HashSet<>();
@@ -58,7 +73,7 @@ public class Animal {
 
     @Builder
     public Animal(String name, Species species, Race race, Set<Status> statuses, String description,
-                  Date birthDate, String sex, Boolean sterilised, Date shelterJoinDate, User user) {
+                  Date birthDate, String sex, Date shelterJoinDate, User user) {
         this.name = name;
         this.species = species;
         this.race = race;
@@ -66,13 +81,16 @@ public class Animal {
         this.description = description;
         this.birthDate = birthDate;
         this.sex = sex;
-        this.sterilised = sterilised;
         this.shelterJoinDate = shelterJoinDate;
         this.user = user;
     }
 
     public void addTreatmentHistory(TreatmentHistory treatmentHistory) {
         this.treatmentHistories.add(treatmentHistory);
+    }
+
+    public void setSterilised(boolean sterilised) {
+        this.sterilised = sterilised;
     }
 
     @Override
