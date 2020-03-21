@@ -4,6 +4,12 @@ micronaut:
   server:
     host: ${SERVER_ADDRESS:localhost}
     port: ${SERVICE_PORT:8081}
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+
 jackson:
   bean-introspection-module: true
 

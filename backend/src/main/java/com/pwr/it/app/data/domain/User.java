@@ -24,17 +24,20 @@ public class User {
     private String address;
     @ManyToOne(cascade = {
             CascadeType.MERGE,
-            CascadeType.PERSIST},
+            CascadeType.DETACH},
             fetch = FetchType.LAZY)
     @JoinColumn(name = "users-organizations")
     private Organization organization;
     private String uuid = UUID.randomUUID().toString();
 
-    public User(String fullName, String phoneNumber, String email, String address, Organization organization) {
+    public User(String fullName, String phoneNumber, String email, String address) {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
+    }
+
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 
