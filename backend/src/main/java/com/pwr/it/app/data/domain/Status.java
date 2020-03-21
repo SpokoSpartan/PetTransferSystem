@@ -32,6 +32,11 @@ public class Status {
         this.statusEnd = statusEnd;
     }
 
+    public Status(AnimalStatus animalStatus, Date statusBeginning) {
+        this.animalStatus = animalStatus;
+        this.statusBeginning = statusBeginning;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

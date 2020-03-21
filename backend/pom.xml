@@ -38,6 +38,14 @@
         </dependency>
         <!-- LOMBOK -->
 
+        <!--  YODA -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.10.5</version>
+        </dependency>
+        <!--  YODA -->
+
         <!-- CORE MICRONAUT -->
         <dependency>
             <groupId>io.micronaut</groupId>
