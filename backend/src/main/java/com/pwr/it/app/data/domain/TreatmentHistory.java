@@ -1,5 +1,7 @@
 package com.pwr.it.app.data.domain;
 
+import com.pwr.it.app.data.domain.dto.response.TreatmentHistoryResponse;
+import com.pwr.it.app.data.repository.TreatmentHistoryRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +41,19 @@ public class TreatmentHistory {
         this.description = description;
         this.price = price;
         this.place = place;
+    }
+
+    public TreatmentHistoryResponse translateToTreatmentHistoryResponse() {
+        return TreatmentHistoryResponse.builder()
+                .id(this.id)
+                .doctor(this.doctorName)
+                .startDate(this.startDate)
+                .endDate(this.endDate)
+                .title(this.title)
+                .description(this.description)
+                .price(this.price)
+                .place(this.place)
+                .build();
     }
 
     @Override

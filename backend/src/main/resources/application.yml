@@ -4,6 +4,12 @@ micronaut:
   server:
     host: ${SERVER_ADDRESS:localhost}
     port: ${SERVICE_PORT:8081}
+    cors:
+      enabled: true
+      configurations:
+        web:
+          allowedOrigins:
+            - https://editor.swagger.io
   router:
     static-resources:
       swagger:

@@ -11,8 +11,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 version = "0.0.1-SNAPSHOT"
         ),
         servers = {
-                @Server(url = "http://localhost:8081", description = "DEV"),
-                @Server(url = "http://localhost:8082", description = "PROD")
+                @Server(url = "http://localhost:8081", description = "DEV")
         }
 )
 public class PetTransferSystemApplication {

@@ -12,13 +12,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AnimalResponse {
+public class AnimalLocationResponse {
 
-    private Long id;
-    private String name;
-    private String location;
-    private String imageURL;
-    private String status;
+    private String fullName;
+    private String phone;
+    private String email;
+    private String address;
     private AnimalLocationType locationType;
 
 }

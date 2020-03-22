@@ -1,5 +1,9 @@
 package com.pwr.it.app.data.domain;
 
+import com.pwr.it.app.data.domain.dto.response.AnimalDetailsResponse;
+import com.pwr.it.app.data.domain.dto.response.AnimalLocationResponse;
+import com.pwr.it.app.data.domain.dto.response.AnimalLocationType;
+import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,8 +23,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Getter
 @Entity
@@ -60,7 +66,7 @@ public class Animal {
     @ManyToOne(cascade = {
             CascadeType.MERGE,
             CascadeType.DETACH},
-            fetch = FetchType.LAZY)
+            fetch = FetchType.EAGER)
     @JoinColumn(name = "animals-user")
     private User user;
     @OneToMany(cascade = {
@@ -91,6 +97,65 @@ public class Animal {
 
     public void setSterilised(boolean sterilised) {
         this.sterilised = sterilised;
+    }
+
+    public AnimalResponse translateToAnimalResponse() {
+        return AnimalResponse.builder()
+                .id(this.id)
+                .name(this.name)
+                .status(getLastStatusName())
+                .location(getAnimalLocationName())
+                .imageURL("")
+                .build();
+    }
+
+    public AnimalDetailsResponse translateToAnimalDetailsResponse() {
+        return AnimalDetailsResponse.builder()
+                .id(this.id)
+                .name(this.name)
+                .species(Optional.ofNullable(this.species).isPresent() ? this.species.getName() : "")
+                .race(Optional.ofNullable(this.race).isPresent() ? this.race.getName() : "")
+                .status(getLastStatusName())
+                .description(this.description)
+                .birthDate(this.birthDate)
+                .sex(this.sex)
+                .sterilised(this.sterilised)
+                .shelterJoinDate(this.shelterJoinDate)
+                .animalLocation(getAnimalLocation())
+                .treatmentHistories(this.treatmentHistories.stream().map(TreatmentHistory::translateToTreatmentHistoryResponse).collect(Collectors.toSet()))
+                .build();
+    }
+
+    private String getLastStatusName() {
+        Optional<Status> status = this.statuses.stream().filter(st -> st.getStatusEnd() == null).findFirst();
+        return status.isPresent() ? status.get().getAnimalStatus().name() : "";
+    }
+
+    private String getAnimalLocationName() {
+        Optional<Organization> organization = Optional.ofNullable(this.getUser().getOrganization());
+        return organization.isPresent() ? organization.get().getAddress() : this.user.getAddress();
+    }
+
+    private AnimalLocationResponse getAnimalLocation() {
+        Optional<Organization> organization = Optional.ofNullable(this.getUser().getOrganization());
+        if (organization.isPresent()) {
+            Organization org = organization.get();
+            return AnimalLocationResponse.builder()
+                    .fullName(org.getFullName())
+                    .phone(org.getPhoneNumber())
+                    .email(org.getEmail())
+                    .address(org.getAddress())
+                    .locationType(AnimalLocationType.ORGANIZATION)
+                    .build();
+        } else {
+            return AnimalLocationResponse.builder()
+                    .fullName(this.user.getFullName())
+                    .phone(this.user.getPhoneNumber())
+                    .email(this.user.getFullName())
+                    .address(this.user.getAddress())
+                    .locationType(AnimalLocationType.USER)
+                    .build();
+        }
     }
 
     @Override

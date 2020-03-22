@@ -38,9 +38,7 @@ public class DatabaseSeeder implements ApplicationEventListener<ServerStartupEve
 
     @Override
     public void onApplicationEvent(ServerStartupEvent event) {
-
         Organization simpleOrganization = organizationSeeder.initSimpleAOrganization();
-
 
         Species cat = speciesSeeder.initCat();
 
