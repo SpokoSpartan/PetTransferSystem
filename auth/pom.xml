@@ -4,16 +4,15 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pwr.it.app</groupId>
-    <artifactId>pet-transfer-system-api</artifactId>
+    <artifactId>pet-transfer-system-auth</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <exec.mainClass>com.pwr.it.app.PetTransferSystemApplication</exec.mainClass>
+        <exec.mainClass>com.pwr.it.app.AuthApplication</exec.mainClass>
         <micronaut.version>1.3.0</micronaut.version>
         <micronaut.data.version>1.0.0</micronaut.data.version>
         <jdk.version>11</jdk.version>
         <junit.version>5.6.0</junit.version>
-        <logback.version>1.7.30</logback.version>
     </properties>
 
     <dependencyManagement>
@@ -38,31 +37,10 @@
         </dependency>
         <!-- LOMBOK -->
 
-        <!--  YODA -->
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.10.5</version>
-        </dependency>
-        <!--  YODA -->
-
-        <!-- SWAGGER -->
-        <dependency>
-            <groupId>io.micronaut.configuration</groupId>
-            <artifactId>micronaut-openapi</artifactId>
-            <version>1.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <!-- SWAGGER -->
-
         <!-- CORE MICRONAUT -->
         <dependency>
             <groupId>io.micronaut</groupId>
-            <artifactId>micronaut-http</artifactId>
+            <artifactId>micronaut-http-client</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -72,12 +50,12 @@
         </dependency>
         <dependency>
             <groupId>io.micronaut</groupId>
-            <artifactId>micronaut-runtime</artifactId>
+            <artifactId>micronaut-inject</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.micronaut</groupId>
-            <artifactId>micronaut-inject</artifactId>
+            <artifactId>micronaut-runtime</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -87,33 +65,21 @@
         </dependency>
         <dependency>
             <groupId>io.micronaut</groupId>
-            <artifactId>micronaut-validation</artifactId>
+            <artifactId>micronaut-security-jwt</artifactId>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+            <scope>runtime</scope>
         </dependency>
         <!-- CORE MICRONAUT -->
 
-        <!-- MICRONAUT DATA -->
+        <!-- MICRONAUT DATA JDBC -->
         <dependency>
             <groupId>io.micronaut.data</groupId>
-            <artifactId>micronaut-data-hibernate-jpa</artifactId>
-            <version>${micronaut.data.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.micronaut.configuration</groupId>
-            <artifactId>micronaut-hibernate-jpa</artifactId>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.micronaut.configuration</groupId>
-                    <artifactId>micronaut-hibernate-jpa-spring</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.micronaut.configuration</groupId>
-            <artifactId>micronaut-jdbc-hikari</artifactId>
-            <scope>runtime</scope>
+            <artifactId>micronaut-data-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -121,21 +87,30 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.2.11</version>
+            <groupId>io.micronaut.configuration</groupId>
+            <artifactId>micronaut-jdbc-hikari</artifactId>
+            <scope>runtime</scope>
         </dependency>
-        <!-- MICRONAUT DATA -->
+        <!-- MICRONAUT DATA JDBC -->
+
+        <!-- SPRING CRYPTO -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+            <version>5.3.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <!-- SPRING CRYPTO -->
 
         <!-- TESTS -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -143,20 +118,13 @@
             <artifactId>micronaut-test-junit5</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.15.0</version>
+            <scope>test</scope>
+        </dependency>
         <!-- TESTS -->
-
-        <!-- LOGS -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-        <!-- LOGS -->
     </dependencies>
 
     <build>
@@ -191,32 +159,11 @@
                 <configuration>
                     <executable>java</executable>
                     <arguments>
-                        <argument>-noverify</argument>
-                        <argument>-XX:TieredStopAtLevel=1</argument>
                         <argument>-classpath</argument>
                         <classpath/>
                         <argument>${exec.mainClass}</argument>
                     </arguments>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.hibernate.orm.tooling</groupId>
-                <artifactId>hibernate-enhance-maven-plugin</artifactId>
-                <version>5.4.2.Final</version>
-                <executions>
-                    <execution>
-                        <configuration>
-                            <failOnError>true</failOnError>
-                            <enableLazyInitialization>true</enableLazyInitialization>
-                            <enableDirtyTracking>true</enableDirtyTracking>
-                            <enableAssociationManagement>true</enableAssociationManagement>
-                            <enableExtendedEnhancement>false</enableExtendedEnhancement>
-                        </configuration>
-                        <goals>
-                            <goal>enhance</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -248,7 +195,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <repository>pwrproject/pet-transfer-system-api</repository>
+                    <repository>pwrproject/pet-transfer-system-auth</repository>
                     <tag>latest</tag>
                     <username>pwrproject</username>
                     <!--suppress UnresolvedMavenProperty -->
@@ -265,10 +212,8 @@
                     <configuration>
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
-                        <encoding>UTF-8</encoding>
                         <compilerArgs>
                             <arg>-parameters</arg>
-                            <arg>-J-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</arg>
                         </compilerArgs>
                         <annotationProcessorPaths>
                             <path>
@@ -286,48 +231,12 @@
                                 <artifactId>micronaut-data-processor</artifactId>
                                 <version>${micronaut.data.version}</version>
                             </path>
-                            <path>
-                                <groupId>io.micronaut</groupId>
-                                <artifactId>micronaut-validation</artifactId>
-                                <version>${micronaut.version}</version>
-                            </path>
-                            <path>
-                                <groupId>io.micronaut.configuration</groupId>
-                                <artifactId>micronaut-openapi</artifactId>
-                                <version>${micronaut.version}</version>
-                            </path>
                         </annotationProcessorPaths>
                     </configuration>
-                    <executions>
-                        <execution>
-                            <id>test-compile</id>
-                            <goals>
-                                <goal>testCompile</goal>
-                            </goals>
-                            <configuration>
-                                <compilerArgs>
-                                    <arg>-parameters</arg>
-                                </compilerArgs>
-                                <annotationProcessorPaths>
-                                    <path>
-                                        <groupId>io.micronaut</groupId>
-                                        <artifactId>micronaut-inject-java</artifactId>
-                                        <version>${micronaut.version}</version>
-                                    </path>
-                                    <path>
-                                        <groupId>io.micronaut.data</groupId>
-                                        <artifactId>micronaut-data-processor</artifactId>
-                                        <version>${micronaut.data.version}</version>
-                                    </path>
-                                    <path>
-                                        <groupId>io.micronaut</groupId>
-                                        <artifactId>micronaut-validation</artifactId>
-                                        <version>${micronaut.version}</version>
-                                    </path>
-                                </annotationProcessorPaths>
-                            </configuration>
-                        </execution>
-                    </executions>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>
