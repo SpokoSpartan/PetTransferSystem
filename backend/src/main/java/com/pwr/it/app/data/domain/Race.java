@@ -1,39 +1,42 @@
 package com.pwr.it.app.data.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Pet {
+public class Race {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     private String name;
-    private Long age;
+    private String uuid = UUID.randomUUID().toString();
 
-    public Pet(String name, Long age) {
-        this.id = UUID.randomUUID();
+    public Race(String name) {
         this.name = name;
-        this.age = age;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        return id.equals(((Pet) o).id);
+        return uuid.equals(((Race) o).uuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return uuid.hashCode();
     }
 
 }
