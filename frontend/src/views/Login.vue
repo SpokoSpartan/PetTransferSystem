@@ -1,7 +1,9 @@
 <template>
 	<div>
-		<el-input placeholder="Email" v-model="input"></el-input>
-		<el-input placeholder="Password" v-model="input"></el-input>
+		<div>Login</div>
+		<el-input  class="input-field" placeholder="Email" v-model="input"></el-input>
+		<div>Password</div>
+		<el-input  class="input-field" placeholder="Password" v-model="input"></el-input>
 		<el-row>
 			<el-button type="primary" round>Login</el-button>
 		</el-row>
@@ -13,6 +15,12 @@
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
+	.input-field {
+		width: 50%;
+	}
+
+	.input-label {
+	}
 </style>
