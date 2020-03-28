@@ -5,6 +5,12 @@ micronaut:
     port: ${SERVICE_PORT:8090}
     cors:
       enabled: true
+      configurations:
+        web:
+          exposedHeaders:
+            - Content-Type
+            - Authorization
+            - '*'
   security:
     enabled: true
     endpoints:

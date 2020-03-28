@@ -7,8 +7,10 @@ micronaut:
       enabled: true
       configurations:
         web:
-          allowedOrigins:
-            - https://editor.swagger.io
+          exposedHeaders:
+            - Content-Type
+            - Authorization
+            - '*'
   router:
     static-resources:
       swagger:
