@@ -8,8 +8,8 @@ ENV \
 
 COPY ./dist /usr/share/nginx/html
 COPY ./nginx-app.conf /etc/nginx/nginx.conf
-CMD sed -i "s|API_URL|${API_URL}|g" /etc/nginx/nginx.conf
-CMD sed -i "s|AUTH_URL|${AUTH_URL}|g" /etc/nginx/nginx.conf
+RUN sed -i "s|API_URL|${API_URL}|g" /etc/nginx/nginx.conf
+RUN sed -i "s|AUTH_URL|${AUTH_URL}|g" /etc/nginx/nginx.conf
 
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

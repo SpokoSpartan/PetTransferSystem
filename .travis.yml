@@ -1,0 +1,23 @@
+language: java
+jdk:
+  - openjdk11
+install: true
+env:
+  -DCKR_PSWD=$DOCKER_PASSWORD
+services:
+  - docker
+stages:
+  - name: test
+  - name: deploy
+    if: branch = master
+jobs:
+  include:
+    - stage: test
+      script:
+        - mvn build
+    - stage: deploy
+      script:
+        - mvn deploy
+cache:
+  directories:
+    - $HOME/.m2
