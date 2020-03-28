@@ -1,0 +1,27 @@
+language: java
+jdk:
+  - openjdk11
+install: true
+env:
+  - DOCKER_PASSWORD=$DOCKER_CREDENTIAL
+services:
+  - docker
+stages:
+  - name: test
+  - name: deploy
+    if: branch == master AND (NOT (type IN (push, pull_request)))
+jobs:
+  include:
+    - stage: test
+      script:
+        - mvn install
+    - stage: deploy
+      script:
+        - mvn install
+        - docker login --username pwrproject --password $DOCKER_PASSWORD
+        - docker push pwrproject/pet-transfer-system-api:latest
+        - docker push pwrproject/pet-transfer-system-auth:latest
+        - docker push pwrproject/pet-transfer-system-client:latest
+cache:
+  directories:
+    - $HOME/.m2
