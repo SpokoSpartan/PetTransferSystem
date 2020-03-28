@@ -14,3 +14,8 @@ services:
     image: pwrproject/pet-transfer-system-auth:latest
     container_name: auth
     network_mode: host
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
