@@ -3,7 +3,7 @@ jdk:
   - openjdk11
 install: true
 env:
-  -DCKR_PSWD=$DOCKER_PASSWORD
+  - DOCKER_PASSWORD=$DOCKER_CREDENTIAL
 services:
   - docker
 stages:
