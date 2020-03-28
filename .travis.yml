@@ -17,7 +17,11 @@ jobs:
         - mvn install
     - stage: deploy
       script:
-        - mvn deploy
+        - mvn install
+        - docker login --username pwrproject --password $DOCKER_PASSWORD
+        - docker push pwrproject/pet-transfer-system-api:latest
+        - docker push pwrproject/pet-transfer-system-auth:latest
+        - docker push pwrproject/pet-transfer-system-client:latest
 cache:
   directories:
     - $HOME/.m2
