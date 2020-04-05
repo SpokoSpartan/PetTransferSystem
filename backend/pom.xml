@@ -50,7 +50,7 @@
         <dependency>
             <groupId>io.micronaut.configuration</groupId>
             <artifactId>micronaut-openapi</artifactId>
-            <version>1.4.1</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
@@ -63,6 +63,11 @@
         <dependency>
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-http</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-http-client</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -143,6 +148,22 @@
             <artifactId>micronaut-test-junit5</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-inject-groovy</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.test</groupId>
+            <artifactId>micronaut-test-spock</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>2.5.8</version>
+        </dependency>
         <!-- TESTS -->
 
         <!-- LOGS -->
@@ -221,19 +242,51 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.1.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter-engine</artifactId>
-                        <version>${junit.version}</version>
-                    </dependency>
-                </dependencies>
+                <version>2.6</version>
+                <configuration>
+                    <useFile>false</useFile>
+                    <includes>
+                        <include>**/*Test.class</include>
+                        <include>**/*Spec.class</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>1.6</version>
+                <configuration>
+                    <testSources>
+                        <testSource>
+                            <directory>${project.basedir}/src/test/java</directory>
+                            <includes>
+                                <include>**/*.groovy</include>
+                            </includes>
+                        </testSource>
+                    </testSources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>compileTests</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                            <goal>test-jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>com.spotify</groupId>
@@ -268,7 +321,9 @@
                         <encoding>UTF-8</encoding>
                         <compilerArgs>
                             <arg>-parameters</arg>
-                            <arg>-J-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</arg>
+                            <arg>
+                                -J-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop
+                            </arg>
                         </compilerArgs>
                         <annotationProcessorPaths>
                             <path>
@@ -279,6 +334,11 @@
                             <path>
                                 <groupId>io.micronaut</groupId>
                                 <artifactId>micronaut-inject-java</artifactId>
+                                <version>${micronaut.version}</version>
+                            </path>
+                            <path>
+                                <groupId>io.micronaut</groupId>
+                                <artifactId>micronaut-inject-groovy</artifactId>
                                 <version>${micronaut.version}</version>
                             </path>
                             <path>
@@ -312,6 +372,11 @@
                                     <path>
                                         <groupId>io.micronaut</groupId>
                                         <artifactId>micronaut-inject-java</artifactId>
+                                        <version>${micronaut.version}</version>
+                                    </path>
+                                    <path>
+                                        <groupId>io.micronaut</groupId>
+                                        <artifactId>micronaut-inject-groovy</artifactId>
                                         <version>${micronaut.version}</version>
                                     </path>
                                     <path>
