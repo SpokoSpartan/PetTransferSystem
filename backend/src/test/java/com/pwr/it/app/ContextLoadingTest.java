@@ -1,13 +1,13 @@
 package com.pwr.it.app;
 
 import io.micronaut.test.annotation.MicronautTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 @MicronautTest
 public class ContextLoadingTest {
 
     @Test
-    public void shouldStartMicronautContext() {
+    void shouldStartMicronautContext() {
         //This test is running micronaut context
     }
 

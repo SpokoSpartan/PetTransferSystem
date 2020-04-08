@@ -1,4 +1,4 @@
-package com.pwr.it.app
+package com.pwr.it.app.specification
 
 import io.micronaut.test.annotation.MicronautTest
 import spock.lang.Specification
