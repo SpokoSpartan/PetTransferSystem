@@ -5,9 +5,7 @@ import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
 import com.pwr.it.app.services.AnimalService;
 import com.pwr.it.app.web.exception.AnimalNotFoundException;
 import io.micronaut.data.model.Page;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.PathVariable;
+import io.micronaut.http.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
@@ -18,8 +16,8 @@ public class AnimalController {
     private final AnimalService animalService;
 
     @Operation(summary = "Get page of animals")
-    @Get("/all/{page}/{size}")
-    public Page<AnimalResponse> getAnimals(@PathVariable int page, @PathVariable int size) {
+    @Get("/all")
+    public Page<AnimalResponse> getAnimals(@QueryValue int page, @QueryValue int size) {
         return animalService.getPageOfAnimals(page, size);
     }
 
