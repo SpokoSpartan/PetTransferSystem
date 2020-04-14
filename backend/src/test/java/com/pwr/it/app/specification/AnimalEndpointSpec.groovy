@@ -43,7 +43,7 @@ class AnimalEndpointSpec extends Specification {
     RxHttpClient client
 
     @Shared
-    Long animalId;
+    Long animalId
 
     def setupSpec() {
         cleanDatabase()
@@ -112,7 +112,7 @@ class AnimalEndpointSpec extends Specification {
         Species dog = speciesSeeder.initDog()
         User user = userSeeder.initJani(Optional.of(simpleOrganization))
         Race husky = raceSeeder.initSiberianHusky()
-        Set<Status> huskyDogStatuses = statusSeeder.initAnimalStatuses(dateBackward(730), NEW_IN_SHELTER);
+        Set<Status> huskyDogStatuses = statusSeeder.initAnimalStatuses(dateBackward(730), NEW_IN_SHELTER)
         Status huskyDogStatus = getStatusByName(huskyDogStatuses, NEW_IN_SHELTER)
         Set<TreatmentHistory> huskyDogTreatmentHistory = treatmentHistorySeeder.initChipImplantation(
                 huskyDogStatus.getStatusBeginning(), huskyDogStatus.getStatusEnd())
@@ -121,14 +121,14 @@ class AnimalEndpointSpec extends Specification {
     }
 
     private static dateBackward(int days) {
-        return DateTime.now().minusDays(days).toDate();
+        return DateTime.now().minusDays(days).toDate()
     }
 
     private static getStatusByName(Set<Status> statuses, AnimalStatus animalStatus) {
         return statuses.stream()
                 .filter({ status -> (status.getAnimalStatus() == animalStatus) })
                 .findFirst()
-                .orElseThrow({ -> new IllegalArgumentException("Status with name " + animalStatus + " not found") });
+                .orElseThrow({ -> new IllegalArgumentException("Status with name " + animalStatus + " not found") })
     }
 
 }

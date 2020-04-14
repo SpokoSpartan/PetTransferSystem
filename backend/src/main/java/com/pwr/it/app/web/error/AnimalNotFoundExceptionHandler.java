@@ -16,7 +16,8 @@ public class AnimalNotFoundExceptionHandler implements ExceptionHandler<AnimalNo
 
     @Override
     public HttpResponse handle(HttpRequest request, AnimalNotFoundException exception) {
-        return HttpResponse.notFound(exception.getMessage());
+        ApiError apiError = new ApiError("ANIMAL_NOT_FOUND", exception.getMessage());
+        return HttpResponse.notFound(apiError);
     }
 
 }
