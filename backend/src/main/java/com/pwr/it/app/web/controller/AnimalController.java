@@ -26,4 +26,5 @@ public class AnimalController {
     public AnimalDetailsResponse getAnimalDetails(@PathVariable long id) throws AnimalNotFoundException {
         return animalService.getAnimalDetailsById(id);
     }
+
 }
