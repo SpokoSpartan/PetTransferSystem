@@ -1,7 +1,8 @@
 <template>
 	<div class="home">
 		<h1>Welcome to Pets Transfer System!</h1>
-		<img alt="Vue logo" src="../assets/logo.png">
+		<img alt="Vue logo" src="../assets/logo-blue.png">
+		<img alt="Vue logo" src="../assets/logo-black.png">
 	</div>
 
 </template>
