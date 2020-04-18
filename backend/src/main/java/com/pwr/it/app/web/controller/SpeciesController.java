@@ -15,7 +15,7 @@ public class SpeciesController {
     private final SpeciesService speciesService;
 
     @Operation(
-            summary = "Get all species",
+            summary = "Get all animal species",
             description = "Species from this endpoint may be used during animal process creation"
     )
     @Get("/all")
