@@ -4,10 +4,12 @@ import com.pwr.it.app.services.RaceService;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+@Tag(name = "Race")
 @Controller("/api/race")
 @RequiredArgsConstructor
 public class RaceController {

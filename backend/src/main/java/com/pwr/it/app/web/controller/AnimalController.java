@@ -7,8 +7,10 @@ import com.pwr.it.app.web.exception.AnimalNotFoundException;
 import io.micronaut.data.model.Page;
 import io.micronaut.http.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "Animal")
 @Controller("/api/animal")
 @RequiredArgsConstructor
 public class AnimalController {
