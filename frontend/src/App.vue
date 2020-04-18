@@ -1,32 +1,67 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+	<div id="app">
+		<el-menu
+			:default-active="activeIndex2"
+			class="el-menu-demo"
+			mode="horizontal"
+			@select="handleSelect"
+			background-color="#0F4C81"
+			text-color="#fff"
+			active-text-color="#ffd04b">
+			<el-menu-item>
+				<img alt="Vue logo" src="../src/assets/logo-blue.png">
+			</el-menu-item>
+			<el-menu-item index="1">
+				<router-link to="/home">Home</router-link>
+			</el-menu-item>
+			<el-menu-item index="2">
+				<router-link to="/animals">Pets list</router-link>
+			</el-menu-item>
+			<el-menu-item index="3">
+				<router-link to="/animalAdd">Add animal view</router-link>
+			</el-menu-item>
+			<el-menu-item>
+				<router-link to="/login">Login</router-link>
+			</el-menu-item>
+			<el-menu-item>
+				<router-link to="/register">Register</router-link>
+			</el-menu-item>
+			<el-menu-item>
+				<router-link class="link" to="/animal">Single animal view</router-link>
+			</el-menu-item>
+		</el-menu>
+		<div>
+			<router-view></router-view>
+		</div>
+	</div>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+	@import '../public/index.scss';
 
-#nav {
-  padding: 30px;
+	a {
+		text-decoration: none;
+	}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+	.link {
+		text-decoration: none;
+		color: white;
+	}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+	#app {
+		font-family: Avenir, Helvetica, Arial, sans-serif;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-align: center;
+
+	}
+
+	.white {
+		color: white;
+		background: pink;
+	}
+
 </style>
+<script>
+
+</script>
