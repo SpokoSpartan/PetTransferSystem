@@ -2,7 +2,7 @@ package com.pwr.it.app.specification
 
 import com.jayway.jsonpath.JsonPath
 import com.pwr.it.app.data.seeder.DatabaseCleaner
-import com.pwr.it.app.data.seeder.SpeciesSeeder
+import com.pwr.it.app.data.seeder.RaceSeeder
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
@@ -14,10 +14,10 @@ import spock.lang.Unroll
 import javax.inject.Inject
 
 @MicronautTest
-class SpeciesEndpointSpec extends Specification {
+class RaceEndpointSpec extends Specification {
 
     @Inject
-    SpeciesSeeder speciesSeeder
+    RaceSeeder raceSeeder;
 
     @Inject
     @Shared
@@ -29,32 +29,36 @@ class SpeciesEndpointSpec extends Specification {
 
     def setupSpec() {
         cleanDatabase()
-        initSpecies()
+        initRaces()
     }
 
     @Unroll
-    def "endpoint return list of species sorted alphabetically"() {
+    def "endpoint return list of races sorted alphabetically"() {
         setup:
-        def responseAsJson = client.toBlocking().retrieve(HttpRequest.GET('/api/species/all'), String)
+        def responseAsJson = client.toBlocking().retrieve(HttpRequest.GET('/api/race/all'), String)
 
         expect:
         JsonPath.read(responseAsJson, testedElement) == correctElement
 
         where:
         testedElement | correctElement
-        "[0]"         | "cat"
-        "[1]"         | "dog"
-        "[2]"         | "snake"
+        "[0]"         | "Bulldog"
+        "[1]"         | "Persian cat"
+        "[2]"         | "Royal python"
+        "[3]"         | "Siamese cat"
+        "[4]"         | "Siberian Husky"
     }
 
     private cleanDatabase() {
         databaseCleaner.clean()
     }
 
-    private initSpecies() {
-        speciesSeeder.initCat()
-        speciesSeeder.initDog()
-        speciesSeeder.initSnake()
+    private initRaces() {
+        raceSeeder.initSiberianHusky()
+        raceSeeder.initBulldog()
+        raceSeeder.initRoyalPython()
+        raceSeeder.initPersianCat()
+        raceSeeder.initSiameseCat()
     }
 
 }
