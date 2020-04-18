@@ -87,6 +87,7 @@ public class AnimalControllerTest {
                 .build();
     }
 
+
     @MockBean(AnimalService.class)
     AnimalService animalService() {
         return mock(AnimalService.class);
