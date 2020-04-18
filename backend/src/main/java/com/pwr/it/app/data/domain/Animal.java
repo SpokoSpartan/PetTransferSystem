@@ -105,6 +105,7 @@ public class Animal {
                 .name(this.name)
                 .status(getLastStatusName())
                 .location(getAnimalLocationName())
+                .locationType(getAnimalLocationType())
                 .imageURL("")
                 .build();
     }
@@ -132,12 +133,17 @@ public class Animal {
     }
 
     private String getAnimalLocationName() {
-        Optional<Organization> organization = Optional.ofNullable(this.getUser().getOrganization());
+        Optional<Organization> organization = getOrganization();
         return organization.isPresent() ? organization.get().getAddress() : this.user.getAddress();
     }
 
+    private AnimalLocationType getAnimalLocationType() {
+        Optional<Organization> organization = getOrganization();
+        return organization.isPresent() ? AnimalLocationType.ORGANIZATION : AnimalLocationType.USER;
+    }
+
     private AnimalLocationResponse getAnimalLocation() {
-        Optional<Organization> organization = Optional.ofNullable(this.getUser().getOrganization());
+        Optional<Organization> organization = getOrganization();
         if (organization.isPresent()) {
             Organization org = organization.get();
             return AnimalLocationResponse.builder()
@@ -151,11 +157,15 @@ public class Animal {
             return AnimalLocationResponse.builder()
                     .fullName(this.user.getFullName())
                     .phone(this.user.getPhoneNumber())
-                    .email(this.user.getFullName())
+                    .email(this.user.getEmail())
                     .address(this.user.getAddress())
                     .locationType(AnimalLocationType.USER)
                     .build();
         }
+    }
+
+    private Optional<Organization> getOrganization() {
+        return Optional.ofNullable(this.getUser().getOrganization());
     }
 
     @Override
