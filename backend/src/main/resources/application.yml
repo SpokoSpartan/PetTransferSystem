@@ -22,10 +22,10 @@ jackson:
 
 cloudinary:
   cloud:
-    name: ${CLOUD_NAME}
+    name: ${CLOUD_NAME:drkqvtiuz}
   api:
-    key: ${API_KEY}
-    secret: ${API_SECRET}
+    key: ${API_KEY:878127959754956}
+    secret: ${API_SECRET:tOauaQUIBLKO8Ar7FVOcx0A69d8}
 
 datasources:
   default:
