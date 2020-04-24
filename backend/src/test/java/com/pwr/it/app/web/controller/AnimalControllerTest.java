@@ -41,7 +41,7 @@ public class AnimalControllerTest {
     @Test
     @DisplayName("When user requests list of animals then Page object should be return")
     void shouldReturnPageableObject() {
-        when(animalService.getPageOfAnimals(anyInt(), anyInt())).thenReturn(Page.empty());
+        when(animalService.getPageOfReadyAnimals(anyInt(), anyInt())).thenReturn(Page.empty());
 
         String response = client.toBlocking().retrieve(HttpRequest.GET("/api/animal/all?page=0&size=2"), String.class);
 

@@ -35,12 +35,12 @@ datasources:
     password: ''
     schema-generate: CREATE_DROP
     dialect: H2
-    #datasources:
-    #  default:
-    #    url: jdbc:postgresql://localhost:5432/postgres?ssl=false
-    #    driverClassName: org.postgresql.Driver
-    #    username: postgres
-    #    password: postgres
+#datasources:
+#  default:
+#    url: jdbc:postgresql://localhost:5432/postgres?ssl=false
+#    driverClassName: org.postgresql.Driver
+#    username: postgres
+#    password: postgres
 jpa:
   default:
     properties:
