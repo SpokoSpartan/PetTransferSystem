@@ -10,7 +10,7 @@
     <properties>
         <exec.mainClass>com.pwr.it.app.PetTransferSystemApplication</exec.mainClass>
         <micronaut.version>1.3.0</micronaut.version>
-        <micronaut.data.version>1.0.0</micronaut.data.version>
+        <micronaut.data.version>1.0.2</micronaut.data.version>
         <jdk.version>11</jdk.version>
         <junit.version>5.6.0</junit.version>
         <logback.version>1.7.30</logback.version>
@@ -131,6 +131,19 @@
             <version>42.2.11</version>
         </dependency>
         <!-- MICRONAUT DATA -->
+
+        <!-- CLOUDINARY-->
+        <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary</artifactId>
+            <version>1.0.14</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary-core</artifactId>
+            <version>1.25.0</version>
+        </dependency>
+        <!-- CLOUDINARY-->
 
         <!-- TESTS -->
         <dependency>

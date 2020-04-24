@@ -17,7 +17,7 @@ import javax.inject.Inject
 class RaceEndpointSpec extends Specification {
 
     @Inject
-    RaceSeeder raceSeeder;
+    RaceSeeder raceSeeder
 
     @Inject
     @Shared
