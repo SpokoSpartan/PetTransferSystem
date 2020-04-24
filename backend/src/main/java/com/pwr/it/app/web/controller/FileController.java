@@ -7,6 +7,8 @@ import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.multipart.CompletedFileUpload;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -17,8 +19,12 @@ public class FileController {
 
     private final UploadImageService uploadImageService;
 
+    @Operation(
+            summary = "Upload image",
+            description = "Endpoint allows to update image in jpeg and png format. Max size cannot exceed 5.24 MB."
+    )
     @Post(value = "/image/upload", consumes = MediaType.MULTIPART_FORM_DATA)
-    public ImageUrl uploadFile(CompletedFileUpload image) throws FileValidationException {
+    public ImageUrl uploadFile(@Schema(format = "binary", type = "string") CompletedFileUpload image) throws FileValidationException {
         return uploadImageService.upload(image);
     }
 

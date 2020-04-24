@@ -26,6 +26,7 @@ public class AnimalController {
         return animalService.getPageOfReadyAnimals(page, size);
     }
 
+    @Operation(summary = "Get page of animals owned by logged user. Aty this moment random user is set as logged.")
     @Get("/my/all")
     public Page<AnimalResponse> getMyAnimals(@QueryValue int page, @QueryValue int size) {
         User loggedUser = userService.getLoggedUser();

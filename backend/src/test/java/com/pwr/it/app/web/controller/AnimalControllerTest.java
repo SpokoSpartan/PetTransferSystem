@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -37,13 +38,26 @@ public class AnimalControllerTest {
     @Inject
     AnimalService animalService;
 
-
     @Test
-    @DisplayName("When user requests list of animals then Page object should be return")
-    void shouldReturnPageableObject() {
+    @DisplayName("When user requests list of animals ready to adoption then Page object should be return")
+    void shouldReturnPageableObjectWhenRequestingReadyAnimals() {
         when(animalService.getPageOfReadyAnimals(anyInt(), anyInt())).thenReturn(Page.empty());
 
         String response = client.toBlocking().retrieve(HttpRequest.GET("/api/animal/all?page=0&size=2"), String.class);
+
+        assertAll(
+                () -> assertEquals(new Integer(0), JsonPath.read(response, "pageNumber")),
+                () -> assertEquals(new Integer(0), JsonPath.read(response, "numberOfElements")),
+                () -> assertEquals(new Integer(0), JsonPath.read(response, "size"))
+        );
+    }
+
+    @Test
+    @DisplayName("When owner requests list of animals then Page object should be return")
+    void shouldReturnPageableObjectWhenRequestingUserAnimals() {
+        when(animalService.getAnimalsOwnedBy(any(), anyInt(), anyInt())).thenReturn(Page.empty());
+
+        String response = client.toBlocking().retrieve(HttpRequest.GET("/api/animal/my/all?page=0&size=2"), String.class);
 
         assertAll(
                 () -> assertEquals(new Integer(0), JsonPath.read(response, "pageNumber")),
@@ -86,7 +100,6 @@ public class AnimalControllerTest {
                 .name(ANIMAL_NAME)
                 .build();
     }
-
 
     @MockBean(AnimalService.class)
     AnimalService animalService() {

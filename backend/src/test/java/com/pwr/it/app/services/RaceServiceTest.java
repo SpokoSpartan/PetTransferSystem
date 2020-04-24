@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @MicronautTest
-public class RaceControllerTest {
+public class RaceServiceTest {
 
     private static final Race PERSIAN_CAT = new Race("Persian cat");
     private static final Race BULLDOG = new Race("Bulldog");
