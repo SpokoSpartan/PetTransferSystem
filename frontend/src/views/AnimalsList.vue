@@ -1,25 +1,25 @@
 <template>
 	<div>
-		<ul v-if="posts && posts.length">
-			<li v-for="post of posts">
+		<div v-if="posts && posts.length">
+			<div v-for="post of posts">
 				<div style="border-radius: 30px">
 					<el-container style="height: 250px; border-radius: 30px">
 						<el-aside width="200px">
-							<img style="width:150px; height: 150px" src="https://pbs.twimg.com/media/DOINwa5VQAUtkfh.jpg">
+							<img style="width:150px; height: 150px" :src="post.imageUrl">
 						</el-aside>
 						<el-container>
 							<el-header><p>Id: {{post.id}}, {{post.name}} is currently {{post.status}}</p></el-header>
 							<el-main class="text">
-								<b>Description:</b> Morus jest ok. 1,5-rocznym pieskiem średnich rozmiarów. Trafił do schroniska jako oddany przez opiekuna, który sobie z nim nie radził. Piesek jest bardzo żywiołowy i aktywny. Równocześnie potrafi zachować się nieprzewidywalnie wobec obcych ludzi i
-								psów. Wymaga wiele pracy z nowym opiekunem. Wierzymy, że przy mądrym opiekunie Morus stanie się przyjaznym i wesołym psiakiem.
+								<b>Description:</b> {{post.description}}
 								<p class="text">Location: {{post.location}}</p>
 								<p class="text">From: {{post.locationType}}</p>
 							</el-main>
 						</el-container>
 					</el-container>
 				</div>
-			</li>
-		</ul>
+				<br>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -48,23 +48,23 @@
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 
 	.el-main {
-		background-color: #def1ff;
+		background-color: $color-light;
 		text-align: left;
 	}
 
 	.el-header, .el-footer {
-		background-color: #517cb6;
+		background-color: $color-primary;
 		color: white;
 		text-align: left;
 	}
 
 	.el-aside {
 		background-color: #def1ff;
-		color: #333;
+		color: white;
 		text-align: center;
 	}
 </style>
