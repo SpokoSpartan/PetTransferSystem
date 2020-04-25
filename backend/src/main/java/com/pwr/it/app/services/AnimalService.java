@@ -70,6 +70,7 @@ public class AnimalService {
             .name(animalRequest.getName())
             .species(findSpecies(animalRequest.getSpecies()))
             .race(findRace(animalRequest.getRace()))
+            .imageUrl(animalRequest.getImageUrl())
             .statuses(addNewInShelterStatus())
             .description(animalRequest.getDescription())
             .birthDate(animalRequest.getBirthDate())

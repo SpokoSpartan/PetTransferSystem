@@ -26,5 +26,7 @@ public class AnimalRequest {
     @Size(max = 255, message = "Sex cannot exceed 255 character")
     private String sex;
     private Boolean sterilised;
+    @Size(max = 500, message = "ImageUrl cannot exceed 500 character")
+    private String imageUrl;
 
 }

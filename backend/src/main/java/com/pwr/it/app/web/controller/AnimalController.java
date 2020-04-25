@@ -42,6 +42,19 @@ public class AnimalController {
         return animalService.getAnimalDetailsById(id);
     }
 
+    @Operation(
+            summary = "Add animal",
+            description = "Allows to add animal to shelter. Additional validations are used:\n" +
+                    "| Name         |   Validation  |\n" +
+                    "|--------------|---------------|\n" +
+                    "|name          | max size 255  |\n" +
+                    "|species       | max size 255  |\n" +
+                    "|race          | max size 255  |\n" +
+                    "|description   | max size 1000 |\n" +
+                    "|birthDate     | past          |\n" +
+                    "|sex           | max size 255  |\n" +
+                    "|imageUrl      | max size 500  |"
+    )
     @Post("/create")
     public AnimalDetailsResponse createAnimal(@Body @Valid AnimalRequest animalRequest) {
         return animalService.createAnimal(animalRequest);

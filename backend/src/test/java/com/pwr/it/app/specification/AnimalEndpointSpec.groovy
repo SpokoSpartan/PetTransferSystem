@@ -74,7 +74,7 @@ class AnimalEndpointSpec extends Specification {
         "content[0].id"       | animalId
         "content[0].name"     | "Mała"
         "content[0].location" | "Wrocław ul. Sikorskiego 31"
-        "content[0].status"   | "READY_FOR_ADOPTION"
+        "content[0].status"   | "ready for adoption"
 
         "totalSize"           | 1
         "totalPages"          | 1
@@ -99,7 +99,8 @@ class AnimalEndpointSpec extends Specification {
         "content[0].id"       | animalId
         "content[0].name"     | "Mała"
         "content[0].location" | "Wrocław ul. Sikorskiego 31"
-        "content[0].status"   | "READY_FOR_ADOPTION"
+        "content[0].status"   | "ready for adoption"
+        "content[0].imageUrl" | "http://res.cloudinary.com/drkqvtiuz/image/upload/v1587815804/ao5f5fvz9abfa0xrbka5.jpg"
 
         "totalSize"           | 1
         "totalPages"          | 1
@@ -144,9 +145,10 @@ class AnimalEndpointSpec extends Specification {
         "name"                              | "Mała"
         "species"                           | "dog"
         "race"                              | "Siberian Husky"
-        "status"                            | "READY_FOR_ADOPTION"
+        "status"                            | "ready for adoption"
         "sex"                               | "female"
         "sterilised"                        | false
+        "imageUrl"                          | "http://res.cloudinary.com/drkqvtiuz/image/upload/v1587815804/ao5f5fvz9abfa0xrbka5.jpg"
 
         "animalLocation.fullName"           | "ASYLUS"
         "animalLocation.phone"              | "+48 696 221 450"
