@@ -20,6 +20,13 @@ micronaut:
 jackson:
   bean-introspection-module: true
 
+cloudinary:
+  cloud:
+    name: ${CLOUD_NAME:drkqvtiuz}
+  api:
+    key: ${API_KEY:878127959754956}
+    secret: ${API_SECRET:tOauaQUIBLKO8Ar7FVOcx0A69d8}
+
 datasources:
   default:
     url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
@@ -28,12 +35,12 @@ datasources:
     password: ''
     schema-generate: CREATE_DROP
     dialect: H2
-    #datasources:
-    #  default:
-    #    url: jdbc:postgresql://localhost:5432/postgres?ssl=false
-    #    driverClassName: org.postgresql.Driver
-    #    username: postgres
-    #    password: postgres
+#datasources:
+#  default:
+#    url: jdbc:postgresql://localhost:5432/postgres?ssl=false
+#    driverClassName: org.postgresql.Driver
+#    username: postgres
+#    password: postgres
 jpa:
   default:
     properties:
