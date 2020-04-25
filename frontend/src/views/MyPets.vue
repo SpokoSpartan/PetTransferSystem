@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h1>Animals in our shelter</h1>
+		<h1>Your animals</h1>
 		<div class="list-container" v-if="posts && posts.length">
 			<div v-for="post of posts">
 				<el-container class="list-item">
@@ -36,7 +36,7 @@
 			}
 		},
 		created() {
-			axios.get('http://34.207.67.160:80/api/animal/all?page=0&size=1000')
+			axios.get('http://34.207.67.160:80/api/animal/my/all?page=0&size=1000')
 				.then(response => {
 					this.posts = response.data.content;
 					console.log(response.data.content);
