@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -28,6 +29,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Setter
 @Getter
 @Entity
 @AllArgsConstructor
@@ -35,6 +37,7 @@ import java.util.stream.Collectors;
 public class Animal {
 
     @Id
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
@@ -62,21 +65,25 @@ public class Animal {
     private Date birthDate;
     private String sex;
     private Boolean sterilised;
+    @Setter(AccessLevel.NONE)
     private Date shelterJoinDate;
     @ManyToOne(cascade = {
             CascadeType.MERGE,
             CascadeType.DETACH},
             fetch = FetchType.EAGER)
     @JoinColumn(name = "animals-user")
+    @Setter(AccessLevel.NONE)
     private User user;
     @OneToMany(cascade = {
             CascadeType.MERGE,
             CascadeType.DETACH},
             fetch = FetchType.LAZY)
     @JoinColumn(name = "animals-treatment-history")
+    @Setter(AccessLevel.NONE)
     private Set<TreatmentHistory> treatmentHistories = new HashSet<>();
     @Column(length = 500)
     private String imageUrl;
+    @Setter(AccessLevel.NONE)
     private String uuid = UUID.randomUUID().toString();
 
     @Builder
@@ -96,10 +103,6 @@ public class Animal {
 
     public void addTreatmentHistory(TreatmentHistory treatmentHistory) {
         this.treatmentHistories.add(treatmentHistory);
-    }
-
-    public void setSterilised(boolean sterilised) {
-        this.sterilised = sterilised;
     }
 
     public AnimalResponse translateToAnimalResponse() {

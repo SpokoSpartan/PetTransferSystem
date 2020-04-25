@@ -8,7 +8,12 @@ import com.pwr.it.app.services.AnimalService;
 import com.pwr.it.app.services.UserService;
 import com.pwr.it.app.web.exception.AnimalNotFoundException;
 import io.micronaut.data.model.Page;
-import io.micronaut.http.annotation.*;
+import io.micronaut.http.annotation.Body;
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.PathVariable;
+import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.QueryValue;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +53,7 @@ public class AnimalController {
                     "| Name         |   Validation  |\n" +
                     "|--------------|---------------|\n" +
                     "|name          | max size 255  |\n" +
-                    "|species       | max size 255  |\n" +
+                    "|species(*)    | max size 255  |\n" +
                     "|race          | max size 255  |\n" +
                     "|description   | max size 1000 |\n" +
                     "|birthDate     | past          |\n" +
@@ -58,6 +63,24 @@ public class AnimalController {
     @Post("/create")
     public AnimalDetailsResponse createAnimal(@Body @Valid AnimalRequest animalRequest) {
         return animalService.createAnimal(animalRequest);
+    }
+
+    @Operation(
+            summary = "Update animal with given id",
+            description = "Additional validations are used:\n" +
+                    "| Name         |   Validation  |\n" +
+                    "|--------------|---------------|\n" +
+                    "|name          | max size 255  |\n" +
+                    "|species(*)    | max size 255  |\n" +
+                    "|race          | max size 255  |\n" +
+                    "|description   | max size 1000 |\n" +
+                    "|birthDate     | past          |\n" +
+                    "|sex           | max size 255  |\n" +
+                    "|imageUrl      | max size 500  |"
+    )
+    @Post("/update/{id}")
+    public AnimalDetailsResponse updateAnimal(@PathVariable long id, @Body @Valid AnimalRequest animalRequest) throws AnimalNotFoundException {
+        return animalService.updateAnimal(id, animalRequest);
     }
 
 }

@@ -82,6 +82,28 @@ public class AnimalService {
         return animalRepository.save(animal).translateToAnimalDetailsResponse();
     }
 
+    private Set<Status> addNewInShelterStatus() {
+        return Collections.singleton(
+                statusService.addNewStatus(AnimalStatus.NEW_IN_SHELTER, new Date()));
+    }
+
+    private User findOwner() {
+        return userService.getLoggedUser();
+    }
+
+    @Transactional
+    public AnimalDetailsResponse updateAnimal(long id, AnimalRequest animalRequest) throws AnimalNotFoundException {
+        Animal animal = animalRepository.findById(id).orElseThrow(() -> new AnimalNotFoundException());
+            animal.setName(animalRequest.getName());
+            animal.setSpecies(findSpecies(animalRequest.getSpecies()));
+            animal.setRace(findRace(animalRequest.getRace()));
+            animal.setImageUrl(animalRequest.getImageUrl());
+            animal.setDescription(animalRequest.getDescription());
+            animal.setBirthDate(animalRequest.getBirthDate());
+            animal.setSex(animalRequest.getSex());
+        return animal.translateToAnimalDetailsResponse();
+    }
+
     private Species findSpecies(String species) {
         if (species == null) {
             return null;
@@ -94,15 +116,6 @@ public class AnimalService {
             return null;
         }
         return raceService.getSavedRaceByName(race);
-    }
-
-    private Set<Status> addNewInShelterStatus() {
-        return Collections.singleton(
-                statusService.addNewStatus(AnimalStatus.NEW_IN_SHELTER, new Date()));
-    }
-
-    private User findOwner() {
-        return userService.getLoggedUser();
     }
 
 }
