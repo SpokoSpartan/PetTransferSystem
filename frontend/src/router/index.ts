@@ -1,15 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
-	{
-		path: '/home',
-		name: 'Home',
-		component: Home
-	},
 	{
 		path: '/login',
 		name: 'Login',
@@ -25,6 +20,11 @@ const routes = [
 		name: 'Animals',
 		component: () => import('../views/AnimalsList.vue')
 	}, {
+		path: '/myPets',
+		name: 'My pets',
+		component: () => import('../views/MyPets.vue')
+	},
+	{
 		path: '/animal/add',
 		name: 'Add animal',
 		component: () => import('../views/AnimalAdd.vue')
