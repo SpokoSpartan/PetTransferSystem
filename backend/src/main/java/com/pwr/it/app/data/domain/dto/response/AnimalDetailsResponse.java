@@ -25,6 +25,7 @@ public class AnimalDetailsResponse {
     private String description;
     private Date birthDate;
     private String sex;
+    private String imageUrl;
     private Boolean sterilised;
     private Date shelterJoinDate;
     private AnimalLocationResponse animalLocation;

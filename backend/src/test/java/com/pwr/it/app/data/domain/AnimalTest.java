@@ -24,6 +24,7 @@ public class AnimalTest {
     private static final String SEX = "female";
     private static final String DESCRIPTION = "This is dog description.";
     private static final Boolean STERILISED = true;
+    private static final String IMAGE_URL = "https://pbs.twimg.com/media/DOINwa5VQAUtkfh.jpg";
 
     private static final Date STATUS_START_DATE = new Date(22334455);
     private static final AnimalStatus STATUS = AnimalStatus.NEW_IN_SHELTER;
@@ -47,7 +48,7 @@ public class AnimalTest {
 
         assertAll(
                 () -> assertEquals(NAME, response.getName()),
-                () -> assertEquals("", response.getImageURL()),
+                () -> assertEquals(IMAGE_URL, response.getImageUrl()),
                 () -> assertEquals(STATUS.toString(), response.getStatus()),
                 () -> assertEquals(USER_ADDRESS, response.getLocation()),
                 () -> assertEquals(AnimalLocationType.USER, response.getLocationType())
@@ -63,6 +64,7 @@ public class AnimalTest {
                 () -> assertEquals(NAME, response.getName()),
                 () -> assertEquals(SPECIES.getName(), response.getSpecies()),
                 () -> assertEquals(RACE.getName(), response.getRace()),
+                () -> assertEquals(IMAGE_URL, response.getImageUrl()),
                 () -> assertEquals(STATUS.toString(), response.getStatus()),
                 () -> assertEquals(DESCRIPTION, response.getDescription()),
                 () -> assertEquals(BIRTH_DATE, response.getBirthDate()),
@@ -113,6 +115,7 @@ public class AnimalTest {
                 .birthDate(BIRTH_DATE)
                 .name(NAME)
                 .race(RACE)
+                .imageUrl(IMAGE_URL)
                 .species(SPECIES)
                 .shelterJoinDate(SHELTER_JOIN_DATE)
                 .sex(SEX)

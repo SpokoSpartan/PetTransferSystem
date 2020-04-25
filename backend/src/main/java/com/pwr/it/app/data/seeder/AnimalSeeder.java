@@ -30,6 +30,7 @@ public class AnimalSeeder {
                 .description("Miki is an approx. 2-year-old cat who came to us as found. " +
                         "He was abandoned in a container on one of Wroclaw's streets. " +
                         "He is secretive and shy at the moment, but will probably open over time.")
+                .imageUrl("http://res.cloudinary.com/drkqvtiuz/image/upload/v1587815626/i05qn8oq4evpucecf2wq.jpg")
                 .birthDate(getDateBackward(2))
                 .sex("female")
                 .shelterJoinDate(getDateBackward(1))
@@ -50,6 +51,7 @@ public class AnimalSeeder {
                         "and demands attention from the owner. You can take him in your arms and " +
                         "rub him on the stomach - everything suits him! :) Pampuszek likes to eat " +
                         "(which you can see a little), so his heart will get even faster through the stomach")
+                .imageUrl("http://res.cloudinary.com/drkqvtiuz/image/upload/v1587815744/dul2iyhw6mypepmpgirh.jpg")
                 .birthDate(getDateBackward(4))
                 .sex("male")
                 .shelterJoinDate(getDateBackward(2))
@@ -69,6 +71,7 @@ public class AnimalSeeder {
                 .description("Donka is about 10 years old and spent her whole life on a chain. " +
                         "She was very inaccessible. Currently, however, he is a much nicer " +
                         "dog who likes to go for walks. Once she meets someone, she demands attention and stroking")
+                .imageUrl("http://res.cloudinary.com/drkqvtiuz/image/upload/v1587815804/ao5f5fvz9abfa0xrbka5.jpg")
                 .birthDate(getDateBackward(10))
                 .sex("female")
                 .shelterJoinDate(getDateBackward(1))
@@ -89,6 +92,7 @@ public class AnimalSeeder {
                         "the guardian's (man's) home she stopped listening to the woman. " +
                         "She was aggressive, guarding. The small one is quite independent. " +
                         "She is a VERY intelligent dog - in her eyes you can see how smart and clever pooch ;)")
+                .imageUrl("http://res.cloudinary.com/drkqvtiuz/image/upload/v1587815886/secqanzw5p8mbqws2zed.jpg")
                 .birthDate(getDateBackward(10))
                 .sex("female")
                 .shelterJoinDate(getDateBackward(5))
@@ -105,6 +109,7 @@ public class AnimalSeeder {
                 .species(species)
                 .race(race)
                 .statuses(statuses)
+                .imageUrl("http://res.cloudinary.com/drkqvtiuz/image/upload/v1587816007/lntd5e9mjsvdd3xpbzjm.jpg")
                 .birthDate(getDateBackward(2))
                 .sex("female")
                 .shelterJoinDate(getDateBackward(1))

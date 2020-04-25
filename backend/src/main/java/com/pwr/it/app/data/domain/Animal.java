@@ -75,11 +75,13 @@ public class Animal {
             fetch = FetchType.LAZY)
     @JoinColumn(name = "animals-treatment-history")
     private Set<TreatmentHistory> treatmentHistories = new HashSet<>();
+    @Column(length = 500)
+    private String imageUrl;
     private String uuid = UUID.randomUUID().toString();
 
     @Builder
     public Animal(String name, Species species, Race race, Set<Status> statuses, String description,
-                  Date birthDate, String sex, Date shelterJoinDate, User user) {
+                  Date birthDate, String sex, Date shelterJoinDate, User user, String imageUrl) {
         this.name = name;
         this.species = species;
         this.race = race;
@@ -89,6 +91,7 @@ public class Animal {
         this.sex = sex;
         this.shelterJoinDate = shelterJoinDate;
         this.user = user;
+        this.imageUrl = imageUrl;
     }
 
     public void addTreatmentHistory(TreatmentHistory treatmentHistory) {
@@ -103,10 +106,11 @@ public class Animal {
         return AnimalResponse.builder()
                 .id(this.id)
                 .name(this.name)
+                .description(this.description)
                 .status(getLastStatusName())
                 .location(getAnimalLocationName())
                 .locationType(getAnimalLocationType())
-                .imageURL("")
+                .imageUrl(getImage())
                 .build();
     }
 
@@ -120,6 +124,7 @@ public class Animal {
                 .description(this.description)
                 .birthDate(this.birthDate)
                 .sex(this.sex)
+                .imageUrl(getImage())
                 .sterilised(this.sterilised)
                 .shelterJoinDate(this.shelterJoinDate)
                 .animalLocation(getAnimalLocation())
@@ -129,7 +134,7 @@ public class Animal {
 
     private String getLastStatusName() {
         Optional<Status> status = this.statuses.stream().filter(st -> st.getStatusEnd() == null).findFirst();
-        return status.isPresent() ? status.get().getAnimalStatus().name() : "";
+        return status.isPresent() ? status.get().getAnimalStatus().toString() : "";
     }
 
     private String getAnimalLocationName() {
@@ -166,6 +171,10 @@ public class Animal {
 
     private Optional<Organization> getOrganization() {
         return Optional.ofNullable(this.getUser().getOrganization());
+    }
+
+    private String getImage() {
+        return this.imageUrl != null ? this.imageUrl : "https://pbs.twimg.com/media/DOINwa5VQAUtkfh.jpg";
     }
 
     @Override
