@@ -20,12 +20,16 @@ public interface AnimalRepository extends CrudRepository<Animal, Long> {
             nativeQuery = true)
     CountObjects countAnimalForAdoption();
 
-    @Query(value = "SELECT a.* FROM animal a WHERE animals_user = :userId " +
+    @Query(value = "SELECT a.* FROM animal a WHERE animals_user IN (" +
+            "SELECT u.id from \"user\" u where users_organizations IN (" +
+            "SELECT users_organizations FROM \"user\" WHERE id = :userId))" +
             "ORDER BY a.id LIMIT :limit OFFSET :offset",
             nativeQuery = true)
     Iterable<Animal> findAllOwnedByUser(long userId, int limit, int offset);
 
-    @Query(value = "SELECT count(*) AS count FROM animal a WHERE animals_user = :userId",
+    @Query(value = "SELECT count(*) AS count FROM animal a WHERE animals_user IN (" +
+            "SELECT u.id from \"user\" u where users_organizations IN (" +
+            "SELECT users_organizations FROM \"user\" WHERE id = :userId))",
             nativeQuery = true)
     CountObjects countAnimalsOwnedByUser(long userId);
 
