@@ -60,24 +60,24 @@ public class AnimalService {
 
     @Transactional
     public AnimalDetailsResponse getAnimalDetailsById(long id) throws AnimalNotFoundException {
-        Animal animal = animalRepository.findById(id).orElseThrow(() -> new AnimalNotFoundException());
+        Animal animal = getAnimalById(id);
         return animal.translateToAnimalDetailsResponse();
     }
 
     @Transactional
     public AnimalDetailsResponse createAnimal(AnimalRequest animalRequest) {
-    Animal animal = Animal.builder()
-            .name(animalRequest.getName())
-            .species(findSpecies(animalRequest.getSpecies()))
-            .race(findRace(animalRequest.getRace()))
-            .imageUrl(animalRequest.getImageUrl())
-            .statuses(addNewInShelterStatus())
-            .description(animalRequest.getDescription())
-            .birthDate(animalRequest.getBirthDate())
-            .sex(animalRequest.getSex())
-            .shelterJoinDate(new Date())
-            .user(findOwner())
-            .build();
+        Animal animal = Animal.builder()
+                .name(animalRequest.getName())
+                .species(findSpecies(animalRequest.getSpecies()))
+                .race(findRace(animalRequest.getRace()))
+                .imageUrl(animalRequest.getImageUrl())
+                .statuses(addNewInShelterStatus())
+                .description(animalRequest.getDescription())
+                .birthDate(animalRequest.getBirthDate())
+                .sex(animalRequest.getSex())
+                .shelterJoinDate(new Date())
+                .user(findOwner())
+                .build();
         animal.setSterilised(animalRequest.getSterilised());
         return animalRepository.save(animal).translateToAnimalDetailsResponse();
     }
@@ -93,15 +93,19 @@ public class AnimalService {
 
     @Transactional
     public AnimalDetailsResponse updateAnimal(long id, AnimalRequest animalRequest) throws AnimalNotFoundException {
-        Animal animal = animalRepository.findById(id).orElseThrow(() -> new AnimalNotFoundException());
-            animal.setName(animalRequest.getName());
-            animal.setSpecies(findSpecies(animalRequest.getSpecies()));
-            animal.setRace(findRace(animalRequest.getRace()));
-            animal.setImageUrl(animalRequest.getImageUrl());
-            animal.setDescription(animalRequest.getDescription());
-            animal.setBirthDate(animalRequest.getBirthDate());
-            animal.setSex(animalRequest.getSex());
+        Animal animal = getAnimalById(id);
+        animal.setName(animalRequest.getName());
+        animal.setSpecies(findSpecies(animalRequest.getSpecies()));
+        animal.setRace(findRace(animalRequest.getRace()));
+        animal.setImageUrl(animalRequest.getImageUrl());
+        animal.setDescription(animalRequest.getDescription());
+        animal.setBirthDate(animalRequest.getBirthDate());
+        animal.setSex(animalRequest.getSex());
         return animal.translateToAnimalDetailsResponse();
+    }
+
+    public Animal getAnimalById(long id) throws AnimalNotFoundException {
+        return animalRepository.findById(id).orElseThrow(() -> new AnimalNotFoundException());
     }
 
     private Species findSpecies(String species) {

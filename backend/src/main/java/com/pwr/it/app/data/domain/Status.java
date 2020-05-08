@@ -1,9 +1,7 @@
 package com.pwr.it.app.data.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.pwr.it.app.data.domain.dto.response.StatusResponse;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +21,7 @@ public class Status {
     private Long id;
     private AnimalStatus animalStatus;
     private Date statusBeginning;
+    @Setter
     private Date statusEnd;
     private String uuid = UUID.randomUUID().toString();
 
@@ -35,6 +34,10 @@ public class Status {
     public Status(AnimalStatus animalStatus, Date statusBeginning) {
         this.animalStatus = animalStatus;
         this.statusBeginning = statusBeginning;
+    }
+
+    public StatusResponse translateToResponse() {
+        return new StatusResponse(animalStatus.toString(), statusBeginning, statusEnd);
     }
 
     @Override
