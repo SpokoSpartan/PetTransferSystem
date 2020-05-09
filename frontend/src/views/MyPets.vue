@@ -1,20 +1,22 @@
 <template>
 	<div>
 		<h1>Your animals</h1>
-		<div class="list-container" v-if="posts && posts.length">
-			<div v-for="post of posts">
+		<div class="list-container" v-if="animals && animals.length">
+			<div v-for="animal of animals">
 				<el-container class="list-item">
 					<el-aside width="200px">
-						<img style="width:190px;" :src="post.imageUrl">
+						<img style="width:190px;" :src="animal.imageUrl">
 					</el-aside>
 					<el-container>
 						<el-header>
-							<p>{{post.name}} is currently {{post.status}}</p>
+							<p>{{animal.name}} is currently {{animal.status}}</p>
 						</el-header>
 						<el-main>
-							<b>Description:</b> {{post.description}}
-							<p>Location: {{post.location}}</p>
-							<p>From: {{post.locationType}}</p>
+							<b>Description:</b> {{animal.description}}
+							<p>Location: {{animal.location}}</p>
+							<p>From: {{animal.locationType}}</p>
+							<router-link :to="{ path: '/animal/' + animal.id, params: {id: animal.id}}">More details</router-link>
+
 						</el-main>
 					</el-container>
 				</el-container>
@@ -31,14 +33,14 @@
 		name: "AnimalsList",
 		data() {
 			return {
-				posts: [],
+				animals: [],
 				errors: []
 			}
 		},
 		created() {
 			axios.get('http://34.207.67.160:80/api/animal/my/all?page=0&size=1000')
 				.then(response => {
-					this.posts = response.data.content;
+					this.animals = response.data.content;
 					console.log(response.data.content);
 				}).catch(e => {
 				this.errors.push(e)

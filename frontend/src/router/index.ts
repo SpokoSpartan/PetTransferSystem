@@ -30,7 +30,7 @@ const routes = [
 		component: () => import('../views/AnimalAdd.vue')
 	},
 	{
-		path: '/animal/',
+		path: '/animal/:id',
 		name: 'Single animal view',
 		component: () => import('../views/AnimalSingleView.vue')
 	}

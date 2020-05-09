@@ -69,7 +69,7 @@ public class AnimalTest {
                 () -> assertEquals(DESCRIPTION, response.getDescription()),
                 () -> assertEquals(BIRTH_DATE, response.getBirthDate()),
                 () -> assertEquals(SEX, response.getSex()),
-                () -> assertEquals(STERILISED, response.getSterilised()),
+                () -> assertEquals(STERILISED, response.getSterilized()),
                 () -> assertEquals(SHELTER_JOIN_DATE, response.getShelterJoinDate()),
                 () -> assertEquals(AnimalLocationType.USER, response.getAnimalLocation().getLocationType()),
                 () -> assertEquals(USER_NAME, response.getAnimalLocation().getFullName()),

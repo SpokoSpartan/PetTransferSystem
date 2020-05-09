@@ -128,7 +128,7 @@ public class Animal {
                 .birthDate(this.birthDate)
                 .sex(this.sex)
                 .imageUrl(getImage())
-                .sterilised(this.sterilised)
+                .sterilized(this.sterilised)
                 .shelterJoinDate(this.shelterJoinDate)
                 .animalLocation(getAnimalLocation())
                 .treatmentHistories(this.treatmentHistories.stream().map(TreatmentHistory::translateToTreatmentHistoryResponse).collect(Collectors.toSet()))
