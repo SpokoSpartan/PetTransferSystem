@@ -55,6 +55,7 @@ public class AnimalService {
         return StreamSupport.stream(
                 animals.spliterator(), false)
                 .map(Animal::translateToAnimalResponse)
+                .sorted()
                 .collect(Collectors.toList());
     }
 
