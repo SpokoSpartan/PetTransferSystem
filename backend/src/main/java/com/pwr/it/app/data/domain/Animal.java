@@ -1,32 +1,10 @@
 package com.pwr.it.app.data.domain;
 
-import com.pwr.it.app.data.domain.dto.response.AnimalDetailsResponse;
-import com.pwr.it.app.data.domain.dto.response.AnimalLocationResponse;
-import com.pwr.it.app.data.domain.dto.response.AnimalLocationType;
-import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.pwr.it.app.data.domain.dto.response.*;
+import lombok.*;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import javax.persistence.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Setter
@@ -131,7 +109,7 @@ public class Animal {
                 .sterilised(this.sterilised)
                 .shelterJoinDate(this.shelterJoinDate)
                 .animalLocation(getAnimalLocation())
-                .treatmentHistories(this.treatmentHistories.stream().map(TreatmentHistory::translateToTreatmentHistoryResponse).collect(Collectors.toSet()))
+                .treatmentHistories(prepareTreatmentHistory())
                 .build();
     }
 
@@ -170,6 +148,12 @@ public class Animal {
                     .locationType(AnimalLocationType.USER)
                     .build();
         }
+    }
+
+    private Set<TreatmentHistoryResponse> prepareTreatmentHistory() {
+        return this.treatmentHistories.stream()
+                .map(TreatmentHistory::translateToTreatmentHistoryResponse)
+                .collect(Collectors.toSet());
     }
 
     private Optional<Organization> getOrganization() {
