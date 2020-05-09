@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
+import Login from '../components/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +28,11 @@ const routes = [
 		path: '/animal/add',
 		name: 'Add animal',
 		component: () => import('../views/AnimalAdd.vue')
+	},
+	{
+		path: '/animal/:id',
+		name: 'Single animal view',
+		component: () => import('../views/AnimalSingleView.vue')
 	}
 ]
 

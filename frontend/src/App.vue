@@ -27,9 +27,6 @@
 			<el-menu-item index="6">
 				<router-link to="/register">Register</router-link>
 			</el-menu-item>
-			<el-menu-item index="7">
-				<router-link class="link" to="/animal">Single animal view</router-link>
-			</el-menu-item>
 		</el-menu>
 		<div>
 			<router-view></router-view>

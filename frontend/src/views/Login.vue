@@ -10,9 +10,10 @@
 	</div>
 </template>
 
-<script>export default {
-	name: 'Login'
-}
+<script>
+	export default {
+		name: 'Login'
+	}
 </script>
 
 <style scoped lang="scss">
