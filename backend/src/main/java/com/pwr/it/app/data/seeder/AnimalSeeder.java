@@ -119,8 +119,8 @@ public class AnimalSeeder {
         treatmentHistories.forEach(treatmentHistory -> royalPython.addTreatmentHistory(treatmentHistory));
         return initAnimal(royalPython);
     }
-    
-    
+
+
     public Animal initVeiledChameleon(Species species, Race race, Set<Status> statuses, User user, Set<TreatmentHistory> treatmentHistories) {
         Animal veiledChameleon = Animal.builder()
                 .name("Nairobi")
@@ -189,7 +189,7 @@ public class AnimalSeeder {
         return initAnimal(sulphurCrestedCockatoo);
     }
 
-    public Animal initSugarGlider(Species species, Race race, Set<Status> statuses, User user, Set<TreatmentHistory> treatmentHistories) {
+    public Animal initFirstSugarGlider(Species species, Race race, Set<Status> statuses, User user, Set<TreatmentHistory> treatmentHistories) {
         Animal sugarGlider = Animal.builder()
                 .name("Bonnie")
                 .species(species)
@@ -206,7 +206,7 @@ public class AnimalSeeder {
         return initAnimal(sugarGlider);
     }
 
-    public Animal initSugarGlider(Species species, Race race, Set<Status> statuses, User user, Set<TreatmentHistory> treatmentHistories) {
+    public Animal initSecondSugarGlider(Species species, Race race, Set<Status> statuses, User user, Set<TreatmentHistory> treatmentHistories) {
         Animal sugarGlider = Animal.builder()
                 .name("Clyde")
                 .species(species)
@@ -308,8 +308,6 @@ public class AnimalSeeder {
         return initAnimal(russianTortoise);
     }
 
-
-    
     private Date getDateBackward(int years) {
         return new DateTime().minusYears(years).toDate();
     }
