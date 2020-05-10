@@ -2,32 +2,30 @@
 	<div id="app">
 		<el-menu
 			:default-active="activeIndex2"
-			class="el-menu-demo"
+			class="menu"
 			mode="horizontal"
 			@select="handleSelect"
-			background-color="#0F4C81"
 			text-color="#fff"
-			active-text-color="#ffd04b">
+			active-text-color="#dba11c"
+			background-color="#0F4C81"
+		>
 			<el-menu-item>
 				<img alt="Vue logo" src="../src/assets/logo-blue.png">
-			</el-menu-item>
-			<el-menu-item index="1">
-				<router-link to="/home">Home</router-link>
 			</el-menu-item>
 			<el-menu-item index="2">
 				<router-link to="/animals">Pets list</router-link>
 			</el-menu-item>
 			<el-menu-item index="3">
-				<router-link to="/animalAdd">Add animal view</router-link>
+				<router-link to="/myPets">My pets</router-link>
 			</el-menu-item>
-			<el-menu-item>
+			<el-menu-item index="4">
+				<router-link to="/animal/add">Add animal</router-link>
+			</el-menu-item>
+			<el-menu-item index="5">
 				<router-link to="/login">Login</router-link>
 			</el-menu-item>
-			<el-menu-item>
+			<el-menu-item index="6">
 				<router-link to="/register">Register</router-link>
-			</el-menu-item>
-			<el-menu-item>
-				<router-link class="link" to="/animal">Single animal view</router-link>
 			</el-menu-item>
 		</el-menu>
 		<div>
@@ -38,6 +36,11 @@
 
 <style lang="scss">
 	@import '../public/index.scss';
+
+	.menu {
+		border-radius: 2px;
+		background-color: $color-primary;
+	}
 
 	a {
 		text-decoration: none;
@@ -53,7 +56,6 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		text-align: center;
-
 	}
 
 	.white {

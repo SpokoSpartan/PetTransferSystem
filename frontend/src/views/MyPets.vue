@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h1>Animals in our shelter</h1>
+		<h1>Your animals</h1>
 		<div class="list-container" v-if="animals && animals.length">
 			<div v-for="animal of animals">
 				<el-container class="list-item">
@@ -18,11 +18,8 @@
 							<router-link :to="{ path: '/animal/' + animal.id, params: {id: animal.id}}">More details</router-link>
 
 						</el-main>
-
-
 					</el-container>
 				</el-container>
-
 				<br>
 			</div>
 		</div>
@@ -41,7 +38,7 @@
 			}
 		},
 		created() {
-			axios.get('http://34.207.67.160:80/api/animal/all?page=0&size=1000')
+			axios.get('http://34.207.67.160:80/api/animal/my/all?page=0&size=1000')
 				.then(response => {
 					this.animals = response.data.content;
 					console.log(response.data.content);

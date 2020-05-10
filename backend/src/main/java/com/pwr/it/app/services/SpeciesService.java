@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -23,6 +24,11 @@ public class SpeciesService {
                 .map(Species::getName)
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toList());
+    }
+
+    public Species getSavedSpeciesByName(String name) {
+        Optional<Species> species = speciesRepository.findByName(name);
+        return species.orElseGet(()-> speciesRepository.save(new Species(name)));
     }
 
 }

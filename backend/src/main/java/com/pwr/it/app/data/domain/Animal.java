@@ -1,33 +1,13 @@
 package com.pwr.it.app.data.domain;
 
-import com.pwr.it.app.data.domain.dto.response.AnimalDetailsResponse;
-import com.pwr.it.app.data.domain.dto.response.AnimalLocationResponse;
-import com.pwr.it.app.data.domain.dto.response.AnimalLocationType;
-import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.pwr.it.app.data.domain.dto.response.*;
+import lombok.*;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import javax.persistence.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@Setter
 @Getter
 @Entity
 @AllArgsConstructor
@@ -35,6 +15,7 @@ import java.util.stream.Collectors;
 public class Animal {
 
     @Id
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
@@ -62,24 +43,30 @@ public class Animal {
     private Date birthDate;
     private String sex;
     private Boolean sterilised;
+    @Setter(AccessLevel.NONE)
     private Date shelterJoinDate;
     @ManyToOne(cascade = {
             CascadeType.MERGE,
             CascadeType.DETACH},
             fetch = FetchType.EAGER)
     @JoinColumn(name = "animals-user")
+    @Setter(AccessLevel.NONE)
     private User user;
     @OneToMany(cascade = {
             CascadeType.MERGE,
             CascadeType.DETACH},
             fetch = FetchType.LAZY)
     @JoinColumn(name = "animals-treatment-history")
+    @Setter(AccessLevel.NONE)
     private Set<TreatmentHistory> treatmentHistories = new HashSet<>();
+    @Column(length = 500)
+    private String imageUrl;
+    @Setter(AccessLevel.NONE)
     private String uuid = UUID.randomUUID().toString();
 
     @Builder
     public Animal(String name, Species species, Race race, Set<Status> statuses, String description,
-                  Date birthDate, String sex, Date shelterJoinDate, User user) {
+                  Date birthDate, String sex, Date shelterJoinDate, User user, String imageUrl) {
         this.name = name;
         this.species = species;
         this.race = race;
@@ -89,24 +76,22 @@ public class Animal {
         this.sex = sex;
         this.shelterJoinDate = shelterJoinDate;
         this.user = user;
+        this.imageUrl = imageUrl;
     }
 
     public void addTreatmentHistory(TreatmentHistory treatmentHistory) {
         this.treatmentHistories.add(treatmentHistory);
     }
 
-    public void setSterilised(boolean sterilised) {
-        this.sterilised = sterilised;
-    }
-
     public AnimalResponse translateToAnimalResponse() {
         return AnimalResponse.builder()
                 .id(this.id)
                 .name(this.name)
+                .description(this.description)
                 .status(getLastStatusName())
                 .location(getAnimalLocationName())
                 .locationType(getAnimalLocationType())
-                .imageURL("")
+                .imageUrl(getImage())
                 .build();
     }
 
@@ -120,16 +105,17 @@ public class Animal {
                 .description(this.description)
                 .birthDate(this.birthDate)
                 .sex(this.sex)
-                .sterilised(this.sterilised)
+                .imageUrl(getImage())
+                .sterilized(this.sterilised)
                 .shelterJoinDate(this.shelterJoinDate)
                 .animalLocation(getAnimalLocation())
-                .treatmentHistories(this.treatmentHistories.stream().map(TreatmentHistory::translateToTreatmentHistoryResponse).collect(Collectors.toSet()))
+                .treatmentHistories(prepareTreatmentHistory())
                 .build();
     }
 
     private String getLastStatusName() {
         Optional<Status> status = this.statuses.stream().filter(st -> st.getStatusEnd() == null).findFirst();
-        return status.isPresent() ? status.get().getAnimalStatus().name() : "";
+        return status.isPresent() ? status.get().getAnimalStatus().toString() : "";
     }
 
     private String getAnimalLocationName() {
@@ -164,8 +150,18 @@ public class Animal {
         }
     }
 
+    private Set<TreatmentHistoryResponse> prepareTreatmentHistory() {
+        return this.treatmentHistories.stream()
+                .map(TreatmentHistory::translateToTreatmentHistoryResponse)
+                .collect(Collectors.toSet());
+    }
+
     private Optional<Organization> getOrganization() {
         return Optional.ofNullable(this.getUser().getOrganization());
+    }
+
+    private String getImage() {
+        return this.imageUrl != null ? this.imageUrl : "https://pbs.twimg.com/media/DOINwa5VQAUtkfh.jpg";
     }
 
     @Override

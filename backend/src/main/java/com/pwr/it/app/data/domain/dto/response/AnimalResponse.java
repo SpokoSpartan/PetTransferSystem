@@ -12,13 +12,19 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AnimalResponse {
+public class AnimalResponse implements Comparable<AnimalResponse> {
 
     private Long id;
     private String name;
+    private String description;
     private String location;
-    private String imageURL;
+    private String imageUrl;
     private String status;
     private AnimalLocationType locationType;
+
+    @Override
+    public int compareTo(AnimalResponse animalResponse) {
+        return id.compareTo(animalResponse.getId());
+    }
 
 }

@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -23,6 +24,11 @@ public class RaceService {
                 .map(Race::getName)
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toList());
+    }
+
+    public Race getSavedRaceByName(String name) {
+        Optional<Race> race = raceRepository.findByName(name);
+        return race.orElseGet(() -> raceRepository.save(new Race(name)));
     }
 
 }

@@ -16,7 +16,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TreatmentHistoryResponse {
+public class TreatmentHistoryResponse implements Comparable<TreatmentHistoryResponse> {
 
     private Long id;
     private String doctor;
@@ -26,5 +26,11 @@ public class TreatmentHistoryResponse {
     private String description;
     private BigDecimal price;
     private String place;
+    private String treatmentStatus;
+
+    @Override
+    public int compareTo(TreatmentHistoryResponse treatmentHistoryResponse) {
+        return this.startDate.compareTo(treatmentHistoryResponse.getStartDate());
+    }
 
 }
