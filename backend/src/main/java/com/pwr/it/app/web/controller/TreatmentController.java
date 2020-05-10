@@ -35,7 +35,8 @@ public class TreatmentController {
     @Operation(
             summary = "Update treatment history",
             description = "Update treatment with given id." +
-                    "Title is required. Start date mut be before end date"
+                    "Title is required. Start date mut be before end date." +
+                    "If treatment status is canceled then cannot be updated."
     )
     @Post("/update/{id}")
     public void updateTreatment(@PathVariable long id, @Valid @Body TreatmentRequest treatmentRequest) throws DateValidationException, TreatmentNotFoundException {
@@ -45,9 +46,10 @@ public class TreatmentController {
     @Operation(
             summary = "Update treatment history",
             description = "Update treatment with given id." +
-                    "Title is required. Start date mut be before end date"
+                    "Title is required. Start date mut be before end date." +
+                    "If treatment status is canceled then cannot be updated."
     )
-    @Post("/remove/{id}")
+    @Post("/cancel/{id}")
     public void removeTreatment(@PathVariable long id) throws TreatmentNotFoundException {
         treatmentHistoryService.removeTreatment(id);
     }
