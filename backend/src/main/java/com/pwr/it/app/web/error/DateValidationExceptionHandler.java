@@ -1,7 +1,6 @@
 package com.pwr.it.app.web.error;
 
 import com.pwr.it.app.web.exception.DateValidationException;
-import com.pwr.it.app.web.exception.file.FileValidationException;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;

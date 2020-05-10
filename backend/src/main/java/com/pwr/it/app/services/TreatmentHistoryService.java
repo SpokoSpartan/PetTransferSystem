@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.inject.Singleton;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Singleton
 @RequiredArgsConstructor
@@ -62,12 +63,15 @@ public class TreatmentHistoryService {
     @Transactional
     public void removeTreatment(long id) throws TreatmentNotFoundException {
         TreatmentHistory treatment = getTreatmentById(id);
-        treatmentHistoryRepository.delete(treatment);
+        treatment.setCanceled(true);
     }
 
     private TreatmentHistory getTreatmentById(long id) throws TreatmentNotFoundException {
-        return treatmentHistoryRepository.findById(id).orElseThrow(()
-                -> new TreatmentNotFoundException());
+        Optional<TreatmentHistory> treatmentHistory = treatmentHistoryRepository.findById(id);
+        if (!treatmentHistory.isPresent() || treatmentHistory.get().getCanceled()) {
+            throw new TreatmentNotFoundException();
+        }
+        return treatmentHistory.get();
     }
 
 }
