@@ -31,6 +31,7 @@ public class TreatmentHistory {
     private String description;
     private BigDecimal price;
     private String place;
+    private Boolean canceled = false;
     @Setter(AccessLevel.NONE)
     private String uuid = UUID.randomUUID().toString();
 
@@ -59,6 +60,9 @@ public class TreatmentHistory {
     }
 
     private TreatmentStatus prepareTreatmentStatus() {
+        if (canceled) {
+            return TreatmentStatus.CANCELED;
+        }
         Date now = new Date();
         if (startDate.after(now)) {
             return TreatmentStatus.PLANNED;
