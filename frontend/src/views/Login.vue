@@ -1,11 +1,11 @@
 <template>
 	<div>
 		<h1>Login</h1>
-		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="100px">
+		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="top" label-width="100px">
 			<br>
-			<el-form-item class="form-field" prop="login" label="Login">
-				<el-input placeholder="Login"
-						  v-model="form.login"/>
+			<el-form-item class="form-field" prop="email" label="Email">
+				<el-input placeholder="Email"
+						  v-model="form.email"/>
 			</el-form-item>
 			<el-form-item class="form-field" prop="password" label="Password">
 				<el-input placeholder="Login"
@@ -14,7 +14,7 @@
 			</el-form-item>
 			<br>
 			<el-form-item>
-				<el-button type="primary" @click="onSubmit" round>Create</el-button>
+				<el-button type="primary" @click="onSubmit" round>Login</el-button>
 			</el-form-item>
 			<br>
 		</el-form>
@@ -30,26 +30,23 @@
 		data() {
 			return {
 				form: {
-					login: '',
+					email: '',
 					password: ''
 				},
 				rules: {
-					name: [
-						{required: true, message: 'Please input animal\'s name', trigger: 'blur'}
+					email: [
+						{required: true, message: 'Email is required', trigger: 'blur'}
 					],
-					species: [
-						{required: true, message: 'Please input animal\'s species', trigger: 'blur'}
-					],
-					race: [
-						{required: true, message: 'Please input animal\'s race', trigger: 'blur'}
-					],
+					password: [
+						{required: true, message: 'Password is required', trigger: 'blur'}
+					]
 				}
 			}
 		},
 		methods: {
 			onSubmit() {
-				console.log('submit!');
-				console.log(this.form);
+				console.log(this.form.login);
+				console.log(this.form.password);
 				axios.post('http://34.207.67.160:80/api/animal/create', this.form)
 					.then(response => {
 						this.posts = response;
@@ -73,11 +70,6 @@
 		width: 50%;
 		margin: 0 auto;
 		float: left;
-	}
-
-	.upload-fields {
-		float: left;
-		display: flex;
 	}
 
 	> > > textarea {
