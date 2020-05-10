@@ -28,7 +28,7 @@
 					maxLength="1000"
 					placeholder="Description"
 					show-word-limit
-					v-model="description">
+					v-model="form.description">
 				</el-input>
 			</el-form-item>
 			<el-form-item class="form-field" prop="imageUrl" label="Image URL">
@@ -37,17 +37,17 @@
 					<el-upload
 						class="upload-demo"
 						action="https://jsonplaceholder.typicode.com/posts/"
-						:on-preview="handlePreview"
-						:on-remove="handleRemove"
-						:before-remove="beforeRemove"
 						multiple
-						:limit="1"
-						:on-exceed="handleExceed">
-<!--						:file-list="fileList"-->
+						:limit="1">
+						<!--						:on-preview="handlePreview"-->
+						<!--						:on-remove="handleRemove"-->
+						<!--						:before-remove="beforeRemove"-->
+						<!--						:on-exceed="handleExceed">-->
+						<!--						:file-list="fileList"-->
 
 						<el-button size="small" type="primary">Click to upload</el-button>
 					</el-upload>
-						<div >jpg/png files with a size less than 500kb</div>
+					<div style="display: inline-block;">jpg/png, max size 500KB</div>
 				</div>
 			</el-form-item>
 			<el-form-item class="form-field" label="Date of birth">
@@ -92,6 +92,7 @@
 					name: '', // required
 					species: '', // required
 					race: '', // required
+					description: '',
 					birthDate: '', // required
 					sex: '',
 					sterilized: false,
