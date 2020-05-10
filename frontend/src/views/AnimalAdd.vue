@@ -33,7 +33,6 @@
 			</el-form-item>
 			<el-form-item class="form-field" prop="imageUrl" label="Image URL">
 				<div class="upload-fields">
-
 					<el-input placeholder="Image" v-model="form.imageUrl"/>
 					<el-upload
 						class="upload-demo"
@@ -43,8 +42,9 @@
 						:before-remove="beforeRemove"
 						multiple
 						:limit="1"
-						:on-exceed="handleExceed"
-						:file-list="fileList">
+						:on-exceed="handleExceed">
+<!--						:file-list="fileList"-->
+
 						<el-button size="small" type="primary">Click to upload</el-button>
 					</el-upload>
 						<div >jpg/png files with a size less than 500kb</div>
