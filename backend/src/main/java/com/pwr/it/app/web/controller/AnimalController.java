@@ -83,4 +83,33 @@ public class AnimalController {
         return animalService.updateAnimal(id, animalRequest);
     }
 
+    @Operation(
+            summary = "Archive animal",
+            description = "Archive animal with given id. " +
+                    "If animal is archives nothing will happen."
+    )
+    @Post("/archive/{id}")
+    public void archiveAnimal(@PathVariable long id) throws AnimalNotFoundException {
+        animalService.archiveAnimal(id);
+    }
+
+    @Operation(
+            summary = "Reverse animal archiving",
+            description = "Reverse archiving of animal with given id. " +
+                    "If animal is not archives nothing will happen."
+    )
+    @Post("/reverse-archiving/{id}")
+    public void reverseAnimalArchiving(@PathVariable long id) throws AnimalNotFoundException {
+        animalService.reverseAnimalArchiving(id);
+    }
+
+    @Operation(
+            summary = "Remove animal with given id",
+            description = "This method removes animals from the database"
+    )
+    @Post("/remove/{id}")
+    public void removeAnimal(@PathVariable long id) throws AnimalNotFoundException {
+        animalService.removeAnimal(id);
+    }
+
 }

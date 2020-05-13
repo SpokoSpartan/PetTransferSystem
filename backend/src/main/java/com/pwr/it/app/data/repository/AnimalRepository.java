@@ -10,13 +10,13 @@ import io.micronaut.data.repository.CrudRepository;
 public interface AnimalRepository extends CrudRepository<Animal, Long> {
 
     @Query(value = "SELECT a.* from animal a INNER JOIN status s " +
-            "ON (a.id = s.animals_status) WHERE s.status_end IS NULL AND s.animal_status = 1 " +
+            "ON (a.id = s.animals_status) WHERE s.status_end IS NULL AND s.animal_status = 1 AND archived = false " +
             "ORDER BY a.id LIMIT :limit OFFSET :offset",
             nativeQuery = true)
     Iterable<Animal> findAllReadyForAdoption(int limit, int offset);
 
     @Query(value = "SELECT count(*) AS count from animal a INNER JOIN status s " +
-            "ON (a.id = s.animals_status) WHERE s.status_end IS NULL AND s.animal_status = 1",
+            "ON (a.id = s.animals_status) WHERE s.status_end IS NULL AND s.animal_status = 1 AND archived = false ",
             nativeQuery = true)
     CountObjects countAnimalForAdoption();
 
