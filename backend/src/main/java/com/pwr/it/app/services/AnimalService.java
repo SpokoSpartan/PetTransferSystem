@@ -6,6 +6,7 @@ import com.pwr.it.app.data.domain.dto.response.AnimalDetailsResponse;
 import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
 import com.pwr.it.app.data.repository.AnimalRepository;
 import com.pwr.it.app.web.exception.AnimalNotFoundException;
+import com.pwr.it.app.web.exception.UserNotFoundException;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
 import lombok.RequiredArgsConstructor;
@@ -123,6 +124,13 @@ public class AnimalService {
         animalRepository.delete(animal);
     }
 
+    @Transactional
+    public void transferAnimal(Long animalId, Long userId) throws AnimalNotFoundException, UserNotFoundException {
+        Animal animal = getAnimalById(animalId);
+        User user = userService.getUserById(userId);
+        animal.setUser(user);
+    }
+
     public Animal getAnimalById(long id) throws AnimalNotFoundException {
         return animalRepository.findById(id).orElseThrow(() -> new AnimalNotFoundException());
     }
@@ -142,4 +150,3 @@ public class AnimalService {
     }
 
 }
-
