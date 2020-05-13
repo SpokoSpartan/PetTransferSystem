@@ -105,6 +105,24 @@ public class AnimalService {
         return animal.translateToAnimalDetailsResponse();
     }
 
+    @Transactional
+    public void archiveAnimal(Long id) throws AnimalNotFoundException {
+        Animal animal = getAnimalById(id);
+        animal.setArchived(true);
+    }
+
+    @Transactional
+    public void reverseAnimalArchiving(Long id) throws AnimalNotFoundException {
+        Animal animal = getAnimalById(id);
+        animal.setArchived(false);
+    }
+
+    @Transactional
+    public void removeAnimal(Long id) throws AnimalNotFoundException {
+        Animal animal = getAnimalById(id);
+        animalRepository.delete(animal);
+    }
+
     public Animal getAnimalById(long id) throws AnimalNotFoundException {
         return animalRepository.findById(id).orElseThrow(() -> new AnimalNotFoundException());
     }

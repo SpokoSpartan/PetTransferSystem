@@ -61,6 +61,7 @@ public class Animal {
     private Set<TreatmentHistory> treatmentHistories = new HashSet<>();
     @Column(length = 500)
     private String imageUrl;
+    private Boolean archived = false;
     @Setter(AccessLevel.NONE)
     private String uuid = UUID.randomUUID().toString();
 
@@ -92,6 +93,7 @@ public class Animal {
                 .location(getAnimalLocationName())
                 .locationType(getAnimalLocationType())
                 .imageUrl(getImage())
+                .archived(this.archived)
                 .build();
     }
 
@@ -110,6 +112,7 @@ public class Animal {
                 .shelterJoinDate(this.shelterJoinDate)
                 .animalLocation(getAnimalLocation())
                 .treatmentHistories(prepareTreatmentHistory())
+                .archived(this.archived)
                 .build();
     }
 
