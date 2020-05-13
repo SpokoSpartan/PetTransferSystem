@@ -50,7 +50,6 @@ public class Animal {
             CascadeType.DETACH},
             fetch = FetchType.EAGER)
     @JoinColumn(name = "animals-user")
-    @Setter(AccessLevel.NONE)
     private User user;
     @OneToMany(cascade = {
             CascadeType.MERGE,

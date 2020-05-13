@@ -7,6 +7,7 @@ import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
 import com.pwr.it.app.services.AnimalService;
 import com.pwr.it.app.services.UserService;
 import com.pwr.it.app.web.exception.AnimalNotFoundException;
+import com.pwr.it.app.web.exception.UserNotFoundException;
 import io.micronaut.data.model.Page;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
@@ -110,6 +111,15 @@ public class AnimalController {
     @Post("/remove/{id}")
     public void removeAnimal(@PathVariable long id) throws AnimalNotFoundException {
         animalService.removeAnimal(id);
+    }
+
+    @Operation(
+            summary = "Transfer animal",
+            description = "Transfer animal with given id to user with given id."
+    )
+    @Post("/{animalId}/transfer-to/{userId}")
+    public void transferAnimal(@PathVariable long animalId, @PathVariable long userId) throws AnimalNotFoundException, UserNotFoundException {
+        animalService.transferAnimal(animalId, userId);
     }
 
 }
