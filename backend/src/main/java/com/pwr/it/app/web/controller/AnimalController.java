@@ -7,6 +7,7 @@ import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
 import com.pwr.it.app.services.AnimalService;
 import com.pwr.it.app.services.UserService;
 import com.pwr.it.app.web.exception.AnimalNotFoundException;
+import com.pwr.it.app.web.exception.UserNotFoundException;
 import io.micronaut.data.model.Page;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
@@ -81,6 +82,44 @@ public class AnimalController {
     @Post("/update/{id}")
     public AnimalDetailsResponse updateAnimal(@PathVariable long id, @Body @Valid AnimalRequest animalRequest) throws AnimalNotFoundException {
         return animalService.updateAnimal(id, animalRequest);
+    }
+
+    @Operation(
+            summary = "Archive animal",
+            description = "Archive animal with given id. " +
+                    "If animal is archives nothing will happen."
+    )
+    @Post("/archive/{id}")
+    public void archiveAnimal(@PathVariable long id) throws AnimalNotFoundException {
+        animalService.archiveAnimal(id);
+    }
+
+    @Operation(
+            summary = "Reverse animal archiving",
+            description = "Reverse archiving of animal with given id. " +
+                    "If animal is not archives nothing will happen."
+    )
+    @Post("/reverse-archiving/{id}")
+    public void reverseAnimalArchiving(@PathVariable long id) throws AnimalNotFoundException {
+        animalService.reverseAnimalArchiving(id);
+    }
+
+    @Operation(
+            summary = "Remove animal with given id",
+            description = "This method removes animals from the database"
+    )
+    @Post("/remove/{id}")
+    public void removeAnimal(@PathVariable long id) throws AnimalNotFoundException {
+        animalService.removeAnimal(id);
+    }
+
+    @Operation(
+            summary = "Transfer animal",
+            description = "Transfer animal with given id to user with given id."
+    )
+    @Post("/{animalId}/transfer-to/{userId}")
+    public void transferAnimal(@PathVariable long animalId, @PathVariable long userId) throws AnimalNotFoundException, UserNotFoundException {
+        animalService.transferAnimal(animalId, userId);
     }
 
 }
