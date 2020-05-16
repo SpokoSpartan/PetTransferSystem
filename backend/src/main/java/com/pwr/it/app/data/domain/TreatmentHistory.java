@@ -2,7 +2,6 @@ package com.pwr.it.app.data.domain;
 
 import com.pwr.it.app.data.domain.dto.response.TreatmentHistoryResponse;
 import com.pwr.it.app.data.domain.dto.response.TreatmentStatus;
-import com.pwr.it.app.data.repository.TreatmentHistoryRepository;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -71,7 +70,7 @@ public class TreatmentHistory {
             return TreatmentStatus.IN_PROGRESS;
         }
         if (endDate != null && endDate.before(now)) {
-            return TreatmentStatus.HISTORY;
+            return TreatmentStatus.COMPLETED;
         }
         return TreatmentStatus.UNKNOWN;
     }
