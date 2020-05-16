@@ -16,7 +16,6 @@
 							<p>Location: {{animal.location}}</p>
 							<p>From: {{animal.locationType}}</p>
 							<router-link :to="{ path: '/animal/' + animal.id, params: {id: animal.id}}">More details</router-link>
-
 						</el-main>
 					</el-container>
 				</el-container>
