@@ -5,6 +5,10 @@ Vue.use(VueRouter)
 
 const routes = [
 	{
+		path: '/',
+		redirect: '/animals'
+	},
+	{
 		path: '/login',
 		name: 'Login',
 		component: () => import('../views/Login.vue')

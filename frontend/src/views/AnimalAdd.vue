@@ -32,10 +32,11 @@
 				</el-input>
 			</el-form-item>
 			<el-form-item class="form-field" prop="imageUrl" label="Image URL">
-				<div class="upload-fields">
-					<el-input placeholder="Image" v-model="form.imageUrl"/>
+				<div class="upload-fields" style="width: 50%; ">
+					<el-input placeholder="Image" v-model="form.imageUrl" style="float: left;"/>
 					<el-upload
-						class="upload-demo"
+
+						style="width: 30%; float: left;"
 						action="https://jsonplaceholder.typicode.com/posts/"
 						multiple
 						:limit="1">
@@ -47,8 +48,8 @@
 
 						<el-button size="small" type="primary">Click to upload</el-button>
 					</el-upload>
-					<div style="display: inline-block;">jpg/png, max size 500KB</div>
 				</div>
+					<div style="width: 300px;">jpg/png, max file size allowed 500KB</div>
 			</el-form-item>
 			<el-form-item class="form-field" label="Date of birth">
 				<el-date-picker
@@ -140,8 +141,8 @@
 	}
 
 	.upload-fields {
-		float: left;
-		display: flex;
+		/*float: left;*/
+		/*display: flex;*/
 	}
 
 	>>> textarea {
@@ -165,7 +166,7 @@
 
 	.form-field {
 		margin-top: 16px;
-		margin-botton: 16px;
+		margin-bottom: 16px;
 	}
 
 	.form-container {
