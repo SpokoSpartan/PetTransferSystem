@@ -1,14 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../components/Login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
 	{
+		path: '/',
+		redirect: '/animals'
+	},
+	{
 		path: '/login',
 		name: 'Login',
-		component: Login
+		component: () => import('../views/Login.vue')
 	},
 	{
 		path: '/register',
@@ -33,6 +36,11 @@ const routes = [
 		path: '/animal/:id',
 		name: 'Single animal view',
 		component: () => import('../views/AnimalSingleView.vue')
+	},
+	{
+		path: '/edit/:id',
+		name: 'Edit pet',
+		component: () => import('../views/EditMyPet.vue')
 	}
 ]
 
