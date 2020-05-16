@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h1>Add animal</h1>
+		<h1>Edit your pet</h1>
 		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="100px">
 			<br>
 			<el-form-item class="form-field" prop="name" label="Name">
@@ -49,7 +49,7 @@
 						<el-button size="small" type="primary">Click to upload</el-button>
 					</el-upload>
 				</div>
-					<div style="width: 300px;">jpg/png, max file size allowed 500KB</div>
+				<div style="width: 300px;">jpg/png, max file size allowed 500KB</div>
 			</el-form-item>
 			<el-form-item class="form-field" label="Date of birth">
 				<el-date-picker
@@ -109,6 +109,27 @@
 					race: [
 						{required: true, message: 'Please input animal\'s race', trigger: 'blur'}
 					],
+				},
+				animalModel: {
+					id: '',
+					name: '',
+					species: '',
+					race: '',
+					description: '',
+					birthDate: '', // Date
+					sex: '',
+					sterilized: '', // true false
+					shelterJoinDate: '', // Date
+					animalLocation: {
+						fullName: '',
+						phone: '',
+						email: '',
+						address: '',
+						locationType: ''
+					},
+					imageUrl: '', // link,
+					location: '', // AnimalLocationResponse
+					treatmentHistories: [] // Set<TreatmentHistoryResponse>
 				}
 			}
 		},
@@ -123,8 +144,30 @@
 					}).catch(e => {
 					this.errors.push(e)
 				})
+			},
+			populateForm(model){
+
+				this.form.name = model.name;
+				this.form.species = model.species;
+				this.form.race = model.race;
+				this.form.description = model.descrption;
+				this.form.birthDate = "???"
+				this.form.sex = model.sex;
+				this.form.sterilized = "???"
+				this.form.imageUrl = model.imageUrl;
 			}
-		}
+		},
+		created() {
+			let id = this.$route.params.id;
+			axios.get('http://34.207.67.160:80/api/animal/one/' + id)
+				.then(response => {
+					this.animalModel = response.data;
+					this.populateForm(this.animalModel)
+					console.log(response.data);
+				}).catch(e => {
+				this.errors.push(e)
+			});
+		},
 	}
 
 </script>

@@ -15,7 +15,12 @@
 							<b>Description:</b> {{animal.description}}
 							<p>Location: {{animal.location}}</p>
 							<p>From: {{animal.locationType}}</p>
-							<router-link :to="{ path: '/animal/' + animal.id, params: {id: animal.id}}">More details</router-link>
+							<router-link
+								:to="{ path: '/edit/' + animal.id, params: {id: animal.id}}"
+							><el-button type="primary" round>
+								Update pet info
+							</el-button>
+							</router-link>
 						</el-main>
 					</el-container>
 				</el-container>

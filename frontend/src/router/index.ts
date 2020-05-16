@@ -36,6 +36,11 @@ const routes = [
 		path: '/animal/:id',
 		name: 'Single animal view',
 		component: () => import('../views/AnimalSingleView.vue')
+	},
+	{
+		path: '/edit/:id',
+		name: 'Edit pet',
+		component: () => import('../views/EditMyPet.vue')
 	}
 ]
 
