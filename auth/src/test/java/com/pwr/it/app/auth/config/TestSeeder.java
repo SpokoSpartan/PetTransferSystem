@@ -14,12 +14,16 @@ public class TestSeeder {
     private final UserAccountRepository accountRepository;
     private final CustomPasswordEncoder passwordEncoder;
 
-    public UserAccount initSimpleUser(String username, String password, String role) {
+    public UserAccount initSimpleUser(String username, String password, String role, String address, String phoneNumber, String email) {
         Optional<UserAccount> account = accountRepository.findByLogin(username);
-        if (account.isPresent()) {
-            return account.get();
-        }
-        return accountRepository.save(new UserAccount(username, passwordEncoder.encode(password), role));
+        return account.orElseGet(() ->
+                accountRepository.save(new UserAccount(
+                        username,
+                        passwordEncoder.encode(password),
+                        role,
+                        address,
+                        phoneNumber,
+                        email)));
     }
 
 }
