@@ -147,7 +147,6 @@ class AnimalEndpointSpec extends Specification {
         "race"                              | "Siberian Husky"
         "status"                            | "ready for adoption"
         "sex"                               | "female"
-        "sterilised"                        | false
         "imageUrl"                          | "http://res.cloudinary.com/drkqvtiuz/image/upload/v1587815804/ao5f5fvz9abfa0xrbka5.jpg"
 
         "animalLocation.fullName"           | "ASYLUS"

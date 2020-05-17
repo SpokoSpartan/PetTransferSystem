@@ -5,14 +5,13 @@
 				<div width="1000px">
 					<img style="width:400px;" :src="animalModel.imageUrl">
 				</div>
-				<p>Species: {{animalModel.species}}</p>
-				<p>Race:{{animalModel.race}}</p>
-				<p>Birth date: {{animalModel.birthDate}}</p>
-				<p>Sex: {{animalModel.sex}}</p>
-				<p>Sterilized: {{animalModel.sterilized}}</p>
-				<p>In shelter from: {{animalModel.shelterJoinDate}}</p>
-
-
+				<div style="text-align: left;">
+					<p>Species: {{animalModel.species}}</p>
+					<p>Race: {{animalModel.race}}</p>
+					<p>Sex: {{animalModel.sex}}</p>
+					<p>Sterilized: {{translateBooleanToHuman(animalModel.sterilized)}}</p>
+					<p>Birth date: {{getAgeWithBirthDate(animalModel.birthDate)}} </p>
+				</div>
 			</el-aside>
 			<el-container>
 				<el-header>
@@ -20,6 +19,20 @@
 				</el-header>
 				<el-main style="text-align: left;">
 					<p>Description: {{animalModel.description}}</p>
+					<p>In shelter from: {{getAgeWithBirthDate(animalModel.shelterJoinDate)}}</p>
+					<br>
+					<br>
+					<br>
+					<h3>Treatment history</h3>
+					<div class="list-container" v-for="treatment in animalModel.treatmentHistories">
+						<p>Treatment status: {{treatment.treatmentStatus}}</p>
+						<p><strong>{{treatment.title}}</strong> was done by <strong>{{treatment.doctor}}</strong> </p>
+						<p>Description: {{treatment.description}}</p>
+						<p>Treatment time from <strong>{{getAgeWithBirthDate(treatment.startDate)}}</strong> to <strong>{{getAgeWithBirthDate(treatment.endDate)}}</strong></p>
+						<p>Place: {{treatment.place}}</p>
+						<p>Price: {{treatment.price}} złotóweczek</p>
+					</div>
+
 					<div>
 						<h3>Contact info:</h3>
 						It is currently at {{animalModel.animalLocation.locationType}}: {{animalModel.animalLocation.fullName}}
@@ -28,7 +41,6 @@
 						<p>Pmail: {{animalModel.animalLocation.phone}}</p>
 					</div>
 				</el-main>
-				<el-footer>Footer</el-footer>
 			</el-container>
 		</el-container>
 
@@ -47,14 +59,14 @@
 				posts: [],
 				errors: [],
 				animalModel: {
-					id: 'x',
-					name: 'name',
-					species: 'species',
-					race: 'race',
-					description: 'descr',
-					birthDate: 'asdf', // Date
-					sex: 'sex',
-					sterilized: 's', // true false
+					id: '',
+					name: '',
+					species: '',
+					race: '',
+					description: '',
+					birthDate: '', // Date
+					sex: '',
+					sterilized: '', // true false
 					shelterJoinDate: '', // Date
 					animalLocation: {
 						fullName: '',
@@ -63,16 +75,22 @@
 						address: '',
 						locationType: ''
 					},
-					imageUrl: 'aasdfasd', // link,
-					location: 'asdfa', // AnimalLocationResponse
-					treatmentHistory: 'shit' // Set<TreatmentHistoryResponse>
+					imageUrl: '', // link,
+					location: '', // AnimalLocationResponse
+					treatmentHistories: [] // Set<TreatmentHistoryResponse>
 				}
 			}
 		},
-		computed: {
-			getAgeWithBirthDate: function () {
-				// calculate age here, reutnr 'unknown' if birthdate is null
-				return new Date(this.animalModel.birthDate);
+		methods: {
+			getAgeWithBirthDate: function (value) {
+				let date = new Date(value);
+				return date.getDay() + "." + date.getMonth() + "." + date.getFullYear();
+			},
+			translateBooleanToHuman: function (value) {
+				if (value) {
+					return "yes"
+				}
+				return "no"
 			}
 		},
 		created() {
@@ -84,7 +102,7 @@
 				}).catch(e => {
 				this.errors.push(e)
 			});
-		}
+		},
 	}
 </script>
 

@@ -1,31 +1,30 @@
 <template>
 	<div id="app">
 		<el-menu
-			:default-active="activeIndex2"
+			:default-active="activeIndex"
 			class="menu"
 			mode="horizontal"
-			@select="handleSelect"
 			text-color="#fff"
 			active-text-color="#dba11c"
 			background-color="#0F4C81"
 		>
-			<el-menu-item>
+			<div style="float: left; padding-left: 16px;">
 				<img alt="Vue logo" src="../src/assets/logo-blue.png">
-			</el-menu-item>
-			<el-menu-item index="2">
+			</div>
+			<el-menu-item index="1">
 				<router-link to="/animals">Pets list</router-link>
 			</el-menu-item>
-			<el-menu-item index="3">
+			<el-menu-item index="2">
 				<router-link to="/myPets">My pets</router-link>
 			</el-menu-item>
-			<el-menu-item index="4">
+			<el-menu-item index="3">
 				<router-link to="/animal/add">Add animal</router-link>
 			</el-menu-item>
-			<el-menu-item index="5">
-				<router-link to="/login">Login</router-link>
-			</el-menu-item>
-			<el-menu-item index="6">
+			<el-menu-item style="float: right;" index="4">
 				<router-link to="/register">Register</router-link>
+			</el-menu-item>
+			<el-menu-item style="float: right;" index="5">
+				<router-link to="/login">Login</router-link>
 			</el-menu-item>
 		</el-menu>
 		<div>
@@ -46,11 +45,6 @@
 		text-decoration: none;
 	}
 
-	.link {
-		text-decoration: none;
-		color: white;
-	}
-
 	#app {
 		font-family: Avenir, Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
@@ -58,12 +52,19 @@
 		text-align: center;
 	}
 
-	.white {
-		color: white;
-		background: pink;
-	}
 
 </style>
 <script>
+	export default {
+		data() {
+			return {
+				activeIndex: '1'
+
+			};
+		},
+		methods: {
+
+		}
+	}
 
 </script>

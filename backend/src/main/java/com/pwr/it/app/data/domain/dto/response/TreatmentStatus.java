@@ -2,8 +2,9 @@ package com.pwr.it.app.data.domain.dto.response;
 
 public enum TreatmentStatus {
 
-    HISTORY("history"),
-    IN_PROGRESS("progress"),
+    CANCELED("canceled"),
+    COMPLETED("completed"),
+    IN_PROGRESS("in progress"),
     PLANNED("planned"),
     UNKNOWN("unknown");
 

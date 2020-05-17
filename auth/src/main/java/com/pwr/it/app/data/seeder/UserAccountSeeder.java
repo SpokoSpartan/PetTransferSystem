@@ -20,11 +20,24 @@ public class UserAccountSeeder implements ApplicationEventListener<ServerStartup
     @Override
     public void onApplicationEvent(ServerStartupEvent event) {
         if (!userAccountRepository.findByLogin("admin").isPresent()) {
-            UserAccount account = new UserAccount("admin", passwordEncoder.encode("admin"), AccountRoles.ADMIN.getName());
+            UserAccount account = new UserAccount(
+                    "admin",
+                    passwordEncoder.encode("admin"),
+                    AccountRoles.ADMIN.getName(),
+                    "Wrocław Dlugosza 31",
+                    "+48 444 555 666",
+                    "wojtek@email.com");
             userAccountRepository.save(account);
         }
         if (!userAccountRepository.findByLogin("user").isPresent()) {
-            userAccountRepository.save(new UserAccount("user", passwordEncoder.encode("user"), AccountRoles.USER.getName()));
+            UserAccount account = new UserAccount(
+                    "user",
+                    passwordEncoder.encode("user"),
+                    AccountRoles.USER.getName(),
+                    "Krakow, Spokojna 11",
+                    "+48 111 222 333",
+                    "user@email.com");
+            userAccountRepository.save(account);
         }
     }
 
