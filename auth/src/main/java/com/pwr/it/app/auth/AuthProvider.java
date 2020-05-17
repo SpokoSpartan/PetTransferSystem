@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.reactivestreams.Publisher;
 
 import javax.inject.Singleton;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 
 @Singleton
@@ -35,7 +35,7 @@ public class AuthProvider implements AuthenticationProvider {
     }
 
     private UserDetails createUserDetails(UserAccount agent) {
-        return new UserDetails(agent.getLogin(), Arrays.asList(agent.getRole()));
+        return new UserDetails(agent.getLogin(), Collections.singleton(agent.getRole()));
     }
 
 }

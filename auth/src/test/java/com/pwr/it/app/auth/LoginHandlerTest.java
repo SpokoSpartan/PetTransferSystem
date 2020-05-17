@@ -24,6 +24,9 @@ public class LoginHandlerTest {
     private static final String USERNAME = "username";
     private static final String CORRECT_PASSWORD = "correct@password";
     private static final String USER_ROLE = AccountRoles.USER.getName();
+    private static final String USER_EMAIL = "email@email.com";
+    private static final String USER_PHONE_NUMBER = "+48 999 888 777";
+    private static final String USER_ADDRESS = "Wrocłąw";
 
     @Inject
     private EmbeddedServer server;
@@ -37,7 +40,7 @@ public class LoginHandlerTest {
 
     @PostConstruct
     public void init() {
-        testSeeder.initSimpleUser(USERNAME, CORRECT_PASSWORD, USER_ROLE);
+        testSeeder.initSimpleUser(USERNAME, CORRECT_PASSWORD, USER_ROLE, USER_ADDRESS, USER_PHONE_NUMBER, USER_EMAIL);
     }
 
     @Test
