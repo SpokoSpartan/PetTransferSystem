@@ -18,7 +18,7 @@ import javax.inject.Singleton;
 import javax.validation.Valid;
 
 @Singleton
-@Controller("/api/auth")
+@Controller("/auth")
 @RequiredArgsConstructor
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class AuthController {
