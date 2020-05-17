@@ -43,7 +43,7 @@
 			}
 		},
 		created() {
-			axios.get('http://34.207.67.160:80/api/animal/all?page=0&size=1000')
+			axios.get('http://3.83.87.216:80/api/animal/all?page=0&size=1000')
 				.then(response => {
 					this.animals = response.data.content;
 					console.log(response.data.content);

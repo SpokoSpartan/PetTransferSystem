@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 version = "0.0.1-SNAPSHOT"
         ),
         servers = {
-                @Server(url = "http://34.207.67.160:80", description = "AWS"),
+                @Server(url = "http://3.83.87.216:80", description = "AWS"),
                 @Server(url = "http://localhost:8081", description = "DEV")
         }
 )
