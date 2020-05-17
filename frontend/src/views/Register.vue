@@ -3,6 +3,10 @@
 		<h1>Register</h1>
 		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="140px">
 			<br>
+			<el-form-item class="form-field" prop="username" label="Username">
+            	<el-input placeholder="Username"
+            			  v-model="form.username"/>
+            </el-form-item>
 			<el-form-item class="form-field" prop="email" label="Email">
 				<el-input placeholder="Email"
 						  v-model="form.email"/>
@@ -16,6 +20,10 @@
 				<el-input placeholder="Confirm password"
 						  v-model="form.passwordConfirm"
 						  show-password/>
+			</el-form-item>
+			<el-form-item class="form-field" prop="address" label="Address">
+				<el-input placeholder="Address"
+						  v-model="form.address"/>
 			</el-form-item>
 			<el-form-item class="form-field" prop="phone" label="Phone number">
 				<el-input placeholder="Phone number"
@@ -37,12 +45,18 @@
 		data() {
 			return {
 				form: {
+					username: '',
 					email: '',
 					password: '',
 					passwordConfirm: '',
+					phone: '',
+					address: '',
 					phone: ''
 				},
 				rules: {
+					username: [
+						{required: true, message: 'Username is required.', trigger: 'blur'}
+					],
 					email: [
 						{required: true, message: 'Email is required.', trigger: 'blur'}
 					],
@@ -51,22 +65,32 @@
 					],
 					passwordConfirm: [
 						{required: true, message: 'Both passwords must match', trigger: 'blur'}
+					],
+					address: [
+						{required: true, message: 'Address is required', trigger: 'blur'}
+					],
+					phone: [
+						{required: true, message: 'Phone number is required', trigger: 'blur'}
 					]
 				}
 			}
 		},
 		methods: {
 			onSubmit() {
-				console.log(this.form.login);
 				console.log(this.form.password);
 				console.log(this.form.passwordConfirm);
 				console.log(this.form.phone);
-				axios.post('http://34.207.67.160:80/api/animal/create', this.form)
+				console.log(this.form.address);
+				console.log(this.form.username);
+				axios.post('http://3.83.87.216:80/auth/register', this.form)
 					.then(response => {
 						this.posts = response;
+						console.log('JUPI');
 						console.log(response);
 					}).catch(e => {
-					this.errors.push(e)
+						console.log("Error");
+						console.log(e);
+						this.errors.push(e)
 				})
 			}
 		}
