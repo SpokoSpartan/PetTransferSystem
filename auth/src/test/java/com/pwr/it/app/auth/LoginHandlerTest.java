@@ -45,7 +45,7 @@ public class LoginHandlerTest {
 
     @Test
     public void customLoginHandler() {
-        HttpRequest request = HttpRequest.create(HttpMethod.POST, "/login")
+        HttpRequest request = HttpRequest.create(HttpMethod.POST, "/auth/login")
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .body(new UsernamePasswordCredentials(USERNAME, CORRECT_PASSWORD));
         HttpResponse<BearerAccessRefreshToken> response = httpClient.toBlocking().exchange(request, BearerAccessRefreshToken.class);

@@ -11,11 +11,13 @@ micronaut:
             - Content-Type
             - Authorization
             - '*'
+
   security:
     enabled: true
     endpoints:
       login:
         enabled: true
+        path: /auth/login
       oauth:
         enabled: true
     token:
