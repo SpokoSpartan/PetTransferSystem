@@ -116,7 +116,7 @@
 			onSubmit() {
 				console.log('submit!');
 				console.log(this.form);
-				axios.post('http://34.207.67.160:80/api/animal/create', this.form)
+				axios.post('http://3.83.87.216:80/api/animal/create', this.form)
 					.then(response => {
 						this.posts = response;
 						console.log(response);

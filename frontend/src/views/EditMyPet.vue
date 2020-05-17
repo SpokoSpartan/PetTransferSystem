@@ -137,7 +137,7 @@
 			onSubmit() {
 				console.log('submit!');
 				console.log(this.form);
-				axios.post('http://34.207.67.160:80/api/animal/create', this.form)
+				axios.post('http://3.83.87.216:80/api/animal/create', this.form)
 					.then(response => {
 						this.posts = response;
 						console.log(response);
@@ -159,7 +159,7 @@
 		},
 		created() {
 			let id = this.$route.params.id;
-			axios.get('http://34.207.67.160:80/api/animal/one/' + id)
+			axios.get('http://3.83.87.216:80/api/animal/one/' + id)
 				.then(response => {
 					this.animalModel = response.data;
 					this.populateForm(this.animalModel)
