@@ -1,32 +1,70 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+	<div id="app">
+		<el-menu
+			:default-active="activeIndex"
+			class="menu"
+			mode="horizontal"
+			text-color="#fff"
+			active-text-color="#dba11c"
+			background-color="#0F4C81"
+		>
+			<div style="float: left; padding-left: 16px;">
+				<img alt="Vue logo" src="../src/assets/logo-blue.png">
+			</div>
+			<el-menu-item index="1">
+				<router-link to="/animals">Pets list</router-link>
+			</el-menu-item>
+			<el-menu-item index="2">
+				<router-link to="/myPets">My pets</router-link>
+			</el-menu-item>
+			<el-menu-item index="3">
+				<router-link to="/animal/add">Add animal</router-link>
+			</el-menu-item>
+			<el-menu-item style="float: right;" index="4">
+				<router-link to="/register">Register</router-link>
+			</el-menu-item>
+			<el-menu-item style="float: right;" index="5">
+				<router-link to="/login">Login</router-link>
+			</el-menu-item>
+		</el-menu>
+		<div>
+			<router-view></router-view>
+		</div>
+	</div>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+	@import '../public/index.scss';
 
-#nav {
-  padding: 30px;
+	.menu {
+		border-radius: 2px;
+		background-color: $color-primary;
+	}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+	a {
+		text-decoration: none;
+	}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+	#app {
+		font-family: Avenir, Helvetica, Arial, sans-serif;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-align: center;
+	}
+
+
 </style>
+<script>
+	export default {
+		data() {
+			return {
+				activeIndex: '1'
+
+			};
+		},
+		methods: {
+
+		}
+	}
+
+</script>

@@ -1,27 +1,51 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+	{
+		path: '/',
+		redirect: '/animals'
+	},
+	{
+		path: '/login',
+		name: 'Login',
+		component: () => import('../views/Login.vue')
+	},
+	{
+		path: '/register',
+		name: 'Register',
+		component: () => import('../views/Register.vue')
+	},
+	{
+		path: '/animals',
+		name: 'Animals',
+		component: () => import('../views/AnimalsList.vue')
+	}, {
+		path: '/myPets',
+		name: 'My pets',
+		component: () => import('../views/MyPets.vue')
+	},
+	{
+		path: '/animal/add',
+		name: 'Add animal',
+		component: () => import('../views/AnimalAdd.vue')
+	},
+	{
+		path: '/animal/:id',
+		name: 'Single animal view',
+		component: () => import('../views/AnimalSingleView.vue')
+	},
+	{
+		path: '/edit/:id',
+		name: 'Edit pet',
+		component: () => import('../views/EditMyPet.vue')
+	}
 ]
 
 const router = new VueRouter({
-  routes
+	routes
 })
 
 export default router

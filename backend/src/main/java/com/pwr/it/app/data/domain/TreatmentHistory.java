@@ -1,11 +1,8 @@
 package com.pwr.it.app.data.domain;
 
 import com.pwr.it.app.data.domain.dto.response.TreatmentHistoryResponse;
-import com.pwr.it.app.data.repository.TreatmentHistoryRepository;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.pwr.it.app.data.domain.dto.response.TreatmentStatus;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,11 +14,13 @@ import java.util.UUID;
 
 @Getter
 @Entity
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TreatmentHistory {
 
     @Id
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String title;
@@ -31,6 +30,8 @@ public class TreatmentHistory {
     private String description;
     private BigDecimal price;
     private String place;
+    private Boolean canceled = false;
+    @Setter(AccessLevel.NONE)
     private String uuid = UUID.randomUUID().toString();
 
     public TreatmentHistory(String title,String doctorName, Date startDate,Date endDate,String description, BigDecimal price, String place) {
@@ -53,7 +54,25 @@ public class TreatmentHistory {
                 .description(this.description)
                 .price(this.price)
                 .place(this.place)
+                .treatmentStatus(prepareTreatmentStatus().toString())
                 .build();
+    }
+
+    private TreatmentStatus prepareTreatmentStatus() {
+        if (canceled) {
+            return TreatmentStatus.CANCELED;
+        }
+        Date now = new Date();
+        if (startDate.after(now)) {
+            return TreatmentStatus.PLANNED;
+        }
+        if (endDate != null && endDate.after(now)) {
+            return TreatmentStatus.IN_PROGRESS;
+        }
+        if (endDate != null && endDate.before(now)) {
+            return TreatmentStatus.COMPLETED;
+        }
+        return TreatmentStatus.UNKNOWN;
     }
 
     @Override
