@@ -51,7 +51,7 @@ public class AuthenticationTest {
     @Test
     public void mustLoginWithValidCredentials() {
         UsernamePasswordCredentials upc = new UsernamePasswordCredentials(USERNAME, CORRECT_PASSWORD);
-        HttpRequest loginRequest = HttpRequest.POST("/login", upc);
+        HttpRequest loginRequest = HttpRequest.POST("/auth/login", upc);
         HttpResponse<BearerAccessRefreshToken> response = httpClient.toBlocking().exchange(loginRequest, BearerAccessRefreshToken.class);
 
         assertThat(response.getStatus().getCode()).isEqualTo(200);
