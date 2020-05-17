@@ -3,6 +3,7 @@ package com.pwr.it.app.web.controller;
 
 import com.pwr.it.app.data.service.AuthService;
 import com.pwr.it.app.web.dto.UserAccountDetails;
+import com.pwr.it.app.web.exception.UserAlreadyExistsException;
 import com.pwr.it.app.web.exception.UserNotFoundException;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
@@ -26,7 +27,7 @@ public class AuthController {
 
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Post("/register")
-    public void registerUser(@Valid @Body UserAccountDetails accountDetails) {
+    public void registerUser(@Valid @Body UserAccountDetails accountDetails) throws UserAlreadyExistsException {
         authService.registerUser(accountDetails);
     }
 
