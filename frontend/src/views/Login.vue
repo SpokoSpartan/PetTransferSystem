@@ -1,11 +1,12 @@
 <template>
 	<div>
 		<h1>Login</h1>
-		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="top" label-width="100px">
+		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="140px">
+			<el-alert type="error" v-if="getAlert()" style="height: 10%;">Bad credentials</el-alert>
 			<br>
-			<el-form-item class="form-field" prop="email" label="Email">
-				<el-input placeholder="Email"
-						  v-model="form.email"/>
+			<el-form-item class="form-field" prop="username" label="Username" id="login-username">
+				<el-input placeholder="Username"
+						  v-model="form.username"/>
 			</el-form-item>
 			<el-form-item class="form-field" prop="password" label="Password">
 				<el-input placeholder="Login"
@@ -24,18 +25,23 @@
 
 <script>
 	import axios from "axios";
+	import Vue from 'vue'
+	import VueRouter from 'vue-router'
+
+	Vue.use(VueRouter)
 
 	export default {
 		name: 'Login',
+		isError: 'false',
 		data() {
 			return {
 				form: {
-					email: '',
+					username: '',
 					password: ''
 				},
 				rules: {
-					email: [
-						{required: true, message: 'Email is required', trigger: 'blur'}
+					username: [
+						{required: true, message: 'Username is required', trigger: 'blur'}
 					],
 					password: [
 						{required: true, message: 'Password is required', trigger: 'blur'}
@@ -45,15 +51,23 @@
 		},
 		methods: {
 			onSubmit() {
-				console.log(this.form.login);
-				console.log(this.form.password);
-				axios.post('http://52.91.229.171:80/api/animal/create', this.form)
+				this.isError = 'false';
+				axios.post('http://52.91.229.171:80/auth/login', this.form)
 					.then(response => {
-						this.posts = response;
-						console.log(response);
+						if (response.status === 200) {
+							localStorage.setItem('username', response.data.username);
+							localStorage.setItem('access_token', response.data.access_token);
+							localStorage.setItem('refresh_token', response.data.refresh_token);
+							this.$router.push({path: 'animals'});
+						}
 					}).catch(e => {
-					this.errors.push(e)
+						this.form.username = '';
+						this.form.password = '';
+						this.isError = 'true';
 				})
+			},
+			getAlert() {
+				return this.isError === 'true';
 			}
 		}
 
@@ -103,3 +117,5 @@
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
 	}
 </style>
+
+
