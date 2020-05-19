@@ -2,30 +2,31 @@
 	<div>
 		<h1>Register</h1>
 		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="140px">
+			<el-alert type="error" v-if="getAlert()" style="height: 10%;">User with given name already exists in the system</el-alert>
 			<br>
-			<el-form-item class="form-field" prop="username" label="Username">
+			<el-form-item class="form-field" prop="fullName" label="Username" :error="getErrorForUsername()">
             	<el-input placeholder="Username"
             			  v-model="form.fullName"/>
             </el-form-item>
-			<el-form-item class="form-field" prop="email" label="Email">
+			<el-form-item class="form-field" prop="email" label="Email" :error=getErrorForEmail()>
 				<el-input placeholder="Email"
 						  v-model="form.email"/>
 			</el-form-item>
-			<el-form-item class="form-field" prop="password" label="Password">
+			<el-form-item class="form-field" prop="password" label="Password" :error="getErrorForPassword()">
 				<el-input placeholder="Password"
 						  v-model="form.password"
 						  show-password/>
 			</el-form-item>
-			<el-form-item class="form-field" prop="passwordConfirm" label="Confirm password">
+			<el-form-item class="form-field" prop="passwordConfirm" label="Confirm password" :error="getErrorForPasswordConfirm()">
 				<el-input placeholder="Confirm password"
 						  v-model="form.passwordConfirm"
 						  show-password/>
 			</el-form-item>
-			<el-form-item class="form-field" prop="address" label="Address">
+			<el-form-item class="form-field" prop="address" label="Address" :error="getErrorForAddress()">
 				<el-input placeholder="Address"
 						  v-model="form.address"/>
 			</el-form-item>
-			<el-form-item class="form-field" prop="phone" label="Phone number">
+			<el-form-item class="form-field" prop="phoneNumber" label="Phone number" :error="getErrorForPhoneNumber()">
 				<el-input placeholder="Phone number"
 						  v-model="form.phoneNumber"/>
 			</el-form-item>
@@ -40,9 +41,13 @@
 
 <script>
 	import axios from "axios";
-	import * as router from "vue-router";
+	import Vue from 'vue'
+	import VueRouter from 'vue-router'
+
+	Vue.use(VueRouter)
 
 	export default {
+		isError: 'false',
 		data() {
 			return {
 				form: {
@@ -55,7 +60,7 @@
 				},
 				rules: {
 					fullName: [
-						{required: true, message: 'Username is required.', trigger: 'blur'}
+						{required: true, message: 'Username is required.', trigger: 'blur'},
 					],
 					email: [
 						{required: true, message: 'Email is required.', trigger: 'blur'}
@@ -80,15 +85,73 @@
 				axios.post('http://52.91.229.171:80/auth/register', this.form)
 					.then(response => {
 						if (response.status === 200) {
-							router.push("/login")
+							this.$router.push({path: 'login'});
 						}
 					}).catch(e => {
-						router.push('login')
-						this.errors.push(e)
+						this.form.fullName = '';
+						this.isError = 'true';
 				})
+			},
+			getErrorForUsername() {
+				if (this.form.fullName === '') {
+					return;
+				}
+				if (this.form.fullName.length > 5) {
+					return;
+				}
+				return 'Username must have at least 6 chars';
+			},
+			getErrorForEmail() {
+				if (this.form.email === '') {
+					return;
+				}
+				let regex = new RegExp('(?:[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\\])');
+				if (this.form.email.match(regex) !== null) {
+					return;
+				}
+				return 'Email format is required';
+			},
+			getErrorForPassword() {
+				if (this.form.password === '') {
+					return;
+				}
+				let regex = new RegExp('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$');
+				if (this.form.password.match(regex) !== null) {
+					return;
+				}
+				return 'Eight chars, one letter and one number';
+			},
+			getErrorForPasswordConfirm() {
+				if (this.form.passwordConfirm === '') {
+					return;
+				}
+				if (this.form.password === this.form.passwordConfirm) {
+					return;
+				}
+				return 'Passwords must be the same';
+			},
+			getErrorForAddress() {
+				if (this.form.address === '') {
+					return;
+				}
+				if (this.form.address.length > 5) {
+					return;
+				}
+				return 'Username must have at least 6 chars';
+			},
+			getErrorForPhoneNumber() {
+				if (this.form.phoneNumber === '') {
+					return;
+				}
+				if (this.form.phoneNumber.length > 8) {
+					return;
+				}
+				return 'Phone number must have at least 9 chars';
+			},
+			getAlert() {
+				return this.isError === 'true';
 			}
 		}
-
 	}
 </script>
 
