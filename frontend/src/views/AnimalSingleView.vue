@@ -95,7 +95,7 @@
 		},
 		created() {
 			let id = this.$route.params.id;
-			axios.get('http://3.83.87.216:80/api/animal/one/' + id)
+			axios.get('http://52.91.229.171:80/api/animal/one/' + id)
 				.then(response => {
 					this.animalModel = response.data;
 					console.log(response.data);

@@ -5,7 +5,7 @@
 			<br>
 			<el-form-item class="form-field" prop="username" label="Username">
             	<el-input placeholder="Username"
-            			  v-model="form.username"/>
+            			  v-model="form.fullName"/>
             </el-form-item>
 			<el-form-item class="form-field" prop="email" label="Email">
 				<el-input placeholder="Email"
@@ -27,11 +27,11 @@
 			</el-form-item>
 			<el-form-item class="form-field" prop="phone" label="Phone number">
 				<el-input placeholder="Phone number"
-						  v-model="form.phone"/>
+						  v-model="form.phoneNumber"/>
 			</el-form-item>
 			<br>
 			<el-form-item>
-				<el-button type="primary" @click="onSubmit" round>Login</el-button>
+				<el-button type="primary" @click="onSubmit" round>Register</el-button>
 			</el-form-item>
 			<br>
 		</el-form>
@@ -40,21 +40,21 @@
 
 <script>
 	import axios from "axios";
+	import * as router from "vue-router";
 
 	export default {
 		data() {
 			return {
 				form: {
-					username: '',
+					fullName: '',
 					email: '',
 					password: '',
 					passwordConfirm: '',
-					phone: '',
-					address: '',
-					phone: ''
+					phoneNumber: '',
+					address: ''
 				},
 				rules: {
-					username: [
+					fullName: [
 						{required: true, message: 'Username is required.', trigger: 'blur'}
 					],
 					email: [
@@ -69,7 +69,7 @@
 					address: [
 						{required: true, message: 'Address is required', trigger: 'blur'}
 					],
-					phone: [
+					phoneNumber: [
 						{required: true, message: 'Phone number is required', trigger: 'blur'}
 					]
 				}
@@ -77,19 +77,13 @@
 		},
 		methods: {
 			onSubmit() {
-				console.log(this.form.password);
-				console.log(this.form.passwordConfirm);
-				console.log(this.form.phone);
-				console.log(this.form.address);
-				console.log(this.form.username);
-				axios.post('http://3.83.87.216:80/auth/register', this.form)
+				axios.post('http://52.91.229.171:80/auth/register', this.form)
 					.then(response => {
-						this.posts = response;
-						console.log('JUPI');
-						console.log(response);
+						if (response.status === 200) {
+							router.push("/login")
+						}
 					}).catch(e => {
-						console.log("Error");
-						console.log(e);
+						router.push('login')
 						this.errors.push(e)
 				})
 			}
