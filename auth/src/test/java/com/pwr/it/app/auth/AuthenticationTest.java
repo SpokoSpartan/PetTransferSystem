@@ -29,6 +29,9 @@ public class AuthenticationTest {
     private static final String CORRECT_PASSWORD = "correct@password";
     private static final String WRONG_PASSWORD = "wrong_password";
     private static final String USER_ROLE = AccountRoles.USER.getName();
+    private static final String USER_EMAIL = "email@email.com";
+    private static final String USER_PHONE_NUMBER = "+48 999 888 777";
+    private static final String USER_ADDRESS = "Wrocłąw";
 
     @Inject
     private EmbeddedServer server;
@@ -42,13 +45,13 @@ public class AuthenticationTest {
 
     @PostConstruct
     public void init() {
-        testSeeder.initSimpleUser(USERNAME, CORRECT_PASSWORD, USER_ROLE);
+        testSeeder.initSimpleUser(USERNAME, CORRECT_PASSWORD, USER_ROLE, USER_ADDRESS, USER_PHONE_NUMBER, USER_EMAIL);
     }
 
     @Test
     public void mustLoginWithValidCredentials() {
         UsernamePasswordCredentials upc = new UsernamePasswordCredentials(USERNAME, CORRECT_PASSWORD);
-        HttpRequest loginRequest = HttpRequest.POST("/login", upc);
+        HttpRequest loginRequest = HttpRequest.POST("/auth/login", upc);
         HttpResponse<BearerAccessRefreshToken> response = httpClient.toBlocking().exchange(loginRequest, BearerAccessRefreshToken.class);
 
         assertThat(response.getStatus().getCode()).isEqualTo(200);

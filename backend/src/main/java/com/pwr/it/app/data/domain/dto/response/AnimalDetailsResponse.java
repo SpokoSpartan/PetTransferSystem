@@ -25,8 +25,10 @@ public class AnimalDetailsResponse {
     private String description;
     private Date birthDate;
     private String sex;
-    private Boolean sterilised;
+    private String imageUrl;
+    private Boolean sterilized;
     private Date shelterJoinDate;
+    private Boolean archived;
     private AnimalLocationResponse animalLocation;
     Set<TreatmentHistoryResponse> treatmentHistories;
 

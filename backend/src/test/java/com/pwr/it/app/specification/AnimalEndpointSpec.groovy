@@ -3,10 +3,12 @@ package com.pwr.it.app.specification
 import com.jayway.jsonpath.JsonPath
 import com.pwr.it.app.data.domain.*
 import com.pwr.it.app.data.seeder.*
+import com.pwr.it.app.services.UserService
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.annotation.MicronautTest
+import io.micronaut.test.annotation.MockBean
 import org.joda.time.DateTime
 import spock.lang.Shared
 import spock.lang.Specification
@@ -15,6 +17,9 @@ import spock.lang.Unroll
 import javax.inject.Inject
 
 import static com.pwr.it.app.data.domain.AnimalStatus.NEW_IN_SHELTER
+import static com.pwr.it.app.data.domain.AnimalStatus.READY_FOR_ADOPTION
+import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.when
 
 @MicronautTest
 class AnimalEndpointSpec extends Specification {
@@ -39,19 +44,25 @@ class AnimalEndpointSpec extends Specification {
     DatabaseCleaner databaseCleaner
 
     @Inject
+    UserService userService
+
+    @Inject
     @Client('/')
     RxHttpClient client
 
     @Shared
-    Long animalId;
+    Long animalId
+
+    @Shared
+    User loggedUser
 
     def setupSpec() {
         cleanDatabase()
-        animalId = initDog()
+        initDog()
     }
 
     @Unroll
-    def "endpoint return pageable object with one animal and correct statistics"() {
+    def "endpoint return pageable of animal prepared for adoption with one object and correct statistics"() {
         setup:
         def responseAsJson = client.toBlocking().retrieve(HttpRequest.GET('/api/animal/all?page=0&size=2'), String)
 
@@ -63,12 +74,60 @@ class AnimalEndpointSpec extends Specification {
         "content[0].id"       | animalId
         "content[0].name"     | "Mała"
         "content[0].location" | "Wrocław ul. Sikorskiego 31"
-        "content[0].status"   | "NEW_IN_SHELTER"
+        "content[0].status"   | "ready for adoption"
 
         "totalSize"           | 1
         "totalPages"          | 1
         "pageNumber"          | 0
         "numberOfElements"    | 1
+        "size"                | 2
+    }
+
+    @Unroll
+    def "endpoint return pageable animal that belong to user with one object and correct statistics"() {
+        setup:
+        when(userService.getLoggedUser()).thenReturn(loggedUser)
+
+        and:
+        def responseAsJson = client.toBlocking().retrieve(HttpRequest.GET('/api/animal/my/all?page=0&size=2'), String)
+
+        expect:
+        JsonPath.read(responseAsJson, testedElement) == correctElement
+
+        where:
+        testedElement         | correctElement
+        "content[0].id"       | animalId
+        "content[0].name"     | "Mała"
+        "content[0].location" | "Wrocław ul. Sikorskiego 31"
+        "content[0].status"   | "ready for adoption"
+        "content[0].imageUrl" | "http://res.cloudinary.com/drkqvtiuz/image/upload/v1587815804/ao5f5fvz9abfa0xrbka5.jpg"
+
+        "totalSize"           | 1
+        "totalPages"          | 1
+        "pageNumber"          | 0
+        "numberOfElements"    | 1
+        "size"                | 2
+    }
+
+    @Unroll
+    def "endpoint return pageable animal that not belong to user without animal and correct statistics"() {
+        setup:
+        User user = mock(User.class)
+        when(user.getId()).thenReturn(0L)
+        when(userService.getLoggedUser()).thenReturn(user)
+
+        and:
+        def responseAsJson = client.toBlocking().retrieve(HttpRequest.GET('/api/animal/my/all?page=0&size=2'), String)
+
+        expect:
+        JsonPath.read(responseAsJson, testedElement) == correctElement
+
+        where:
+        testedElement         | correctElement
+        "totalSize"           | 0
+        "totalPages"          | 0
+        "pageNumber"          | 0
+        "numberOfElements"    | 0
         "size"                | 2
     }
 
@@ -86,9 +145,9 @@ class AnimalEndpointSpec extends Specification {
         "name"                              | "Mała"
         "species"                           | "dog"
         "race"                              | "Siberian Husky"
-        "status"                            | "NEW_IN_SHELTER"
+        "status"                            | "ready for adoption"
         "sex"                               | "female"
-        "sterilised"                        | false
+        "imageUrl"                          | "http://res.cloudinary.com/drkqvtiuz/image/upload/v1587815804/ao5f5fvz9abfa0xrbka5.jpg"
 
         "animalLocation.fullName"           | "ASYLUS"
         "animalLocation.phone"              | "+48 696 221 450"
@@ -112,23 +171,32 @@ class AnimalEndpointSpec extends Specification {
         Species dog = speciesSeeder.initDog()
         User user = userSeeder.initJani(Optional.of(simpleOrganization))
         Race husky = raceSeeder.initSiberianHusky()
-        Set<Status> huskyDogStatuses = statusSeeder.initAnimalStatuses(dateBackward(730), NEW_IN_SHELTER);
-        Status huskyDogStatus = getStatusByName(huskyDogStatuses, NEW_IN_SHELTER)
+        Set<Status> huskyDogStatuses = statusSeeder.initAnimalStatuses(dateBackward(730), NEW_IN_SHELTER, READY_FOR_ADOPTION)
+        Status huskyDogStatus = getStatusByName(huskyDogStatuses, READY_FOR_ADOPTION)
         Set<TreatmentHistory> huskyDogTreatmentHistory = treatmentHistorySeeder.initChipImplantation(
                 huskyDogStatus.getStatusBeginning(), huskyDogStatus.getStatusEnd())
         Animal animal = animalSeeder.initHuskyDog(dog, husky, huskyDogStatuses, user, huskyDogTreatmentHistory)
-        return animal.getId()
+
+        animalId = animal.getId()
+        loggedUser = user
     }
 
     private static dateBackward(int days) {
-        return DateTime.now().minusDays(days).toDate();
+        return DateTime.now().minusDays(days).toDate()
     }
 
     private static getStatusByName(Set<Status> statuses, AnimalStatus animalStatus) {
         return statuses.stream()
                 .filter({ status -> (status.getAnimalStatus() == animalStatus) })
                 .findFirst()
-                .orElseThrow({ -> new IllegalArgumentException("Status with name " + animalStatus + " not found") });
+                .orElseThrow({ -> new IllegalArgumentException("Status with name " + animalStatus + " not found") })
     }
+
+
+    @MockBean(UserService.class)
+    UserService userService() {
+        return mock(UserService.class)
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.pwr.it.app.data.domain;
 
+import com.pwr.it.app.data.domain.dto.response.UserResponse;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +40,15 @@ public class User {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public UserResponse translateToResponse() {
+        return UserResponse.builder()
+                .id(this.id)
+                .email(this.email)
+                .fullName(this.fullName)
+                .phoneNumber(this.phoneNumber)
+                .build();
     }
 
     @Override
