@@ -238,7 +238,7 @@ public class AnimalSeeder {
                 .description("Medium-sized, white & brown medium fur; requires regular dental care")
                 .birthDate(getDateBackward(3))
                 .sex("female")
-                .shelterJoinDate(getDateBackward(1))
+                .shelterJoinDate(getDateBackward(2))
                 .user(user)
                 .build();
         lionheadRabbit.setSterilised(true);
@@ -292,7 +292,7 @@ public class AnimalSeeder {
                 .description("White; very vocal, friendly, spent his life free-roaming around the house, feels bad in a cage")
                 .birthDate(getDateBackward(10))
                 .sex("male")
-                .shelterJoinDate(getDateBackward(1))
+                .shelterJoinDate(getDateBackward(3))
                 .user(user)
                 .build();
         cockatiel.setSterilised(false);

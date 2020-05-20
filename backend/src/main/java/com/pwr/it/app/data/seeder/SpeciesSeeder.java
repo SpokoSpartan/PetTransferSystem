@@ -28,6 +28,41 @@ public class SpeciesSeeder {
         return initSpecies(snake);
     }
 
+    public Species initChameleon() {
+        Species chameleon = new Species("chameleon");
+        return initSpecies(chameleon);
+    }
+
+    public Species initEublepharis() {
+        Species eublepharis = new Species("eublepharis");
+        return initSpecies(eublepharis);
+    }
+
+    public Species initRabbit() {
+        Species rabbit = new Species("rabbit");
+        return initSpecies(rabbit);
+    }
+
+    public Species initCacatua() {
+        Species cacatua = new Species("cacatua");
+        return initSpecies(cacatua);
+    }
+
+    public Species initSugarGlider() {
+        Species sugarGlider = new Species("sugar glider");
+        return initSpecies(sugarGlider);
+    }
+
+    public Species initWeasel() {
+        Species weasel = new Species("weasel");
+        return initSpecies(weasel);
+    }
+
+    public Species initTortoise() {
+        Species tortoise = new Species("tortoise");
+        return initSpecies(tortoise);
+    }
+
     @Transactional
     private Species initSpecies(Species species) {
         return speciesRepository.save(species);
