@@ -38,6 +38,56 @@ public class RaceSeeder {
         return initRace(royalPython);
     }
 
+    public Race initVeiledChameleon() {
+        Race veiledChameleon = new Race("Veiled chameleon");
+        return initRace(veiledChameleon);
+    }
+
+    public Race initLeopardGecko() {
+        Race veiledChameleon = new Race("Leopard gecko");
+        return initRace(veiledChameleon);
+    }
+
+    public Race initHollandLopRabbit() {
+        Race hollandLopRabbit = new Race("Holland lop rabbit");
+        return initRace(hollandLopRabbit);
+    }
+
+    public Race initSulphurCrestedCockatoo() {
+        Race sulphurCrestedCockatoo = new Race("Sulphur crested cockatoo ");
+        return initRace(sulphurCrestedCockatoo);
+    }
+
+    public Race initSugarGlider() {
+        Race sugarGlider = new Race("Sugar glider");
+        return initRace(sugarGlider);
+    }
+
+    public Race initLionheadRabbit() {
+        Race lionheadRabbit = new Race("Lionhead rabbit");
+        return initRace(lionheadRabbit);
+    }
+
+    public Race initNetherlandDwarfRabbit() {
+        Race netherlandDwarfRabbit = new Race("Netherland dwarf rabbit");
+        return initRace(netherlandDwarfRabbit);
+    }
+
+    public Race initFerret() {
+        Race ferret = new Race("Ferret");
+        return initRace(ferret);
+    }
+
+    public Race initCockatiel() {
+        Race cockatiel = new Race("Cockatiel");
+        return initRace(cockatiel);
+    }
+
+    public Race initRussianTortoise() {
+        Race russianTortoise = new Race("Russian tortoise");
+        return initRace(russianTortoise);
+    }
+
     @Transactional
     private Race initRace(Race race) {
         return raceRepository.save(race);
