@@ -52,7 +52,7 @@
 		methods: {
 			onSubmit() {
 				this.isError = 'false';
-				axios.post('http://52.91.229.171:80/auth/login', this.form)
+				axios.post(this.$APIURL + 'auth/login', this.form)
 					.then(response => {
 						if (response.status === 200) {
 							localStorage.setItem('username', response.data.username);

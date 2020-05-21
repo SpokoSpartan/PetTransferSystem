@@ -43,7 +43,7 @@
 			}
 		},
 		created() {
-			axios.get('http://52.91.229.171:80/api/animal/all?page=0&size=1000')
+			axios.get( this.$APIURL + 'api/animal/all?page=0&size=1000')
 				.then(response => {
 					this.animals = response.data.content;
 					console.log(response.data.content);

@@ -82,7 +82,7 @@
 		},
 		methods: {
 			onSubmit() {
-				axios.post('http://52.91.229.171:80/auth/register', this.form)
+				axios.post(this.$APIURL + 'auth/register', this.form)
 					.then(response => {
 						if (response.status === 200) {
 							this.$router.push({path: 'login'});
