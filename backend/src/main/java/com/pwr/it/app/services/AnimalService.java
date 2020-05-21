@@ -1,6 +1,12 @@
 package com.pwr.it.app.services;
 
-import com.pwr.it.app.data.domain.*;
+import com.pwr.it.app.data.domain.Animal;
+import com.pwr.it.app.data.domain.AnimalStatus;
+import com.pwr.it.app.data.domain.CountObjects;
+import com.pwr.it.app.data.domain.Race;
+import com.pwr.it.app.data.domain.Species;
+import com.pwr.it.app.data.domain.Status;
+import com.pwr.it.app.data.domain.User;
 import com.pwr.it.app.data.domain.dto.request.AnimalRequest;
 import com.pwr.it.app.data.domain.dto.response.AnimalDetailsResponse;
 import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
@@ -9,6 +15,7 @@ import com.pwr.it.app.web.exception.AnimalNotFoundException;
 import com.pwr.it.app.web.exception.UserNotFoundException;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
+import io.micronaut.security.authentication.Authentication;
 import lombok.RequiredArgsConstructor;
 
 import javax.inject.Singleton;
@@ -67,7 +74,7 @@ public class AnimalService {
     }
 
     @Transactional
-    public AnimalDetailsResponse createAnimal(AnimalRequest animalRequest) {
+    public AnimalDetailsResponse createAnimal(AnimalRequest animalRequest, Authentication authentication) throws UserNotFoundException {
         Animal animal = Animal.builder()
                 .name(animalRequest.getName())
                 .species(findSpecies(animalRequest.getSpecies()))
@@ -78,7 +85,7 @@ public class AnimalService {
                 .birthDate(animalRequest.getBirthDate())
                 .sex(animalRequest.getSex())
                 .shelterJoinDate(new Date())
-                .user(findOwner())
+                .user(findOwner(authentication))
                 .build();
         animal.setSterilised(animalRequest.getSterilised());
         return animalRepository.save(animal).translateToAnimalDetailsResponse();
@@ -89,8 +96,8 @@ public class AnimalService {
                 statusService.addNewStatus(AnimalStatus.NEW_IN_SHELTER, new Date()));
     }
 
-    private User findOwner() {
-        return userService.getLoggedUser();
+    private User findOwner(Authentication authentication) throws UserNotFoundException {
+        return userService.getLoggedUser(authentication);
     }
 
     @Transactional

@@ -7,6 +7,8 @@ import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.multipart.CompletedFileUpload;
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "File")
 @Controller("/api/file")
 @RequiredArgsConstructor
+@Secured(SecurityRule.IS_AUTHENTICATED)
 public class FileController {
 
     private final UploadImageService uploadImageService;

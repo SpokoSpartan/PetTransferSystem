@@ -15,6 +15,9 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.QueryValue;
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.authentication.Authentication;
+import io.micronaut.security.rules.SecurityRule;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +27,13 @@ import javax.validation.Valid;
 @Tag(name = "Animal")
 @Controller("/api/animal")
 @RequiredArgsConstructor
+@Secured(SecurityRule.IS_AUTHENTICATED)
 public class AnimalController {
 
     private final AnimalService animalService;
     private final UserService userService;
 
+    @Secured(SecurityRule.IS_ANONYMOUS)
     @Operation(summary = "Get page of animals that are prepared for adoption (status -> READY_FOR_ADOPTION)")
     @Get("/all")
     public Page<AnimalResponse> getReadyAnimals(@QueryValue int page, @QueryValue int size) {
@@ -37,11 +42,13 @@ public class AnimalController {
 
     @Operation(summary = "Get page of animals owned by logged user. Aty this moment random user is set as logged.")
     @Get("/my/all")
-    public Page<AnimalResponse> getMyAnimals(@QueryValue int page, @QueryValue int size) {
-        User loggedUser = userService.getLoggedUser();
+    public Page<AnimalResponse> getMyAnimals(@QueryValue int page, @QueryValue int size, Authentication authentication) throws UserNotFoundException {
+
+        User loggedUser = userService.getLoggedUser(authentication);
         return animalService.getAnimalsOwnedBy(loggedUser, page, size);
     }
 
+    @Secured(SecurityRule.IS_ANONYMOUS)
     @Operation(summary = "Get animal with given id")
     @Get("/one/{id}")
     public AnimalDetailsResponse getAnimalDetails(@PathVariable long id) throws AnimalNotFoundException {
@@ -62,8 +69,8 @@ public class AnimalController {
                     "|imageUrl      | max size 500  |"
     )
     @Post("/create")
-    public AnimalDetailsResponse createAnimal(@Body @Valid AnimalRequest animalRequest) {
-        return animalService.createAnimal(animalRequest);
+    public AnimalDetailsResponse createAnimal(@Body @Valid AnimalRequest animalRequest, Authentication authentication) throws UserNotFoundException{
+        return animalService.createAnimal(animalRequest, authentication);
     }
 
     @Operation(

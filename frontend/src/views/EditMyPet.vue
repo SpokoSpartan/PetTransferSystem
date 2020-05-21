@@ -138,6 +138,11 @@
 				console.log('submit!');
 				console.log(this.form);
 				axios.post(this.$APIURL + 'api/animal/create', this.form)
+				const token = localStorage.getItem('access_token');
+				if (token !== null) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+				}
+				axios.post('http://52.91.229.171:80/api/animal/create', this.form)
 					.then(response => {
 						this.posts = response;
 						console.log(response);
