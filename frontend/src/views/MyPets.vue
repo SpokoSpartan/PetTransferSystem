@@ -27,10 +27,16 @@
 									Update pet info
 								</el-button>
 							</router-link>
+							<router-link style="padding-left: 12px;"
+										 :to="{ path: '/editTreatment/' + animal.id, params: {id: animal.id}}">
+								<el-button type="info" round>
+									Update treatment history
+								</el-button>
+							</router-link>
 							<router-link style="padding-left: 10px;"
 										 :to="{ path: '/remove/' + animal.id, params: {id: animal.id}}">
 								<el-button type="danger" round>
-									Update pet info
+									Remove animal
 								</el-button>
 							</router-link>
 						</el-main>

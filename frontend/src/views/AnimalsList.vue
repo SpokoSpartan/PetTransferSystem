@@ -16,11 +16,9 @@
 							<p>Location: {{animal.location}}</p>
 							<p>From: {{animal.locationType}}</p>
 							<router-link
-								:to="{ path: '/animal/' + animal.id, params: {id: animal.id}}"
-							>
+								:to="{ path: '/animal/' + animal.id, params: {id: animal.id}}">
 								<el-button type="success" round>More details</el-button>
 							</router-link>
-
 						</el-main>
 					</el-container>
 				</el-container>

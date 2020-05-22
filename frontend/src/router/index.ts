@@ -41,6 +41,11 @@ const routes = [
 		path: '/edit/:id',
 		name: 'Edit pet',
 		component: () => import('../views/EditMyPet.vue')
+	},
+	{
+		path: '/editTreatment/:id',
+		name: 'Edit treatment history for pet',
+		component: () => import('../views/EditTreatmentHistory.vue')
 	}
 ]
 
