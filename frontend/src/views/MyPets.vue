@@ -5,7 +5,7 @@
 			<div v-for="animal of animals">
 				<el-container class="list-item">
 					<el-aside width="200px">
-						<img style="width:190px;" :src="animal.imageUrl">
+						<img class="img-limit" :src="animal.imageUrl">
 					</el-aside>
 					<el-container>
 						<el-header>
@@ -17,9 +17,10 @@
 							<p>From: {{animal.locationType}}</p>
 							<router-link
 								:to="{ path: '/edit/' + animal.id, params: {id: animal.id}}"
-							><el-button type="primary" round>
-								Update pet info
-							</el-button>
+							>
+								<el-button type="primary" round>
+									Update pet info
+								</el-button>
 							</router-link>
 						</el-main>
 					</el-container>
@@ -86,5 +87,10 @@
 		background-color: $color-light;
 		color: white;
 		text-align: center;
+	}
+
+	.img-limit {
+		max-width: 180px;
+		max-height: 240px;
 	}
 </style>

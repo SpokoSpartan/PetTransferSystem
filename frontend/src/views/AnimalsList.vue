@@ -5,7 +5,7 @@
 			<div v-for="animal of animals">
 				<el-container class="list-item">
 					<el-aside width="200px">
-						<img style="width:190px;" :src="animal.imageUrl">
+						<img class="img-limit" :src="animal.imageUrl">
 					</el-aside>
 					<el-container>
 						<el-header>
@@ -87,5 +87,10 @@
 		background-color: $color-light;
 		color: white;
 		text-align: center;
+	}
+
+	.img-limit {
+		max-width: 180px;
+		max-height: 240px;
 	}
 </style>

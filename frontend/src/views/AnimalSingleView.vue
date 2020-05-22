@@ -3,7 +3,7 @@
 		<el-container>
 			<el-aside width="400px">
 				<div width="1000px">
-					<img style="width:400px;" :src="animalModel.imageUrl">
+					<img class="img-limit" :src="animalModel.imageUrl">
 				</div>
 				<div style="text-align: left;">
 					<p>Species: {{animalModel.species}}</p>
@@ -24,6 +24,9 @@
 					<br>
 					<br>
 					<h3>Treatment history</h3>
+					<div v-if="animalModel.treatmentHistories == null || animalModel.treatmentHistories.length == 0">
+						<p>No treatment history available</p>
+					</div>
 					<div class="list-container" v-for="treatment in animalModel.treatmentHistories">
 						<p>Treatment status: {{treatment.treatmentStatus}}</p>
 						<p><strong>{{treatment.title}}</strong> was done by <strong>{{treatment.doctor}}</strong> </p>
@@ -112,5 +115,8 @@
 </script>
 
 <style scoped>
-
+	.img-limit {
+		max-width: 400px;
+		/*max-height: 400px;*/
+	}
 </style>
