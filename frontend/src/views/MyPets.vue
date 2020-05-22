@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h1>Your animals</h1>
+		<h1>Your animals (total amount: {{animals.length}})</h1>
 		<div class="list-container" v-if="animals && animals.length">
 			<div v-for="animal of animals">
 				<el-container class="list-item">
@@ -33,7 +33,6 @@
 									Update pet info
 								</el-button>
 							</router-link>
-
 						</el-main>
 					</el-container>
 				</el-container>

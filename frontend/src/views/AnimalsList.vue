@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h1>Animals in our shelter</h1>
+		<h1>Animals in our shelter (total amount: {{animals.length}})</h1>
 		<div class="list-container" v-if="animals && animals.length">
 			<div v-for="animal of animals">
 				<el-container class="list-item">
