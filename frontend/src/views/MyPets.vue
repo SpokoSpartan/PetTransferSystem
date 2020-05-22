@@ -16,12 +16,24 @@
 							<p>Location: {{animal.location}}</p>
 							<p>From: {{animal.locationType}}</p>
 							<router-link
-								:to="{ path: '/edit/' + animal.id, params: {id: animal.id}}"
-							>
+								:to="{ path: '/animal/' + animal.id, params: {id: animal.id}}">
 								<el-button type="primary" round>
+									Show full details
+								</el-button>
+							</router-link>
+							<router-link style="padding-left: 12px;"
+										 :to="{ path: '/edit/' + animal.id, params: {id: animal.id}}">
+								<el-button type="info" round>
 									Update pet info
 								</el-button>
 							</router-link>
+							<router-link style="padding-left: 10px;"
+										 :to="{ path: '/remove/' + animal.id, params: {id: animal.id}}">
+								<el-button type="danger" round>
+									Update pet info
+								</el-button>
+							</router-link>
+
 						</el-main>
 					</el-container>
 				</el-container>
@@ -47,7 +59,7 @@
 			const token = localStorage.getItem('access_token');
 			if (token !== null) {
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-		 	}
+			}
 			axios.get('http://52.91.229.171:80/api/animal/my/all?page=0&size=1000')
 				.then(response => {
 					this.animals = response.data.content;

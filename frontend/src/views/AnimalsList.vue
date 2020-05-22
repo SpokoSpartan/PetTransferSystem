@@ -4,7 +4,7 @@
 		<div class="list-container" v-if="animals && animals.length">
 			<div v-for="animal of animals">
 				<el-container class="list-item">
-					<el-aside width="200px">
+					<el-aside width="200px" >
 						<img class="img-limit" :src="animal.imageUrl">
 					</el-aside>
 					<el-container>
@@ -91,6 +91,7 @@
 
 	.img-limit {
 		max-width: 180px;
-		max-height: 240px;
+		max-height: 230px;
+		box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
 	}
 </style>
