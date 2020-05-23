@@ -5,6 +5,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
+import { utils } from '@/utils';
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
@@ -19,5 +20,6 @@ new Vue({
 	render: h => h(App),
 	methods: {
 
-	}
+	},
+	mixins: [utils]
 }).$mount('#app');
