@@ -44,9 +44,9 @@
 								</el-button>
 							</router-link>
 							<router-link style="padding-left: 10px;"
-										 :to="{ path: animal.id +'//transferTo/id',  params: {id: animal.id}}">
-								<el-button type="danger" round>
-									Remove animal
+										 :to="{ path: '/transfer/' + animal.id,  params: {id: animal.id}}">
+								<el-button style="background: olivedrab; border-color: olivedrab;" type="danger" round>
+									Transfer
 								</el-button>
 							</router-link>
 						</el-main>

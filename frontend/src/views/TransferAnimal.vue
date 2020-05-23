@@ -1,137 +1,142 @@
 <template>
 	<div>
-		<h1>Add animal</h1>
-		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="100px">
-			<br>
-			<el-form-item class="form-field" prop="name" label="Name">
-				<el-input placeholder="Name"
-						  v-model="form.name"
-						  maxlength="255"
-						  show-word-limit/>
-			</el-form-item>
-			<el-form-item class="form-field" prop="species" label="Species">
-				<el-input placeholder="Species"
-						  v-model="form.species"
-						  maxlength="255"
-						  show-word-limit/>
-			</el-form-item>
-			<el-form-item class="form-field" prop="race" label="Race">
-				<el-input placeholder="Race"
-						  v-model="form.race"
-						  maxlength="255"
-						  show-word-limit/>
-			</el-form-item>
-			<el-form-item class="form-field" prop="description" label="Description">
-				<el-input
-					type="textarea"
-					:rows="2"
-					maxLength="1000"
-					placeholder="Description"
-					show-word-limit
-					v-model="form.description">
-				</el-input>
-			</el-form-item>
-			<el-form-item class="form-field" prop="imageUrl" label="Image URL">
-				<div class="upload-fields" style="width: 50%; ">
-					<el-input placeholder="Image" v-model="form.imageUrl" style="float: left;"/>
-					<el-upload
-
-						style="width: 30%; float: left;"
-						action="https://jsonplaceholder.typicode.com/posts/"
-						multiple
-						:limit="1">
-						<!--						:on-preview="handlePreview"-->
-						<!--						:on-remove="handleRemove"-->
-						<!--						:before-remove="beforeRemove"-->
-						<!--						:on-exceed="handleExceed">-->
-						<!--						:file-list="fileList"-->
-
-						<el-button size="small" type="primary">Click to upload</el-button>
-					</el-upload>
-				</div>
-					<div style="width: 300px;">jpg/png, max file size allowed 500KB</div>
-			</el-form-item>
-			<el-form-item class="form-field" label="Date of birth">
-				<el-date-picker
-					v-model="form.birthDate"
-					type="date"
-					placeholder="Pick animal's birthdate">
-				</el-date-picker>
-			</el-form-item>
-			<el-form-item class="form-field" label="Sterilized?">
-				<el-checkbox v-model="form.sterilized">Sterilized</el-checkbox>
-			</el-form-item>
-			<el-form-item class="form-field">
-				<el-select v-model="form.sex" placeholder="Animal sex">
-					<el-option
-						v-for="sex in sexes"
-						:key="sex"
-						:label="sex"
-						:value="sex">
-					</el-option>
-				</el-select>
-			</el-form-item>
-			<el-form-item>
-				<el-button type="success" @click="onSubmit" round>Create</el-button>
-			</el-form-item>
-		</el-form>
+		<h1>Transfer animal</h1>
+		<el-row>
+			<el-col :span="11"><div class="grid-content bg-purple">
+				<p>{{animalModel.name}}</p>
+				<img width="40%" class="img-limit" :src="animalModel.imageUrl">
+			</div></el-col>
+			<el-col :span="2"><div class="grid-content bg-purple-light">
+				<img style="margin-top: 60%;" src="../assets/icons-arrow.png">
+			</div></el-col>
+			<el-col :span="11"><div class="grid-content bg-purple-light">
+				<el-form class="form-container" style="width: 90%" ref="form" :model="form" :rules="rules" label-position="left" label-width="90%;">
+					<h2>Find user:</h2>
+<!--					<br>-->
+					<el-form-item class="form-field" prop="pattern" label="Pattern" id="login-username">
+						<el-input placeholder="Phone number, email, or name"
+								  v-model="form.pattern"/>
+						<el-row>
+							<el-col :span="20">
+							</el-col>
+							<el-col :span="4">
+							<el-button type="primary" @click="findUsers" round>Search</el-button>
+							</el-col>
+						</el-row>
+					</el-form-item>
+					<el-table
+						:data="users"
+						style="width: 100%">
+						<el-table-column
+							label="Name"
+							prop="fullName">
+						</el-table-column>
+						<el-table-column
+							label="Email"
+							prop="email">
+						</el-table-column>
+						<el-table-column
+							label="Phone number"
+							prop="phoneNumber">
+						</el-table-column>
+						<el-table-column
+							label="Actions">
+							<template slot-scope="scope">
+								<el-button
+									type="primary"
+									size="normal"
+									@click="moveAnimalTo(scope.$index)">Move</el-button>
+							</template>
+						</el-table-column>
+					</el-table>
+					<br>
+				</el-form>
+			</div></el-col>
+		</el-row>
 	</div>
 </template>
 
 <script>
-
 	import axios from "axios";
+	import {AnimalModel} from "../models/AnimalModel";
 
 	export default {
-		name: "AnimalAdd",
+		name: "Transfer pet",
 		data() {
 			return {
-				posts: [],
-				errors: [],
-				sexes: ['male', 'female', 'unknown'],
+				animalModel: AnimalModel,
+				users: [],
 				form: {
-					name: '', // required
-					species: '', // required
-					race: '', // required
-					description: '',
-					birthDate: '', // required
-					sex: '',
-					sterilized: false,
-					imageUrl: ''
+					pattern: ''
 				},
 				rules: {
-					name: [
-						{required: true, message: 'Please input animal\'s name', trigger: 'blur'}
-					],
-					species: [
-						{required: true, message: 'Please input animal\'s species', trigger: 'blur'}
-					],
-					race: [
-						{required: true, message: 'Please input animal\'s race', trigger: 'blur'}
-					],
+					pattern: [
+						{required: true, message: 'Pattern is required', trigger: 'blur'}
+					]
 				}
 			}
 		},
 		methods: {
-			onSubmit() {
-				console.log('submit!');
-				console.log(this.form);
-				axios.post(this.$APIURL + 'animal/create', this.form)
+			findUsers() {
 				const token = localStorage.getItem('access_token');
 				if (token !== null) {
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 				}
-				axios.post(this.$APIURL + 'animal/create', this.form)
+				axios.get(this.$APIURL + 'user/find/' + this.form.pattern)
 					.then(response => {
-						this.posts = response;
+						this.users = response.data;
 						console.log(response);
 					}).catch(e => {
 					this.errors.push(e)
 				})
+			},
+			moveAnimalTo(userId) {
+				const moveTo = this.users[userId];
+				this.$confirm('This will move this animal to new user. If new user not belong to your organization ' +
+					'you will not have access to manage this entity anymore?', 'Warning', {
+					confirmButtonText: 'OK',
+					cancelButtonText: 'Cancel',
+					type: 'warning'
+				}).then(() => {
+					const token = localStorage.getItem('access_token');
+					if (token !== null) {
+						axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+					}
+					axios.get(this.$APIURL + '/animal/' + this.animalModel.id + '/transfer-to/1' + moveTo.id)
+						.then(response => {
+							this.$message({
+								type: 'success',
+								message: 'Moving completed'
+							});
+						}).catch(e => {
+						this.$message({
+							type: 'error',
+							message: 'An error occurred. Please reload this page'
+						});
+					})
+				}).catch(e => {
+					this.$message({
+						type: 'info',
+						message: 'Moving canceled'
+					});
+				});
 			}
-		}
+		},
+		created() {
+			let id = this.$route.params.id;
+			const token = localStorage.getItem('access_token');
+			if (token !== null) {
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+			}
+			axios.get(this.$APIURL + 'api/animal/one/' + id)
+				.then(response => {
+					this.animalModel = response.data;
+					console.log(response.data);
+				}).catch(e => {
+				this.errors.push(e)
+			});
+		},
 	}
-
 </script>
 
 <style scoped>
