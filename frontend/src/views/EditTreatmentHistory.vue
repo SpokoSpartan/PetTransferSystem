@@ -64,7 +64,7 @@
 			<el-table-column prop="place" label="Place"></el-table-column>
 			<el-table-column prop="price" label="Price"></el-table-column>
 			<el-table-column label="Actions">
-				<el-button type="danger">Remove</el-button>
+				<el-button type="danger" @click="cancelTreatment()">Remove</el-button>
 				<el-button type="info">Edit treatment</el-button>
 			</el-table-column>
 		</el-table>
@@ -89,26 +89,33 @@
 				tableData: [],
 				formVisible: false
 			}
-			// {
-			// 	title: '',
-			// 		description: '',
-			// 	doctorName: '',
-			// 	place: '',
-			// 	price: 0,
-			// 	startDate: '',
-			// 	endDate: ''
-			// }
 		},
 		methods: {
 			addTreatmentHistory() {
 				console.log(this.form);
-				console.log(this.$APIURL + 'api/treatment/animal/' + this.animalModel.id + '/add')
-				axios.post(this.$APIURL + 'api/treatment/animal/' + this.animalModel.id + '/add', this.form)
+				console.log(this.$APIURL + 'treatment/animal/' + this.animalModel.id + '/add')
+				axios.post(this.$APIURL + 'treatment/animal/' + this.animalModel.id + '/add', this.form)
 				const token = localStorage.getItem('access_token');
 				if (token !== null) {
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 				}
-				axios.post('http://52.91.229.171:80/api/animal/create', this.form)
+				axios.post(this.$APIURL + 'animal/create', this.form)
+					.then(response => {
+						this.posts = response;
+						console.log(response);
+					}).catch(e => {
+					this.errors.push(e)
+				})
+			}
+			,removeTreatment() {
+				console.log(this.form);
+				console.log(this.$APIURL + 'treatment/animal/' + this.animalModel.id + '/add')
+				axios.post(this.$APIURL + 'treatment/cancel/' + this.animalModel.id, this.form)
+				const token = localStorage.getItem('access_token');
+				if (token !== null) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+				}
+				axios.post(this.$APIURL + 'animal/create', this.form)
 					.then(response => {
 						this.posts = response;
 						console.log(response);
@@ -116,6 +123,7 @@
 					this.errors.push(e)
 				})
 			},
+
 			populateForm(model) {
 				this.form.title = model.title;
 				this.form.doctorName = model.doctorName;
@@ -128,7 +136,7 @@
 		},
 		created() {
 			let id = this.$route.params.id;
-			axios.get(this.$APIURL + 'api/animal/one/' + id)
+			axios.get(this.$APIURL + 'animal/one/' + id)
 				.then(response => {
 					this.animalModel = response.data;
 					this.tableData = this.animalModel.treatmentHistories;

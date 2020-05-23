@@ -79,12 +79,12 @@
 		},
 		created() {
 			let id = this.$route.params.id;
-			axios.get(this.$APIURL + 'api/animal/one/' + id)
+			axios.get(this.$APIURL + 'animal/one/' + id)
 			const token = localStorage.getItem('access_token');
 			if (token !== null) {
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 			}
-			axios.get('http://52.91.229.171:80/api/animal/one/' + id)
+			axios.get(this.$APIURL + 'animal/one/' + id)
 				.then(response => {
 					this.animalModel = response.data;
 					console.log(response.data);

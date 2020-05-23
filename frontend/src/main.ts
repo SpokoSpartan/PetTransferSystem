@@ -8,7 +8,9 @@ import ElementUI from 'element-ui'
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
-Vue.prototype.$APIURL = 'http://52.91.229.171:80/';
+const apiBase = 'http://52.91.229.171:80/';
+Vue.prototype.$APIBASE = apiBase;
+Vue.prototype.$APIURL = apiBase + 'api/';
 Vue.prototype.$isLogged = true;
 
 new Vue({
