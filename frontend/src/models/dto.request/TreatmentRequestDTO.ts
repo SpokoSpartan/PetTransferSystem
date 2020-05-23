@@ -6,4 +6,8 @@ export class TreatmentRequestDTO {
 	description: string = '';
 	price: number = 0;
 	place: string = '';
+
+
+	constructor() {
+	}
 }

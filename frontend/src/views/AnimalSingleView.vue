@@ -54,6 +54,7 @@
 
 <script>
 	import axios from "axios";
+	import {AnimalModel} from "../models/AnimalModel";
 
 	export default {
 		name: "AnimalSingleView",
@@ -61,27 +62,7 @@
 			return {
 				posts: [],
 				errors: [],
-				animalModel: {
-					id: '',
-					name: '',
-					species: '',
-					race: '',
-					description: '',
-					birthDate: '', // Date
-					sex: '',
-					sterilized: '', // true false
-					shelterJoinDate: '', // Date
-					animalLocation: {
-						fullName: '',
-						phone: '',
-						email: '',
-						address: '',
-						locationType: ''
-					},
-					imageUrl: '', // link,
-					location: '', // AnimalLocationResponse
-					treatmentHistories: [] // Set<TreatmentHistoryResponse>
-				}
+				animalModel: AnimalModel
 			}
 		},
 		methods: {

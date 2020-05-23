@@ -1,86 +1,81 @@
 <template>
 	<div>
-		<h1>Edit treatment history</h1>
-		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="100px">
+		<el-button v-if="!formVisible" type="primary" @click="formVisible = true">Add treatment history</el-button>
+		<h1 v-if="formVisible">Add treatment</h1>
+		<el-form v-if="formVisible" class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="100px">
 			<br>
-			<el-form-item class="form-field" prop="name" label="Name">
-				<el-input placeholder="Name"
-						  v-model="form.name"
-						  maxlength="255"
-						  show-word-limit/>
+			<el-form-item class="form-field" prop="title" label="Title">
+				<el-input placeholder="Title"
+						  v-model="form.title"/>
 			</el-form-item>
-			<el-form-item class="form-field" prop="species" label="Species">
-				<el-input placeholder="Species"
-						  v-model="form.species"
-						  maxlength="255"
-						  show-word-limit/>
-			</el-form-item>
-			<el-form-item class="form-field" prop="race" label="Race">
-				<el-input placeholder="Race"
-						  v-model="form.race"
-						  maxlength="255"
-						  show-word-limit/>
+			<el-form-item class="form-field" prop="name" label="Doctor name">
+				<el-input placeholder="Doctor name"
+						  v-model="form.doctorName"/>
 			</el-form-item>
 			<el-form-item class="form-field" prop="description" label="Description">
 				<el-input
 					type="textarea"
-					:rows="2"
+					:rows="1"
 					maxLength="1000"
 					placeholder="Description"
 					show-word-limit
 					v-model="form.description">
 				</el-input>
 			</el-form-item>
-			<el-form-item class="form-field" prop="imageUrl" label="Image URL">
-				<div class="upload-fields" style="width: 50%; ">
-					<el-input placeholder="Image" v-model="form.imageUrl" style="float: left;"/>
-					<el-upload
 
-						style="width: 30%; float: left;"
-						action="https://jsonplaceholder.typicode.com/posts/"
-						multiple
-						:limit="1">
-						<!--						:on-preview="handlePreview"-->
-						<!--						:on-remove="handleRemove"-->
-						<!--						:before-remove="beforeRemove"-->
-						<!--						:on-exceed="handleExceed">-->
-						<!--						:file-list="fileList"-->
-
-						<el-button size="small" type="primary">Click to upload</el-button>
-					</el-upload>
-				</div>
-				<div style="width: 300px;">jpg/png, max file size allowed 500KB</div>
-			</el-form-item>
-			<el-form-item class="form-field" label="Date of birth">
+			<el-form-item class="form-field" label="Start date">
 				<el-date-picker
-					v-model="form.birthDate"
+					v-model="form.startDate"
 					type="date"
-					placeholder="Pick animal's birthdate">
+					placeholder="Beginning of treatment">
 				</el-date-picker>
 			</el-form-item>
-			<el-form-item class="form-field" label="Sterilized?">
-				<el-checkbox v-model="form.sterilized">Sterilized</el-checkbox>
+			<el-form-item class="form-field" label="End date">
+				<el-date-picker
+					v-model="form.endDate"
+					type="date"
+					placeholder="End of treatment">
+				</el-date-picker>
 			</el-form-item>
-			<el-form-item class="form-field">
-				<el-select v-model="form.sex" placeholder="Animal sex">
-					<el-option
-						v-for="sex in sexes"
-						:key="sex"
-						:label="sex"
-						:value="sex">
-					</el-option>
-				</el-select>
+			<el-form-item class="form-field" prop="place" label="Place">
+				<el-input placeholder="Place"
+						  v-model="form.place"/>
 			</el-form-item>
+			<el-form-item class="form-field" prop="price" label="Price">
+				<el-input placeholder="Price"
+						  v-model="form.price"/>
+			</el-form-item>
+
 			<el-form-item>
-				<el-button type="success" @click="onSubmit" round>Create</el-button>
+				<el-button type="success" @click="addTreatmentHistory" round>Create</el-button>
 			</el-form-item>
 		</el-form>
+
+		<el-table
+			:data="tableData"
+			stripe
+			style="width: 100%; padding-top: 12px;">
+			<el-table-column prop="treatmentStatus" label="Status" width="180"></el-table-column>
+			<el-table-column prop="title" label="Name" width="180"></el-table-column>
+			<el-table-column prop="doctor" label="Doctor"></el-table-column>
+			<el-table-column prop="description" label="Description"></el-table-column>
+			<el-table-column prop="startDate" label="Start"></el-table-column>
+			<el-table-column prop="endDate" label="End"></el-table-column>
+			<el-table-column prop="place" label="Place"></el-table-column>
+			<el-table-column prop="price" label="Price"></el-table-column>
+			<el-table-column label="Actions">
+				<el-button type="danger">Remove</el-button>
+				<el-button type="info">Edit treatment</el-button>
+			</el-table-column>
+		</el-table>
+
 	</div>
 </template>
 
 <script>
 
 	import axios from "axios";
+	import {TreatmentRequestDTO} from "../models/dto.request/TreatmentRequestDTO";
 
 	export default {
 		name: "EditTreatmentHisotory",
@@ -89,46 +84,26 @@
 				posts: [],
 				errors: [],
 				sexes: ['male', 'female', 'unknown'],
-				form: {
-					name: '', // required
-					species: '', // required
-					race: '', // required
-					description: '',
-					birthDate: '', // required
-					sex: '',
-					sterilized: false,
-					imageUrl: ''
-				},
-				rules: {
-				},
-				treatmentModel: {
-					id: '',
-					name: '',
-					species: '',
-					race: '',
-					description: '',
-					birthDate: '', // Date
-					sex: '',
-					sterilized: '', // true false
-					shelterJoinDate: '', // Date
-					animalLocation: {
-						fullName: '',
-						phone: '',
-						email: '',
-						address: '',
-						locationType: ''
-					},
-					imageUrl: '', // link,
-					location: '', // AnimalLocationResponse
-					treatmentHistories: [] // Set<TreatmentHistoryResponse>
-				}
+				form: new TreatmentRequestDTO(),
+				rules: {},
+				tableData: [],
+				formVisible: false
 			}
+			// {
+			// 	title: '',
+			// 		description: '',
+			// 	doctorName: '',
+			// 	place: '',
+			// 	price: 0,
+			// 	startDate: '',
+			// 	endDate: ''
+			// }
 		},
 		methods: {
-			onSubmit() {
-				console.log('submit!');
+			addTreatmentHistory() {
 				console.log(this.form);
-				axios.post(this.$APIURL + 'api/animal/create', this.form)
+				console.log(this.$APIURL + 'api/treatment/animal/' + this.animalModel.id + '/add')
+				axios.post(this.$APIURL + 'api/treatment/animal/' + this.animalModel.id + '/add', this.form)
 				const token = localStorage.getItem('access_token');
 				if (token !== null) {
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
@@ -141,16 +116,14 @@
 					this.errors.push(e)
 				})
 			},
-			populateForm(model){
-
-				this.form.name = model.name;
-				this.form.species = model.species;
-				this.form.race = model.race;
-				this.form.description = model.descrption;
-				this.form.birthDate = "???"
-				this.form.sex = model.sex;
-				this.form.sterilized = "???"
-				this.form.imageUrl = model.imageUrl;
+			populateForm(model) {
+				this.form.title = model.title;
+				this.form.doctorName = model.doctorName;
+				this.form.description = model.description;
+				this.form.startDate = model.startDate;
+				this.form.endDate = model.endDate;
+				this.form.place = model.place;
+				this.form.price = model.price;
 			}
 		},
 		created() {
@@ -158,8 +131,8 @@
 			axios.get(this.$APIURL + 'api/animal/one/' + id)
 				.then(response => {
 					this.animalModel = response.data;
-					this.populateForm(this.animalModel)
-					console.log(response.data);
+					this.tableData = this.animalModel.treatmentHistories;
+					console.log(this.tableData);
 				}).catch(e => {
 				this.errors.push(e)
 			});

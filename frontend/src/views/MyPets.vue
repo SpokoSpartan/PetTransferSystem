@@ -14,7 +14,6 @@
 						<el-main>
 							<b>Description:</b> {{animal.description}}
 							<p>Location: {{animal.location}}</p>
-							<p>From: {{animal.locationType}}</p>
 							<router-link
 								:to="{ path: '/animal/' + animal.id, params: {id: animal.id}}">
 								<el-button type="primary" round>
@@ -39,8 +38,15 @@
 							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="animal.archived">
 								<el-button type="info" style="background: #009926; border-color: #009926;" @click="reverseArchiving(animal)" round>Reverse archiving</el-button>
 							</router-link>
-							<router-link style="padding-left: 10px;"
+							<router-link style="padding-left: 12px;"
 										 :to="{ path: '/remove/' + animal.id, params: {id: animal.id}}">
+								<el-button type="danger" round>
+									Remove animal
+								</el-button>
+							</router-link>
+							<!--										 ​/api​/animal​/{animalId}​/transfer-to​/{userId}-->
+							<router-link style="padding-left: 10px;"
+										 :to="{ path: animal.id +'//transferTo/id',  params: {id: animal.id}}">
 								<el-button type="danger" round>
 									Remove animal
 								</el-button>
