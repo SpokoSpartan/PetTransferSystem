@@ -33,6 +33,12 @@
 									Update treatment history
 								</el-button>
 							</router-link>
+							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="!animal.archived">
+								<el-button type="primary" style="background: #ffc520; border-color: #ffc520;" @click="archiveAnimal(animal)" round>Archive</el-button>
+							</router-link>
+							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="animal.archived">
+								<el-button type="info" style="background: #009926; border-color: #009926;" @click="reverseArchiving(animal)" round>Reverse archiving</el-button>
+							</router-link>
 							<router-link style="padding-left: 10px;"
 										 :to="{ path: '/remove/' + animal.id, params: {id: animal.id}}">
 								<el-button type="danger" round>
@@ -59,13 +65,32 @@
 				errors: []
 			}
 		},
+		methods: {
+			archiveAnimal(animal) {
+				const token = localStorage.getItem('access_token');
+				if (token !== null) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+				}
+				axios.post(this.$APIURL + '/api/animal/archive/' + animal.id)
+					.then(() => animal.archived = true)
+					.catch((e) => animal.archived = false);
+			},
+			reverseArchiving(animal) {
+				const token = localStorage.getItem('access_token');
+				if (token !== null) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+				}
+				axios.post(this.$APIURL + '/api/animal/reverse-archiving/' + animal.id)
+					.then(() => animal.archived = false)
+					.catch((e) => animal.archived = true);
+			}
+		},
 		created() {
-			axios.get(this.$APIURL + 'api/animal/my/all?page=0&size=1000')
 			const token = localStorage.getItem('access_token');
 			if (token !== null) {
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 			}
-			axios.get('http://52.91.229.171:80/api/animal/my/all?page=0&size=1000')
+			axios.get(this.$APIURL + 'api/animal/my/all?page=0&size=1000')
 				.then(response => {
 					this.animals = response.data.content;
 					console.log(response.data.content);
