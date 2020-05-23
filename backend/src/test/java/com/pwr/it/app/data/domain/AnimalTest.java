@@ -3,6 +3,7 @@ package com.pwr.it.app.data.domain;
 import com.pwr.it.app.data.domain.dto.response.AnimalDetailsResponse;
 import com.pwr.it.app.data.domain.dto.response.AnimalLocationType;
 import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.test.annotation.MicronautTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @MicronautTest
+@Property(name = "micronaut.server.port", value = "-1")
+@Property(name = "micronaut.security.enabled", value = "false")
 public class AnimalTest {
 
     private static final Date BIRTH_DATE = new Date(12345678);

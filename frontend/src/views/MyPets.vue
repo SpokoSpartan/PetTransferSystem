@@ -38,9 +38,8 @@
 							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="animal.archived">
 								<el-button type="info" style="background: #009926; border-color: #009926;" @click="reverseArchiving(animal)" round>Reverse archiving</el-button>
 							</router-link>
-							<router-link style="padding-left: 12px;"
-										 :to="{ path: '/remove/' + animal.id, params: {id: animal.id}}">
-								<el-button type="danger" round>
+							<router-link style="padding-left: 10px;" :to="{ path: ''}">
+								<el-button type="danger" @click="removeAnimal(animal)" round>
 									Remove animal
 								</el-button>
 							</router-link>
@@ -78,8 +77,20 @@
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 				}
 				axios.post(this.$APIURL + '/api/animal/archive/' + animal.id)
-					.then(() => animal.archived = true)
-					.catch((e) => animal.archived = false);
+					.then(() => {
+						animal.archived = true;
+						this.$message({
+							type: 'success',
+							message: 'Archive completed'
+						});
+					})
+					.catch((e) => {
+						animal.archived = false;
+						this.$message({
+							type: 'error',
+							message: 'An error occurred. Please refresh this page and try again.'
+						});
+					});
 			},
 			reverseArchiving(animal) {
 				const token = localStorage.getItem('access_token');
@@ -87,8 +98,52 @@
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 				}
 				axios.post(this.$APIURL + '/api/animal/reverse-archiving/' + animal.id)
-					.then(() => animal.archived = false)
-					.catch((e) => animal.archived = true);
+					.then(() => {
+						animal.archived = false;
+						this.$message({
+							type: 'success',
+							message: 'Remove archiving completed'
+						});
+					})
+					.catch((e) => {
+						animal.archived = true;
+						this.$message({
+							type: 'error',
+							message: 'An error occurred. Please refresh this page and try again.'
+						});
+					});
+			},
+			removeAnimal(animal) {
+				this.$confirm('This will permanently delete the animal in the system. Continue?', 'Warning', {
+					confirmButtonText: 'OK',
+					cancelButtonText: 'Cancel',
+					type: 'warning'
+				}).then(() => {
+					const token = localStorage.getItem('access_token');
+					if (token !== null) {
+						axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+					}
+					axios.post(this.$APIURL + '/api/animal/remove/' + animal.id)
+						.then(() => {
+							this.$message({
+								type: 'success',
+								message: 'Delete completed'
+							});
+							this.animals = this.animals.filter(function( obj ) {
+								return obj.id !== animal.id;
+							});
+						})
+						.catch((e) =>
+							this.$message({
+							type: 'error',
+							message: 'An error occurred. Please refresh this page and try again.'
+						}));
+				}).catch(() => {
+					this.$message({
+						type: 'info',
+						message: 'Delete canceled'
+					});
+				});
 			}
 		},
 		created() {

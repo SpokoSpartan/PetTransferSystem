@@ -2,7 +2,6 @@
 	<div>
 		<h1>Login</h1>
 		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="140px">
-			<el-alert type="error" v-if="getAlert()" style="height: 10%;">Bad credentials</el-alert>
 			<br>
 			<el-form-item class="form-field" prop="username" label="Username" id="login-username">
 				<el-input placeholder="Username"
@@ -19,7 +18,6 @@
 			</el-form-item>
 			<br>
 		</el-form>
-
 	</div>
 </template>
 
@@ -27,12 +25,12 @@
 	import axios from "axios";
 	import Vue from 'vue'
 	import VueRouter from 'vue-router'
+	import App from "../App";
 
 	Vue.use(VueRouter)
 
 	export default {
 		name: 'Login',
-		isError: 'false',
 		data() {
 			return {
 				form: {
@@ -55,19 +53,19 @@
 				axios.post(this.$APIURL + 'auth/login', this.form)
 					.then(response => {
 						if (response.status === 200) {
-							localStorage.setItem('username', response.data.username);
-							localStorage.setItem('access_token', response.data.access_token);
-							localStorage.setItem('refresh_token', response.data.refresh_token);
+							App.methods.afterLogin(response);
 							this.$router.push({path: 'animals'});
+							location.reload();
 						}
 					}).catch(e => {
+						console.log(e);
 						this.form.username = '';
 						this.form.password = '';
-						this.isError = 'true';
+					this.$message({
+						type: 'error',
+						message: 'Bad credentials'
+					});
 				})
-			},
-			getAlert() {
-				return this.isError === 'true';
 			}
 		}
 

@@ -3,6 +3,7 @@ package com.pwr.it.app.services;
 import com.pwr.it.app.web.exception.file.EmptyFileException;
 import com.pwr.it.app.web.exception.file.FileTypeNotSupportedException;
 import com.pwr.it.app.web.exception.file.MaxFileSizeException;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.test.annotation.MicronautTest;
@@ -18,6 +19,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @MicronautTest
+@Property(name = "micronaut.server.port", value = "-1")
+@Property(name = "micronaut.security.enabled", value = "false")
 public class UploadImageServiceTest {
 
     private static final CompletedFileUpload IMAGE = mock(CompletedFileUpload.class);

@@ -2,7 +2,6 @@
 	<div>
 		<h1>Register</h1>
 		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="140px">
-			<el-alert type="error" v-if="getAlert()" style="height: 10%;">User with given name already exists in the system</el-alert>
 			<br>
 			<el-form-item class="form-field" prop="fullName" label="Username" :error="getErrorForUsername()">
             	<el-input placeholder="Username"
@@ -47,7 +46,6 @@
 	Vue.use(VueRouter)
 
 	export default {
-		isError: 'false',
 		data() {
 			return {
 				form: {
@@ -89,7 +87,10 @@
 						}
 					}).catch(e => {
 						this.form.fullName = '';
-						this.isError = 'true';
+						this.$message({
+							type: 'error',
+							message: 'User with given name already exists in the system'
+						});
 				})
 			},
 			getErrorForUsername() {
@@ -147,9 +148,6 @@
 					return;
 				}
 				return 'Phone number must have at least 9 chars';
-			},
-			getAlert() {
-				return this.isError === 'true';
 			}
 		}
 	}

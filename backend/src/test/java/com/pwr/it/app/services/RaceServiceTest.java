@@ -2,6 +2,7 @@ package com.pwr.it.app.services;
 
 import com.pwr.it.app.data.domain.Race;
 import com.pwr.it.app.data.repository.RaceRepository;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.test.annotation.MicronautTest;
 import io.micronaut.test.annotation.MockBean;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +18,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @MicronautTest
+@Property(name = "micronaut.server.port", value = "-1")
+@Property(name = "micronaut.security.enabled", value = "false")
 public class RaceServiceTest {
 
     private static final Race PERSIAN_CAT = new Race("Persian cat");

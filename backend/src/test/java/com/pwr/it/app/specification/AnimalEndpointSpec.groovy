@@ -4,6 +4,7 @@ import com.jayway.jsonpath.JsonPath
 import com.pwr.it.app.data.domain.*
 import com.pwr.it.app.data.seeder.*
 import com.pwr.it.app.services.UserService
+import io.micronaut.context.annotation.Property
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
@@ -22,6 +23,8 @@ import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 
 @MicronautTest
+@Property(name = "micronaut.server.port", value = "-1")
+@Property(name = "micronaut.security.enabled", value = "false")
 class AnimalEndpointSpec extends Specification {
 
     @Inject

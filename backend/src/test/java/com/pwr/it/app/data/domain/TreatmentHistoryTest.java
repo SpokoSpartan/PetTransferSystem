@@ -1,6 +1,7 @@
 package com.pwr.it.app.data.domain;
 
 import com.pwr.it.app.data.domain.dto.response.TreatmentHistoryResponse;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.test.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @MicronautTest
+@Property(name = "micronaut.server.port", value = "-1")
+@Property(name = "micronaut.security.enabled", value = "false")
 public class TreatmentHistoryTest {
 
     private static final String TITLE = "treatment-title";
