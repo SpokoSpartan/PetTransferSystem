@@ -18,4 +18,6 @@ export class AnimalModel {
 	location: string = '';
 	treatmentHistories: TreatmentHistory[] | [] | undefined;
 
+	constructor() {
+	}
 }

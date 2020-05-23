@@ -23,20 +23,21 @@
 				</el-input>
 			</el-form-item>
 
-			<el-form-item class="form-field" label="Start date">
-				<el-date-picker
-					v-model="form.startDate"
-					type="date"
-					placeholder="Beginning of treatment">
-				</el-date-picker>
+
+			<el-form-item class="form-field" label="From ... to">
+
+				<div class="block">
+					<el-date-picker
+						v-model="value1"
+						type="daterange"
+						range-separator="To"
+						start-placeholder="Start date"
+						end-placeholder="End date">
+					</el-date-picker>
+				</div>
 			</el-form-item>
-			<el-form-item class="form-field" label="End date">
-				<el-date-picker
-					v-model="form.endDate"
-					type="date"
-					placeholder="End of treatment">
-				</el-date-picker>
-			</el-form-item>
+
+
 			<el-form-item class="form-field" prop="place" label="Place">
 				<el-input placeholder="Place"
 						  v-model="form.place"/>
@@ -63,8 +64,8 @@
 			<el-table-column prop="endDate" label="End"></el-table-column>
 			<el-table-column prop="place" label="Place"></el-table-column>
 			<el-table-column prop="price" label="Price"></el-table-column>
-			<el-table-column label="Actions">
-				<el-button type="danger" @click="cancelTreatment()">Remove</el-button>
+			<el-table-column label="Actions" >
+				<el-button type="danger" slot-scope="scope" @click="cancelTreatment(scope.$index)">Remove</el-button>
 				<el-button type="info">Edit treatment</el-button>
 			</el-table-column>
 		</el-table>
@@ -87,41 +88,33 @@
 				form: new TreatmentRequestDTO(),
 				rules: {},
 				tableData: [],
-				formVisible: false
+				formVisible: false,
+				value1: []
 			}
 		},
 		methods: {
 			addTreatmentHistory() {
-				console.log(this.form);
-				console.log(this.$APIURL + 'treatment/animal/' + this.animalModel.id + '/add')
+				const token = localStorage.getItem('access_token');
+				if (token !== null) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+				}
+				this.form.startDate = this.value1[0];
+				this.form.endDate = this.value1[1];
 				axios.post(this.$APIURL + 'treatment/animal/' + this.animalModel.id + '/add', this.form)
-				const token = localStorage.getItem('access_token');
+			},
+			updateTreatment(index) {
 				if (token !== null) {
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 				}
-				axios.post(this.$APIURL + 'animal/create', this.form)
-					.then(response => {
-						this.posts = response;
-						console.log(response);
-					}).catch(e => {
-					this.errors.push(e)
-				})
-			}
-			,removeTreatment() {
-				console.log(this.form);
-				console.log(this.$APIURL + 'treatment/animal/' + this.animalModel.id + '/add')
-				axios.post(this.$APIURL + 'treatment/cancel/' + this.animalModel.id, this.form)
 				const token = localStorage.getItem('access_token');
+				axios.post(this.$APIURL + 'treatment/update/' + this.tableData[index].id);
+			},
+			cancelTreatment(index) {
 				if (token !== null) {
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 				}
-				axios.post(this.$APIURL + 'animal/create', this.form)
-					.then(response => {
-						this.posts = response;
-						console.log(response);
-					}).catch(e => {
-					this.errors.push(e)
-				})
+				const token = localStorage.getItem('access_token');
+				axios.post(this.$APIURL + 'treatment/cancel/' + this.tableData[index].id);
 			},
 
 			populateForm(model) {
@@ -140,7 +133,6 @@
 				.then(response => {
 					this.animalModel = response.data;
 					this.tableData = this.animalModel.treatmentHistories;
-					console.log(this.tableData);
 				}).catch(e => {
 				this.errors.push(e)
 			});
