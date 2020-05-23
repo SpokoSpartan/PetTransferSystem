@@ -43,7 +43,6 @@
 									Remove animal
 								</el-button>
 							</router-link>
-							<!--										 ​/api​/animal​/{animalId}​/transfer-to​/{userId}-->
 							<router-link style="padding-left: 10px;"
 										 :to="{ path: animal.id +'//transferTo/id',  params: {id: animal.id}}">
 								<el-button type="danger" round>
@@ -76,7 +75,7 @@
 				if (token !== null) {
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 				}
-				axios.post(this.$APIURL + '/api/animal/archive/' + animal.id)
+				axios.post(this.$APIURL + 'animal/archive/' + animal.id)
 					.then(() => {
 						animal.archived = true;
 						this.$message({
@@ -97,7 +96,7 @@
 				if (token !== null) {
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 				}
-				axios.post(this.$APIURL + '/api/animal/reverse-archiving/' + animal.id)
+				axios.post(this.$APIURL + 'animal/reverse-archiving/' + animal.id)
 					.then(() => {
 						animal.archived = false;
 						this.$message({
@@ -123,7 +122,7 @@
 					if (token !== null) {
 						axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 					}
-					axios.post(this.$APIURL + '/api/animal/remove/' + animal.id)
+					axios.post(this.$APIURL + 'animal/remove/' + animal.id)
 						.then(() => {
 							this.$message({
 								type: 'success',
@@ -151,7 +150,7 @@
 			if (token !== null) {
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 			}
-			axios.get(this.$APIURL + 'api/animal/my/all?page=0&size=1000')
+			axios.get(this.$APIURL + 'animal/my/all?page=0&size=1000')
 				.then(response => {
 					this.animals = response.data.content;
 					console.log(response.data.content);

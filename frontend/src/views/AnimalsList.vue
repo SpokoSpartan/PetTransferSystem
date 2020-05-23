@@ -45,7 +45,7 @@
 			if (token !== null) {
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 			}
-			axios.get( this.$APIURL + 'api/animal/all?page=0&size=1000')
+			axios.get( this.$APIURL + 'animal/all?page=0&size=1000')
 				.then(response => {
 					this.animals = response.data.content;
 					console.log(response.data.content);
