@@ -30,6 +30,7 @@ public class AnimalDetailsResponse {
     private Date shelterJoinDate;
     private Boolean archived;
     private AnimalLocationResponse animalLocation;
-    Set<TreatmentHistoryResponse> treatmentHistories;
+    private Set<TreatmentHistoryResponse> treatmentHistories;
+    private AdoptionResponse adoption;
 
 }

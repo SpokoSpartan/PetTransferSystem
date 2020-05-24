@@ -15,7 +15,20 @@ micronaut:
     static-resources:
       swagger:
         paths: classpath:META-INF/swagger
-        mapping: /**
+        mapping: /swagger/**
+  security:
+    enabled: true
+    intercept-url-map:
+      - pattern: /swagger/**
+        access:
+          - isAnonymous()
+    token:
+      jwt:
+        enabled: true
+        signatures:
+          secret:
+            generator:
+              secret: ${JWT_TOKEN:DB4AEF4719809709E560ED8DE2F9C77B886B963B28BA20E9A8A621BBD4ABA599}
 
 jackson:
   bean-introspection-module: true

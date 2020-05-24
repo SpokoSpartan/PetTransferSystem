@@ -1,31 +1,38 @@
 package com.pwr.it.app.services;
 
 import com.pwr.it.app.data.domain.User;
+import com.pwr.it.app.data.domain.dto.request.UserAccountDetails;
 import com.pwr.it.app.data.domain.dto.response.UserResponse;
 import com.pwr.it.app.data.repository.UserRepository;
+import com.pwr.it.app.web.clients.UserClient;
 import com.pwr.it.app.web.exception.UserNotFoundException;
+import io.micronaut.security.authentication.Authentication;
+import io.micronaut.security.authentication.UserDetails;
 import lombok.RequiredArgsConstructor;
 
 import javax.inject.Singleton;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Singleton
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserClient userClient;
 
-    // TODO return fake user
-    public User getLoggedUser() {
-        return getAllUsers().get(0);
+    public User getLoggedUser(Authentication authentication) throws UserNotFoundException {
+        // if user exists in the database
+        Optional<User> user = userRepository.findByFullName(authentication.getName());
+        if (user.isPresent()) {
+            return user.get();
+        }
+        //if not then try to check if exists in auth service database
+        User newUser = userClient.getUserDetails(authentication.getName()).translateToUser();
+        return userRepository.save(newUser);
     }
 
-    private List<User> getAllUsers() {
-        return StreamSupport.stream(userRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
-    }
 
     public User getUserById(long id) throws UserNotFoundException {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());

@@ -2,12 +2,11 @@
 	<div>
 		<h1>Register</h1>
 		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="140px">
-			<el-alert type="error" v-if="getAlert()" style="height: 10%;">User with given name already exists in the system</el-alert>
 			<br>
 			<el-form-item class="form-field" prop="fullName" label="Username" :error="getErrorForUsername()">
-            	<el-input placeholder="Username"
-            			  v-model="form.fullName"/>
-            </el-form-item>
+				<el-input placeholder="Username"
+						  v-model="form.fullName"/>
+			</el-form-item>
 			<el-form-item class="form-field" prop="email" label="Email" :error=getErrorForEmail()>
 				<el-input placeholder="Email"
 						  v-model="form.email"/>
@@ -31,9 +30,9 @@
 						  v-model="form.phoneNumber"/>
 			</el-form-item>
 			<br>
-			<el-form-item>
-				<el-button type="primary" @click="onSubmit" round>Register</el-button>
-			</el-form-item>
+
+			<el-button style="margin-bottom: 12px;" type="primary" @click="onSubmit" round>Register</el-button>
+
 			<br>
 		</el-form>
 	</div>
@@ -47,7 +46,6 @@
 	Vue.use(VueRouter)
 
 	export default {
-		isError: 'false',
 		data() {
 			return {
 				form: {
@@ -82,14 +80,17 @@
 		},
 		methods: {
 			onSubmit() {
-				axios.post(this.$APIURL + 'auth/register', this.form)
+				axios.post(this.$APIBASE + 'auth/register', this.form)
 					.then(response => {
 						if (response.status === 200) {
 							this.$router.push({path: 'login'});
 						}
 					}).catch(e => {
-						this.form.fullName = '';
-						this.isError = 'true';
+					this.form.fullName = '';
+					this.$message({
+						type: 'error',
+						message: 'User with given name already exists in the system'
+					});
 				})
 			},
 			getErrorForUsername() {
@@ -147,9 +148,6 @@
 					return;
 				}
 				return 'Phone number must have at least 9 chars';
-			},
-			getAlert() {
-				return this.isError === 'true';
 			}
 		}
 	}

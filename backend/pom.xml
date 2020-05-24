@@ -134,6 +134,14 @@
         </dependency>
         <!-- MICRONAUT DATA -->
 
+        <!-- MICRONAUT SECURITY -->
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-security-jwt</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!-- MICRONAUT SECURITY -->
+
         <!-- CLOUDINARY-->
         <dependency>
             <groupId>com.cloudinary</groupId>
@@ -373,7 +381,9 @@
                         <encoding>UTF-8</encoding>
                         <compilerArgs>
                             <arg>-parameters</arg>
-                            <arg>-J-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</arg>
+                            <arg>
+                                -J-Dmicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop
+                            </arg>
                         </compilerArgs>
                         <annotationProcessorPaths>
                             <path>

@@ -36,8 +36,8 @@ public class AuthService {
     }
 
     @Transactional
-    public UserAccountDetails getUser(Authentication authentication) throws UserNotFoundException {
-        UserAccount account = userAccountRepository.findByLogin(authentication.getName())
+    public UserAccountDetails getUser(String name) throws UserNotFoundException {
+        UserAccount account = userAccountRepository.findByLogin(name)
                 .orElseThrow(() -> new UserNotFoundException());
         return account.translateToDetails();
     }

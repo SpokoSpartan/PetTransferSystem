@@ -8,6 +8,7 @@ import com.pwr.it.app.data.domain.User;
 import com.pwr.it.app.data.domain.dto.response.AnimalLocationType;
 import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
 import com.pwr.it.app.data.repository.AnimalRepository;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.data.model.Page;
 import io.micronaut.test.annotation.MicronautTest;
 import io.micronaut.test.annotation.MockBean;
@@ -26,6 +27,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @MicronautTest
+@Property(name = "micronaut.server.port", value = "-1")
+@Property(name = "micronaut.security.enabled", value = "false")
 public class AnimalServiceTest {
 
     private static final String ANIMAL_NAME = "Pimpek";

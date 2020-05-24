@@ -6,6 +6,7 @@ import com.pwr.it.app.web.exception.file.EmptyFileException;
 import com.pwr.it.app.web.exception.file.FileTypeNotSupportedException;
 import com.pwr.it.app.web.exception.file.FileValidationException;
 import com.pwr.it.app.web.exception.file.MaxFileSizeException;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
@@ -28,6 +29,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @MicronautTest
+@Property(name = "micronaut.server.port", value = "-1")
+@Property(name = "micronaut.security.enabled", value = "false")
 public class FileControllerTest {
 
     private static final ImageUrl IMAGE_URL = new ImageUrl("http://simple.url", "https://secured.url");

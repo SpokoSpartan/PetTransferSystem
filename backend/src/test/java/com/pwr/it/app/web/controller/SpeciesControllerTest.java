@@ -2,6 +2,7 @@ package com.pwr.it.app.web.controller;
 
 import com.jayway.jsonpath.JsonPath;
 import com.pwr.it.app.services.SpeciesService;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
@@ -21,6 +22,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @MicronautTest
+@Property(name = "micronaut.server.port", value = "-1")
+@Property(name = "micronaut.security.enabled", value = "false")
 public class SpeciesControllerTest {
 
     private static final List<String> SPECIES_LIST = Arrays.asList("cat", "dog", "snake");
