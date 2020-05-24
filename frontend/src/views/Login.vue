@@ -13,9 +13,9 @@
 						  show-password/>
 			</el-form-item>
 			<br>
-			<el-form-item>
-				<el-button type="primary" @click="onSubmit" round>Login</el-button>
-			</el-form-item>
+
+			<el-button style="margin-bottom: 12px;" type="primary" @click="onSubmit" round>Login</el-button>
+
 			<br>
 		</el-form>
 	</div>
@@ -58,9 +58,9 @@
 							location.reload();
 						}
 					}).catch(e => {
-						console.log(e);
-						this.form.username = '';
-						this.form.password = '';
+					console.log(e);
+					this.form.username = '';
+					this.form.password = '';
 					this.$message({
 						type: 'error',
 						message: 'Bad credentials'
