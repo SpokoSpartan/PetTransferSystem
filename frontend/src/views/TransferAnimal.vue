@@ -4,7 +4,7 @@
 		<el-row>
 			<el-col :span="11"><div class="grid-content bg-purple">
 				<el-form class="form-container" style="width: 70%" ref="form" label-position="left" label-width="90%;">
-					<h2 style="margin-top: 5%;">Animal transferred:</h2>
+					<h2 style="margin-top: 5%;">Animal to be transferred:</h2>
 					<img width="60%" class="img-limit" :src="this.animalModel.imageUrl">
 					<h2>{{this.animalModel.name}}</h2>
 				</el-form>
@@ -15,14 +15,15 @@
 			<el-col :span="11"><div class="grid-content bg-purple-light">
 				<el-form class="form-container" style="width: 90%" ref="form" :model="form" :rules="rules" label-position="left" label-width="90%;">
 					<h2>Find user:</h2>
-<!--					<br>-->
 					<el-form-item class="form-field" prop="pattern" label="Pattern" id="login-username">
-						<el-input placeholder="User name or email"
-								  v-model="form.pattern"/>
+
 						<el-row>
-							<el-col :span="20">
+							<el-col :span="17">
+							<el-input placeholder="User name or email"
+									  @keydown.enter.native="findUsers"
+									  v-model="form.pattern"/>
 							</el-col>
-							<el-col :span="4">
+							<el-col :span="2">
 							<el-button type="primary" @click="findUsers" round>Search</el-button>
 							</el-col>
 						</el-row>
@@ -46,9 +47,10 @@
 							label="Actions">
 							<template slot-scope="scope">
 								<el-button
+									round
 									type="primary"
 									size="normal"
-									@click="moveAnimalTo(scope.$index)">Move</el-button>
+									@click="transferAnimalTo(scope.$index)">Transfer</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -97,10 +99,9 @@
 					this.errors.push(e)
 				})
 			},
-			moveAnimalTo(userId) {
-				const moveTo = this.users[userId];
-				this.$confirm('This will move this animal to new user. If new user not belong to your organization ' +
-					'you will not have access to manage this entity anymore?', 'Warning', {
+			transferAnimalTo(userId) {
+				const receivingUser = this.users[userId];
+				this.$confirm('This will transfer ownership over this animal to selected user. If this user does not belong to your organization, you will lose access to manage this animal.', 'Warning', {
 					confirmButtonText: 'OK',
 					cancelButtonText: 'Cancel',
 					type: 'warning'
@@ -109,7 +110,7 @@
 					if (token !== null) {
 						axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 					}
-					axios.post(this.$APIURL + 'animal/' + this.animalModel.id + '/transfer-to/' + moveTo.id)
+					axios.post(this.$APIURL + 'animal/' + this.animalModel.id + '/transfer-to/' + receivingUser.id)
 						.then(response => {
 							this.$message({
 								type: 'success',

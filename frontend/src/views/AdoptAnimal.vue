@@ -6,7 +6,7 @@
 				<div class="grid-content bg-purple">
 					<el-form class="form-container" style="width: 70%" ref="form" label-position="left"
 							 label-width="90%;">
-						<h2 style="margin-top: 5%;">Animal adopted:</h2>
+						<h2 style="margin-top: 5%;">Animal to be adopted:</h2>
 						<img width="60%" class="img-limit" :src="this.animalModel.imageUrl">
 						<h2>{{this.animalModel.name}}</h2>
 					</el-form>
@@ -22,7 +22,7 @@
 			<el-col :span="11">
 				<div class="grid-content bg-purple-light">
 					<el-form style="width: 90%;" class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="140px">
-						<h2 style="margin-bottom: -1%;">Adopting person data:</h2>
+						<h2 style="margin-bottom: -1%;">Adopting person's data:</h2>
 						<br>
 						<el-form-item class="form-field" prop="fullName" label="Full name" :error="getErrorForFullName()">
 							<el-input placeholder="Full name"
@@ -36,7 +36,7 @@
 							<el-input placeholder="Phone number"
 									  v-model="form.phoneNumber"/>
 						</el-form-item>
-							<el-button style="margin-bottom: 5%;" type="primary" @click="adoptAnimal()" round>Adopt</el-button>
+							<el-button style="margin-bottom: 5%;" type="primary" @click="adoptAnimal()" round>Proceed adoption</el-button>
 						<br>
 					</el-form>
 				</div>
@@ -107,7 +107,7 @@
 			},
 			adoptAnimal(userId) {
 				const moveTo = this.users[userId];
-				this.$confirm('Are you sure you want adopt this animal?', 'Warning', {
+				this.$confirm('Are you sure you want proceed adoption of this animal?', 'Warning', {
 					confirmButtonText: 'OK',
 					cancelButtonText: 'Cancel',
 					type: 'warning'
