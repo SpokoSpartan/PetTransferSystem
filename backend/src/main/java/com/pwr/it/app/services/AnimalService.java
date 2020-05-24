@@ -7,6 +7,7 @@ import com.pwr.it.app.data.domain.Race;
 import com.pwr.it.app.data.domain.Species;
 import com.pwr.it.app.data.domain.Status;
 import com.pwr.it.app.data.domain.User;
+import com.pwr.it.app.data.domain.dto.request.AdopterRequest;
 import com.pwr.it.app.data.domain.dto.request.AnimalRequest;
 import com.pwr.it.app.data.domain.dto.response.AnimalDetailsResponse;
 import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
@@ -36,6 +37,7 @@ public class AnimalService {
     private final RaceService raceService;
     private final StatusService statusService;
     private final UserService userService;
+    private final AdopterService adopterService;
 
     @Transactional
     public Page<AnimalResponse> getPageOfReadyAnimals(int page, int size) {
@@ -138,6 +140,13 @@ public class AnimalService {
         animal.setUser(user);
     }
 
+    @Transactional
+    public void adoptAnimal(long id, AdopterRequest adopterRequest) throws AnimalNotFoundException {
+        Animal animal = getAnimalById(id);
+        animal.setAdopter(adopterService.addAdopter(adopterRequest));
+        statusService.changeAnimalStatus(id, AnimalStatus.ADOPTED);
+    }
+
     public Animal getAnimalById(long id) throws AnimalNotFoundException {
         return animalRepository.findById(id).orElseThrow(() -> new AnimalNotFoundException());
     }
@@ -155,5 +164,6 @@ public class AnimalService {
         }
         return raceService.getSavedRaceByName(race);
     }
+
 
 }

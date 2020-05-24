@@ -61,6 +61,12 @@ public class Animal {
     @Column(length = 500)
     private String imageUrl;
     private Boolean archived = false;
+    @OneToOne(cascade = {
+            CascadeType.MERGE,
+            CascadeType.DETACH},
+            fetch = FetchType.LAZY)
+    @JoinColumn(name = "animals-adopter")
+    private Adopter adopter;
     @Setter(AccessLevel.NONE)
     private String uuid = UUID.randomUUID().toString();
 
@@ -81,6 +87,10 @@ public class Animal {
 
     public void addTreatmentHistory(TreatmentHistory treatmentHistory) {
         this.treatmentHistories.add(treatmentHistory);
+    }
+
+    public void setAdopter(Adopter adopter) {
+        this.adopter = adopter;
     }
 
     public AnimalResponse translateToAnimalResponse() {
@@ -111,6 +121,7 @@ public class Animal {
                 .shelterJoinDate(this.shelterJoinDate)
                 .animalLocation(getAnimalLocation())
                 .treatmentHistories(prepareTreatmentHistory())
+                .adoption(prepareAdoptionResponse())
                 .archived(this.archived)
                 .build();
     }
@@ -164,6 +175,18 @@ public class Animal {
 
     private String getImage() {
         return this.imageUrl != null ? this.imageUrl : "https://pbs.twimg.com/media/DOINwa5VQAUtkfh.jpg";
+    }
+
+    private AdoptionResponse prepareAdoptionResponse() {
+        if (AnimalStatus.ADOPTED.toString().equals(getLastStatusName())) {
+            return new AdoptionResponse(
+                    this.adopter.getFullName(),
+                    this.adopter.getPhoneNumber(),
+                    this.adopter.getAddress(),
+                    this.adopter.getAdoptionTime()
+            );
+        }
+        return null;
     }
 
     @Override

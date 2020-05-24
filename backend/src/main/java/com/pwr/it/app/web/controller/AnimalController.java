@@ -1,6 +1,7 @@
 package com.pwr.it.app.web.controller;
 
 import com.pwr.it.app.data.domain.User;
+import com.pwr.it.app.data.domain.dto.request.AdopterRequest;
 import com.pwr.it.app.data.domain.dto.request.AnimalRequest;
 import com.pwr.it.app.data.domain.dto.response.AnimalDetailsResponse;
 import com.pwr.it.app.data.domain.dto.response.AnimalResponse;
@@ -127,6 +128,11 @@ public class AnimalController {
     @Post("/{animalId}/transfer-to/{userId}")
     public void transferAnimal(@PathVariable long animalId, @PathVariable long userId) throws AnimalNotFoundException, UserNotFoundException {
         animalService.transferAnimal(animalId, userId);
+    }
+
+    @Post("/{id}/adopt")
+    public void adoptAnimal(@PathVariable long id, @Body AdopterRequest adopterRequest) throws AnimalNotFoundException {
+        animalService.adoptAnimal(id, adopterRequest);
     }
 
 }

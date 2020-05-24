@@ -1,13 +1,6 @@
 package com.pwr.it.app.data.seeder;
 
-import com.pwr.it.app.data.domain.AnimalStatus;
-import com.pwr.it.app.data.domain.Organization;
-import com.pwr.it.app.data.domain.Race;
-import com.pwr.it.app.data.domain.Species;
-import com.pwr.it.app.data.domain.Status;
-import com.pwr.it.app.data.domain.TreatmentHistory;
-import com.pwr.it.app.data.domain.User;
-import groovyjarjarpicocli.CommandLine;
+import com.pwr.it.app.data.domain.*;
 import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +13,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.pwr.it.app.data.domain.AnimalStatus.ADOPTED;
-import static com.pwr.it.app.data.domain.AnimalStatus.DIED;
-import static com.pwr.it.app.data.domain.AnimalStatus.NEW_IN_SHELTER;
-import static com.pwr.it.app.data.domain.AnimalStatus.READY_FOR_ADOPTION;
+import static com.pwr.it.app.data.domain.AnimalStatus.*;
 
 @Singleton
 @RequiredArgsConstructor
@@ -52,7 +42,7 @@ public class DatabaseSeeder implements ApplicationEventListener<ServerStartupEve
 
         Species cat = speciesSeeder.initCat();
         Race persianCat = raceSeeder.initPersianCat();
-        Set<Status> persianCatStatuses = statusSeeder.initAnimalStatuses(dateBackward(365), NEW_IN_SHELTER, READY_FOR_ADOPTION, ADOPTED);
+        Set<Status> persianCatStatuses = statusSeeder.initAnimalStatuses(dateBackward(365), NEW_IN_SHELTER, READY_FOR_ADOPTION);
         Status persianCatStatus = getStatusByName(persianCatStatuses, NEW_IN_SHELTER);
         Set<TreatmentHistory> persianCatTreatmentHistory = treatmentHistorySeeder.initPreventiveExamination(
                 persianCatStatus.getStatusBeginning(), persianCatStatus.getStatusEnd());
