@@ -71,9 +71,9 @@
 					</el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item>
-				<el-button type="success" @click="onSubmit" round>Create</el-button>
-			</el-form-item>
+
+			<el-button style="margin-bottom: 12px;" type="success" @click="onSubmit" round>Update</el-button>
+
 		</el-form>
 	</div>
 </template>
@@ -86,7 +86,6 @@
 		name: "EditMyPet",
 		data() {
 			return {
-				posts: [],
 				errors: [],
 				sexes: ['male', 'female', 'unknown'],
 				form: {
@@ -135,22 +134,21 @@
 		},
 		methods: {
 			onSubmit() {
-				console.log('submit!');
 				console.log(this.form);
-				axios.post(this.$APIURL + 'animal/create', this.form)
 				const token = localStorage.getItem('access_token');
 				if (token !== null) {
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 				}
-				axios.post(this.$APIURL + 'animal/create', this.form)
+				axios.post(this.$APIURL + 'animal/update/' + this.animalModel.id, this.form)
 					.then(response => {
-						this.posts = response;
 						console.log(response);
+						this.$router.push({path: 'animals'});
+						location.reload();
 					}).catch(e => {
 					this.errors.push(e)
 				})
 			},
-			populateForm(model){
+			populateForm(model) {
 
 				this.form.name = model.name;
 				this.form.species = model.species;

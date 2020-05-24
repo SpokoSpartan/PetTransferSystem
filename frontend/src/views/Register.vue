@@ -4,9 +4,9 @@
 		<el-form class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="140px">
 			<br>
 			<el-form-item class="form-field" prop="fullName" label="Username" :error="getErrorForUsername()">
-            	<el-input placeholder="Username"
-            			  v-model="form.fullName"/>
-            </el-form-item>
+				<el-input placeholder="Username"
+						  v-model="form.fullName"/>
+			</el-form-item>
 			<el-form-item class="form-field" prop="email" label="Email" :error=getErrorForEmail()>
 				<el-input placeholder="Email"
 						  v-model="form.email"/>
@@ -30,9 +30,9 @@
 						  v-model="form.phoneNumber"/>
 			</el-form-item>
 			<br>
-			<el-form-item>
-				<el-button type="primary" @click="onSubmit" round>Register</el-button>
-			</el-form-item>
+
+			<el-button style="margin-bottom: 12px;" type="primary" @click="onSubmit" round>Register</el-button>
+
 			<br>
 		</el-form>
 	</div>
@@ -86,11 +86,11 @@
 							this.$router.push({path: 'login'});
 						}
 					}).catch(e => {
-						this.form.fullName = '';
-						this.$message({
-							type: 'error',
-							message: 'User with given name already exists in the system'
-						});
+					this.form.fullName = '';
+					this.$message({
+						type: 'error',
+						message: 'User with given name already exists in the system'
+					});
 				})
 			},
 			getErrorForUsername() {

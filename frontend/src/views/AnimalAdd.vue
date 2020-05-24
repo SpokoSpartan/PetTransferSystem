@@ -49,7 +49,7 @@
 						<el-button size="small" type="primary">Click to upload</el-button>
 					</el-upload>
 				</div>
-					<div style="width: 300px;">jpg/png, max file size allowed 500KB</div>
+				<div style="width: 300px;">jpg/png, max file size allowed 500KB</div>
 			</el-form-item>
 			<el-form-item class="form-field" label="Date of birth">
 				<el-date-picker
@@ -71,9 +71,9 @@
 					</el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item>
-				<el-button type="success" @click="onSubmit" round>Create</el-button>
-			</el-form-item>
+
+			<el-button style="margin-bottom: 12px;" type="success" @click="onSubmit" round>Create</el-button>
+
 		</el-form>
 	</div>
 </template>

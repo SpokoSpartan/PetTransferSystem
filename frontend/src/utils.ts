@@ -1,6 +1,6 @@
 export const utils = {
 	created() {
-		console.log('mixing')
+		console.log("utils are available")
 	},
 	methods: {
 		getAgeWithBirthDate: function (value: string) {

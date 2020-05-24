@@ -18,20 +18,18 @@
 					<h1>This is {{animalModel.name}}</h1>
 				</el-header>
 				<el-main style="text-align: left;">
-
 					<el-container>
 						<el-main>
 							<p>Description: {{animalModel.description}}</p>
 							<p>In shelter from: {{getAgeWithBirthDate(animalModel.shelterJoinDate)}}</p>
 						</el-main>
 						<el-main>
-
 							<div>
 								<h3>Contact info:</h3>
 								It is currently at {{animalModel.animalLocation.locationType}}: {{animalModel.animalLocation.fullName}}
 								<p>Address: {{animalModel.animalLocation.address}}</p>
 								<p>Email: {{animalModel.animalLocation.email}}</p>
-								<p>Pmail: {{animalModel.animalLocation.phone}}</p>
+								<p>Phone: {{animalModel.animalLocation.phone}}</p>
 							</div>
 						</el-main>
 					</el-container>
