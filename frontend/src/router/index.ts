@@ -51,6 +51,11 @@ const routes = [
 		path: '/transfer/:id',
 		name: 'Transfer pet',
 		component: () => import('../views/TransferAnimal.vue')
+	},
+	{
+		path: '/adopt/:id',
+		name: 'Adopt pet',
+		component: () => import('../views/AdoptAnimal.vue')
 	}
 ]
 

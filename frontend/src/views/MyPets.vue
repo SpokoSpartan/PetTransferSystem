@@ -33,10 +33,14 @@
 								</el-button>
 							</router-link>
 							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="!animal.archived">
-								<el-button type="primary" style="background: #ffc520; border-color: #ffc520;" @click="archiveAnimal(animal)" round>Archive</el-button>
+								<el-button type="primary" style="background: #ffc520; border-color: #ffc520;"
+										   @click="archiveAnimal(animal)" round>Archive
+								</el-button>
 							</router-link>
 							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="animal.archived">
-								<el-button type="info" style="background: #009926; border-color: #009926;" @click="reverseArchiving(animal)" round>Reverse archiving</el-button>
+								<el-button type="info" style="background: #009926; border-color: #009926;"
+										   @click="reverseArchiving(animal)" round>Reverse archiving
+								</el-button>
 							</router-link>
 							<router-link style="padding-left: 10px;" :to="{ path: ''}">
 								<el-button type="danger" @click="removeAnimal(animal)" round>
@@ -47,6 +51,12 @@
 										 :to="{ path: '/transfer/' + animal.id,  params: {id: animal.id}}">
 								<el-button style="background: olivedrab; border-color: olivedrab;" type="danger" round>
 									Transfer
+								</el-button>
+							</router-link>
+							<router-link v-if="animal.status === 'ready for adoption'" style="padding-left: 10px;"
+										 :to="{ path: '/adopt/' + animal.id,  params: {id: animal.id}}">
+								<el-button style="background: #0074D9; border-color: #0074D9;" type="danger" round>
+									Adopt
 								</el-button>
 							</router-link>
 						</el-main>
@@ -128,15 +138,15 @@
 								type: 'success',
 								message: 'Delete completed'
 							});
-							this.animals = this.animals.filter(function( obj ) {
+							this.animals = this.animals.filter(function (obj) {
 								return obj.id !== animal.id;
 							});
 						})
 						.catch((e) =>
 							this.$message({
-							type: 'error',
-							message: 'An error occurred. Please refresh this page and try again.'
-						}));
+								type: 'error',
+								message: 'An error occurred. Please refresh this page and try again.'
+							}));
 				}).catch(() => {
 					this.$message({
 						type: 'info',
