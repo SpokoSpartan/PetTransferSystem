@@ -50,8 +50,7 @@
 		methods: {
 			onSubmit() {
 				this.isError = 'false';
-				// axios.post(this.$APIBASE + 'auth/login', this.form)
-				axios.post('http://localhost:8090/auth/login', this.form)
+				axios.post(this.$APIBASE + 'auth/login', this.form)
 					.then(response => {
 						if (response.status === 200) {
 							App.methods.afterLogin(response);
