@@ -3,8 +3,11 @@
 		<h1>Transfer animal</h1>
 		<el-row>
 			<el-col :span="11"><div class="grid-content bg-purple">
-				<p>{{animalModel.name}}</p>
-				<img width="40%" class="img-limit" :src="animalModel.imageUrl">
+				<el-form class="form-container" style="width: 70%" ref="form" label-position="left" label-width="90%;">
+					<h2 style="margin-top: 5%;">Animal transferred:</h2>
+					<img width="60%" class="img-limit" :src="this.animalModel.imageUrl">
+					<h2>{{this.animalModel.name}}</h2>
+				</el-form>
 			</div></el-col>
 			<el-col :span="2"><div class="grid-content bg-purple-light">
 				<img style="margin-top: 60%;" src="../assets/icons-arrow.png">
@@ -14,7 +17,7 @@
 					<h2>Find user:</h2>
 <!--					<br>-->
 					<el-form-item class="form-field" prop="pattern" label="Pattern" id="login-username">
-						<el-input placeholder="Phone number, email, or name"
+						<el-input placeholder="User name or email"
 								  v-model="form.pattern"/>
 						<el-row>
 							<el-col :span="20">
@@ -59,6 +62,10 @@
 <script>
 	import axios from "axios";
 	import {AnimalModel} from "../models/AnimalModel";
+	import VueRouter from 'vue-router'
+	import Vue from "vue";
+
+	Vue.use(VueRouter)
 
 	export default {
 		name: "Transfer pet",
@@ -102,12 +109,13 @@
 					if (token !== null) {
 						axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 					}
-					axios.get(this.$APIURL + '/animal/' + this.animalModel.id + '/transfer-to/1' + moveTo.id)
+					axios.post(this.$APIURL + 'animal/' + this.animalModel.id + '/transfer-to/' + moveTo.id)
 						.then(response => {
 							this.$message({
 								type: 'success',
 								message: 'Moving completed'
 							});
+							this.redirectToAnimalPage()
 						}).catch(e => {
 						this.$message({
 							type: 'error',
@@ -120,6 +128,10 @@
 						message: 'Moving canceled'
 					});
 				});
+			},
+			redirectToAnimalPage() {
+				console.log('AFTER TRANSFER');
+				this.$router.push({path: '/myPets'});
 			}
 		},
 		created() {
@@ -128,7 +140,7 @@
 			if (token !== null) {
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 			}
-			axios.get(this.$APIURL + 'api/animal/one/' + id)
+			axios.get(this.$APIURL + 'animal/one/' + id)
 				.then(response => {
 					this.animalModel = response.data;
 					console.log(response.data);
