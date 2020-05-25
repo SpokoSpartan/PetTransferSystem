@@ -21,4 +21,11 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findByFullName(String fullName);
 
+    @Query(
+            value = "select * from \"user\" where users_organizations IN (" +
+                    "select users_organizations from \"user\" where id = :userId)",
+            nativeQuery = true
+    )
+    List<User> findAllUserInTheSameOrganization(Long userId);
+
 }

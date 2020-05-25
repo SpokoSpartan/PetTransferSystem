@@ -12,7 +12,7 @@ import javax.inject.Singleton;
 public class UserClient {
 
     @Inject
-    @Client("http://localhost:8090")
+    @Client("http://52.91.229.171:80/auth")
     private RxHttpClient client;
 
     public UserAccountDetails getUserDetails(String name) {

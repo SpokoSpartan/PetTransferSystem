@@ -11,6 +11,7 @@ import io.micronaut.security.authentication.UserDetails;
 import lombok.RequiredArgsConstructor;
 
 import javax.inject.Singleton;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,8 +39,17 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
     }
 
+    @Transactional
     public List<UserResponse> findByPattern(String pattern) {
         return userRepository.findByFullNameOrPhoneNumberOrEmail(pattern).stream()
+                .map(User::translateToResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<UserResponse> findByPatternAndNotInOrganization(String pattern) {
+        return userRepository.findByFullNameOrPhoneNumberOrEmail(pattern).stream()
+                .filter(user -> !Optional.ofNullable(user.getOrganization()).isPresent())
                 .map(User::translateToResponse)
                 .collect(Collectors.toList());
     }
