@@ -98,6 +98,8 @@ public class Animal {
                 .id(this.id)
                 .name(this.name)
                 .description(this.description)
+                .species(Optional.ofNullable(this.species).isPresent() ? this.species.getName() : "")
+                .race(Optional.ofNullable(this.race).isPresent() ? this.race.getName() : "")
                 .status(getLastStatusName())
                 .location(getAnimalLocationName())
                 .locationType(getAnimalLocationType())

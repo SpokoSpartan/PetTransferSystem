@@ -21,6 +21,8 @@ public class AnimalResponse implements Comparable<AnimalResponse> {
     private String imageUrl;
     private String status;
     private Boolean archived;
+    private String race;
+    private String species;
     private AnimalLocationType locationType;
 
     @Override
