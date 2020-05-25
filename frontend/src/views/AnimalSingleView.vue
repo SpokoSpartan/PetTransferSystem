@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div style="margin: 0 auto; width: 70%;">
 		<el-container>
 			<el-aside width="400px">
 				<div width="1000px">
@@ -35,19 +35,6 @@
 					</el-container>
 					<br>
 					<br>
-					<h3>Treatment history</h3>
-					<div v-if="animalModel.treatmentHistories == null || animalModel.treatmentHistories.length == 0">
-						<p>No treatment history available</p>
-					</div>
-					<div class="list-container" v-for="treatment in animalModel.treatmentHistories">
-						<p>Treatment status: {{treatment.treatmentStatus}}</p>
-						<p><strong>{{treatment.title}}</strong> was done by <strong>{{treatment.doctor}}</strong> </p>
-						<p>Description: {{treatment.description}}</p>
-						<p>Treatment time from <strong>{{getAgeWithBirthDate(treatment.startDate)}}</strong> to <strong>{{getAgeWithBirthDate(treatment.endDate)}}</strong></p>
-						<p>Place: {{treatment.place}}</p>
-						<p>Price: {{treatment.price}} złotóweczek</p>
-					</div>
-
 				</el-main>
 			</el-container>
 		</el-container>

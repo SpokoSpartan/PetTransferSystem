@@ -1,9 +1,9 @@
 <template>
-	<div style="margin-bottom: 4%;">
+	<div>
 		<h1>Adopt animal</h1>
 		<el-row>
 			<el-col :span="11">
-				<div class="grid-content bg-purple">
+				<div class="grid-content">
 					<el-form class="form-container" style="width: 70%" ref="form" label-position="left"
 							 label-width="90%;">
 						<h2 style="margin-top: 5%;">Animal to be adopted:</h2>
@@ -20,7 +20,7 @@
 			</el-col>
 
 			<el-col :span="11">
-				<div class="grid-content bg-purple-light">
+				<div class="grid-content">
 					<el-form style="width: 90%;" class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="140px">
 						<h2 style="margin-bottom: -1%;">Adopting person's data:</h2>
 						<br>

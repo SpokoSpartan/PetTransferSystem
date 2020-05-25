@@ -15,7 +15,7 @@
 			<el-col :span="11"><div class="grid-content bg-purple-light">
 				<el-form class="form-container" style="width: 90%" ref="form" :model="form" :rules="rules" label-position="left" label-width="90%;">
 					<h2>Find user:</h2>
-					<el-form-item class="form-field" prop="pattern" label="Pattern" id="login-username">
+					<el-form-item class="form-field" prop="pattern" label="Find user" id="login-username">
 
 						<el-row>
 							<el-col :span="17">
@@ -80,7 +80,7 @@
 				},
 				rules: {
 					pattern: [
-						{required: true, message: 'Pattern is required', trigger: 'blur'}
+						{required: true, message: 'Search value can not be empty', trigger: 'blur'}
 					]
 				}
 			}

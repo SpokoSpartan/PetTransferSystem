@@ -83,7 +83,10 @@
 <script>
 
 	import axios from "axios";
+	import Vue from "vue";
+	import VueRouter from "vue-router";
 
+	Vue.use(VueRouter)
 	export default {
 		name: "AnimalAdd",
 		data() {
@@ -118,7 +121,6 @@
 			onSubmit() {
 				console.log('submit!');
 				console.log(this.form);
-				axios.post(this.$APIURL + 'animal/create', this.form)
 				const token = localStorage.getItem('access_token');
 				if (token !== null) {
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
@@ -126,6 +128,7 @@
 				axios.post(this.$APIURL + 'animal/create', this.form)
 					.then(response => {
 						this.posts = response;
+						this.$router.push({path: '/myPets'});
 						console.log(response);
 					}).catch(e => {
 					this.errors.push(e)
