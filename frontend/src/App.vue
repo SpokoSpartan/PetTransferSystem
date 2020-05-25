@@ -7,7 +7,6 @@
 			text-color="#fff"
 			active-text-color="#dba11c"
 			background-color="#0F4C81">
-
 			<div style="float: left; padding-left: 16px;">
 				<img alt="Vue logo" src="../src/assets/logo-blue.png">
 			</div>

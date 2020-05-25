@@ -1,16 +1,19 @@
 <template>
 	<div>
 		<h1>Your animals (total amount: {{animals.length}})</h1>
-		<div class="list-container" v-if="animals && animals.length">
+		<div v-if="animals && animals.length">
 			<div v-for="animal of animals">
 				<el-container class="list-item">
 					<el-aside width="200px">
 						<img class="img-limit" :src="animal.imageUrl">
 					</el-aside>
 					<el-container>
-
 						<el-header>
-							<p>{{animal.name}} is currently {{animal.status}}<el-button type="success" round>Put up for adoption</el-button></p>
+
+
+							{{animal.name}} is currently {{animal.status}}
+							<el-button style="margin-left: 12px;" type="success" round>Put up for adoption</el-button>
+
 						</el-header>
 						<el-main>
 							<b>Description:</b> {{animal.description}}
@@ -56,7 +59,7 @@
 							</router-link>
 							<router-link v-if="animal.status === 'ready for adoption'" style="padding-left: 10px;"
 										 :to="{ path: '/adopt/' + animal.id,  params: {id: animal.id}}">
-								<el-button  type="success" round>
+								<el-button type="success" round>
 									Hand over for adoption
 								</el-button>
 							</router-link>
@@ -175,13 +178,11 @@
 </script>
 
 <style scoped lang="scss">
-	.list-container {
 
-	}
 
 	.list-item {
 		background-color: $color-light;
-		height: 250px;
+		height: fit-content;
 	}
 
 
@@ -197,13 +198,22 @@
 	}
 
 	.el-aside {
+		margin-top: 12px;
 		background-color: $color-light;
 		color: white;
 		text-align: center;
 	}
 
 	.img-limit {
+		border-radius: 10%;
 		max-width: 180px;
-		max-height: 240px;
+		max-height: 220px;
+	}
+
+	.el-header {
+		width: fit-content;
+		/*max-width: 600px;*/
+		margin-top: 12px;
+		line-height: 60px;
 	}
 </style>
