@@ -5,7 +5,7 @@ export const utils = {
 	methods: {
 		getAgeWithBirthDate: function (value: string) {
 			let date = new Date(value);
-			return date.getDay() + "." + date.getMonth() + "." + date.getFullYear();
+			return date.getDate() + "." + date.getMonth() + "." + date.getFullYear();
 		},
 		translateBooleanToHuman: function (value: boolean) {
 			if (value) {

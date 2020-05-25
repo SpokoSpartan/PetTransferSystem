@@ -1,29 +1,30 @@
 <template>
 	<div style="margin: 0 auto; width: 70%;">
 		<el-container>
-			<el-aside width="400px">
-				<div width="1000px">
-					<img class="img-limit" :src="animalModel.imageUrl">
-				</div>
-				<div style="text-align: left;">
-					<p>Species: {{animalModel.species}}</p>
-					<p>Race: {{animalModel.race}}</p>
-					<p>Sex: {{animalModel.sex}}</p>
-					<p>Sterilized: {{translateBooleanToHuman(animalModel.sterilized)}}</p>
-					<p>Birth date: {{getAgeWithBirthDate(animalModel.birthDate)}} </p>
-				</div>
-			</el-aside>
+			<el-header>
+				<h1>This is {{animalModel.name}}</h1>
+			</el-header>
+
 			<el-container>
-				<el-header>
-					<h1>This is {{animalModel.name}}</h1>
-				</el-header>
+				<el-aside width="400px;">
+					<div width="1000px;">
+						<img class="img-limit" :src="animalModel.imageUrl">
+					</div>
+					<div style="text-align: left;">
+						<p>Species: {{animalModel.species}}</p>
+						<p>Race: {{animalModel.race}}</p>
+						<p>Sex: {{animalModel.sex}}</p>
+						<p>Sterilized: {{translateBooleanToHuman(animalModel.sterilized)}}</p>
+						<p>Birth date: {{getAgeWithBirthDate(animalModel.birthDate)}} </p>
+					</div>
+				</el-aside>
 				<el-main style="text-align: left;">
 					<el-container>
 						<el-main>
-							<p>Description: {{animalModel.description}}</p>
-							<p>In shelter from: {{getAgeWithBirthDate(animalModel.shelterJoinDate)}}</p>
+							<p><strong>Description:</strong> {{animalModel.description}}</p>
+							<p><strong>In shelter from:</strong> {{getAgeWithBirthDate(animalModel.shelterJoinDate)}}</p>
 						</el-main>
-						<el-main>
+						<el-main style="min-width: 300px;">
 							<div>
 								<h3>Contact info:</h3>
 								It is currently at {{animalModel.animalLocation.locationType}}: {{animalModel.animalLocation.fullName}}
@@ -83,6 +84,7 @@
 
 <style scoped>
 	.img-limit {
+		margin-top: 60px;
 		max-width: 400px;
 		/*max-height: 400px;*/
 	}
