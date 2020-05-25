@@ -1,44 +1,30 @@
 <template>
   <div>
-    <h1>Transfer animal</h1>
+    <h1>Organization management</h1>
     <el-row>
       <el-col :span="11">
         <div class="grid-content bg-purple">
-          <el-form class="form-container" style="width: 70%" ref="form" label-position="left" label-width="90%;">
-            <h2 style="margin-top: 5%;">Animal to be transferred:</h2>
-            <h2>{{this.organization.fullName}}</h2>
+
+          <el-form v-if="isInOrganization() && !isFetching()" class="form-container" style="width: 90%" ref="form" label-position="left" label-width="90%;">
+            <h2>Your organization:</h2>
+            <div style = "position:relative; left: -20%;">
+              <h2>Name:</h2> <p style="margin-top: -40px; margin-left: 550px;">{{organization.fullName}}</p>
+            </div>
+            <div style = "position:relative; left: -20%;">
+              <h2>Phone number:</h2> <p style="margin-top: -40px; margin-left: 550px;">{{organization.phoneNumber}}</p>
+            </div>
+            <div style = "position:relative; left: -20%;">
+              <h2>Email:</h2> <p style="margin-top: -40px; margin-left: 550px;">{{organization.email}}</p>
+            </div>
+            <div style = "position:relative; left: -20%;">
+              <h2>Address:</h2> <p style="margin-top: -40px; margin-left: 550px;">{{organization.address}}</p>
+            </div>
           </el-form>
 
-          <el-form class="form-container" style="width: 90%" ref="form" :model="form" :rules="rules" label-position="left"
-                   label-width="140px">
-            <br>
-            <el-form-item class="form-field" prop="fullName" label="Organization name" :error="getErrorOrganizationName()">
-              <el-input placeholder="Organization name"
-                        v-model="form.fullName"/>
-            </el-form-item>
-            <el-form-item class="form-field" prop="email" label="Email" :error=getErrorForEmail()>
-              <el-input placeholder="Email"
-                        v-model="form.email"/>
-            </el-form-item>
-            <el-form-item class="form-field" prop="address" label="Address" :error="getErrorForAddress()">
-              <el-input placeholder="Address"
-                        v-model="form.address"/>
-            </el-form-item>
-            <el-form-item class="form-field" prop="phoneNumber" label="Phone number" :error="getErrorForPhoneNumber()">
-              <el-input placeholder="Phone number"
-                        v-model="form.phoneNumber"/>
-            </el-form-item>
-            <br>
-
-            <el-button style="margin-bottom: 12px;" type="primary" @click="createOrganization()" round>Register</el-button>
-
-            <br>
-          </el-form>
-
-          <el-form class="form-container" style="width: 90%" ref="form" :model="formReg" :rules="rulesReg"
+          <el-form v-if="isInOrganization() && !isFetching()" class="form-container" style="width: 90%" ref="form" :model="formReg" :rules="rulesReg"
                    label-position="left" label-width="90%;">
-            <h2>Find user:</h2>
-            <el-form-item class="form-field" prop="pattern" label="Pattern" id="login-username">
+            <h2>Assign user to organization:</h2>
+            <el-form-item class="form-field" prop="pattern" label="Username" id="login-username">
 
               <el-row>
                 <el-col :span="17">
@@ -84,14 +70,14 @@
         </div>
       </el-col>
       <el-col :span="2">
-        <div class="grid-content bg-purple-light">
+        <div v-if="isInOrganization() && !isFetching()" class="grid-content bg-purple-light">
           <img style="margin-top: 60%;" src="../assets/icons-arrow.png">
         </div>
       </el-col>
 
       <el-col :span="11">
         <div class="grid-content bg-purple-light">
-          <el-form v-if="isInOrganization()" class="form-container" style="width: 90%" ref="form" :model="form"
+          <el-form v-if="isInOrganization() && !isFetching()" class="form-container" style="width: 90%" ref="form" :model="form"
                    :rules="rules" label-position="left" label-width="90%;">
             <h2>Users in organization:</h2>
             <el-table
@@ -127,6 +113,38 @@
         </div>
       </el-col>
     </el-row>
+
+    <el-form v-if="!isInOrganization() && !isFetching()" class="form-container" style="width: 50%" ref="form" :model="form" :rules="rules"
+             label-position="left"
+             label-width="140px">
+      <br>
+      <h2>Create organization:</h2>
+      <br>
+      <el-form-item class="form-field" prop="fullName" label="Organization name"
+                    :error="getErrorOrganizationName()">
+        <el-input placeholder="Organization name"
+                  v-model="form.fullName"/>
+      </el-form-item>
+      <el-form-item class="form-field" prop="email" label="Email" :error=getErrorForEmail()>
+        <el-input placeholder="Email"
+                  v-model="form.email"/>
+      </el-form-item>
+      <el-form-item class="form-field" prop="address" label="Address" :error="getErrorForAddress()">
+        <el-input placeholder="Address"
+                  v-model="form.address"/>
+      </el-form-item>
+      <el-form-item class="form-field" prop="phoneNumber" label="Phone number" :error="getErrorForPhoneNumber()">
+        <el-input placeholder="Phone number"
+                  v-model="form.phoneNumber"/>
+      </el-form-item>
+      <br>
+
+      <el-button style="margin-bottom: 12px;" type="primary" @click="createOrganization()" round>Create
+      </el-button>
+
+      <br>
+    </el-form>
+
   </div>
 </template>
 
@@ -141,6 +159,7 @@
     export default {
         name: "Manage organization",
         hasOrganization: true,
+        finishedFetching: false,
         data() {
             return {
                 organization: Organization,
@@ -185,6 +204,12 @@
                 axios.get(this.$APIURL + 'user/find/not-in-organization/' + this.formReg.pattern)
                     .then(response => {
                         this.foundUser = response.data;
+                        if (this.foundUser && this.foundUser.length === 0) {
+                            this.$message({
+                                type: 'info',
+                                message: 'User with this name not found'
+                            });
+                        }
                         console.log(response);
                     }).catch(e => {
                     this.errors.push(e)
@@ -238,7 +263,7 @@
                         });
                         this.$message({
                             type: 'success',
-                            message: 'Removing completed'
+                            message: 'Adding completed'
                         });
                     }).catch(e => {
                     this.$message({
@@ -284,9 +309,6 @@
                 }
                 return 'Phone number must have at least 9 chars';
             },
-            isInOrganization() {
-                return this.organization.id !== 0;
-            },
             createOrganization() {
                 const token = localStorage.getItem('access_token');
                 if (token !== null) {
@@ -294,6 +316,9 @@
                 }
                 axios.post(this.$APIURL + 'user/organization/create', this.form)
                     .then(response => {
+                        this.hasOrganization = true;
+                        this.organization = new Organization(response.data, this.form.phoneNumber, this.form.fullName, this.form.email, this.form.address);
+                        this.$forceUpdate();
                         this.$message({
                             type: 'success',
                             message: 'Organization creation completed'
@@ -304,6 +329,12 @@
                         message: 'An error occurred. Please reload this page'
                     });
                 });
+            },
+            isInOrganization() {
+                return this.hasOrganization;
+            },
+            isFetching() {
+                return !this.finishedFetching;
             }
         },
         created() {
@@ -313,8 +344,14 @@
             }
             axios.get(this.$APIURL + 'user/organization')
                 .then(response => {
-                    this.organization = response.data;
-                    console.log(response.data);
+                    if (response.data.id) {
+                        this.organization = response.data;
+                        this.hasOrganization = true;
+                    } else {
+                        this.hasOrganization = false;
+                    }
+                    this.finishedFetching = true;
+                    this.$forceUpdate();
                 }).catch(e => {
                 this.errors.push(e)
             });
@@ -322,7 +359,6 @@
             axios.get(this.$APIURL + 'user/all-in/organization')
                 .then(response => {
                     this.users = response.data;
-                    console.log(response.data);
                 }).catch(e => {
                 this.errors.push(e)
             });
