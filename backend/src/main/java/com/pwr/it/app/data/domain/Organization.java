@@ -1,5 +1,6 @@
 package com.pwr.it.app.data.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Organization {
 
     @Id
@@ -24,6 +25,7 @@ public class Organization {
     private String phoneNumber;
     private String email;
     private String address;
+    @JsonIgnore
     private String uuid = UUID.randomUUID().toString();
 
     public Organization(String fullName, String phoneNumber, String email, String address) {

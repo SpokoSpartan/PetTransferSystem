@@ -20,7 +20,7 @@ import javax.inject.Singleton;
 import javax.validation.Valid;
 
 @Singleton
-@Controller
+@Controller("/auth")
 @RequiredArgsConstructor
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class AuthController {
@@ -28,12 +28,11 @@ public class AuthController {
     private final AuthService authService;
 
     @Secured(SecurityRule.IS_ANONYMOUS)
-    @Post("/auth/register")
+    @Post("/register")
     public void registerUser(@Valid @Body UserAccountDetails accountDetails) throws UserAlreadyExistsException {
         authService.registerUser(accountDetails);
     }
 
-    //Available only internally
     @Get("/user/{name}")
     @Secured(SecurityRule.IS_ANONYMOUS)
     public UserAccountDetails getUserDetails(@PathVariable String name) throws UserNotFoundException {

@@ -58,10 +58,8 @@
 					placeholder="Pick animal's birthdate">
 				</el-date-picker>
 			</el-form-item>
-			<el-form-item class="form-field" label="Sterilized?">
-				<el-checkbox v-model="form.sterilized">Sterilized</el-checkbox>
-			</el-form-item>
-			<el-form-item class="form-field">
+
+			<el-form-item class="form-field"  label="Sex">
 				<el-select v-model="form.sex" placeholder="Animal sex">
 					<el-option
 						v-for="sex in sexes"
@@ -70,6 +68,10 @@
 						:value="sex">
 					</el-option>
 				</el-select>
+			</el-form-item>
+
+			<el-form-item class="form-field" label="Sterilized?">
+				<el-checkbox v-model="form.sterilized">Sterilized</el-checkbox>
 			</el-form-item>
 
 			<el-button style="margin-bottom: 12px;" type="success" @click="onSubmit" round>Create</el-button>

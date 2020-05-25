@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<el-button v-if="!formVisible" type="primary" @click="formVisible = true">Add treatment history</el-button>
-		<h1 v-if="formVisible">Add treatment</h1>
+		<h1 v-if="formVisible && !isEditing">Add treatment</h1>
+		<h1 v-if="formVisible && isEditing">Update treatment</h1>
 		<el-form v-if="formVisible" class="form-container" ref="form" :model="form" :rules="rules" label-position="left" label-width="100px">
 			<br>
 			<el-form-item class="form-field" prop="title" label="Title">
@@ -72,7 +73,7 @@
 				<el-button type="info" slot-scope="scope" @click="openEditForm(scope.$index)" v-if="scope.row.treatmentStatus !== 'canceled'"> Update</el-button>
 			</el-table-column>
 			<el-table-column label="Cancel" width="100">
-				<el-button type="danger" slot-scope="scope" @click="cancelTreatment(scope.$index)" v-if="scope.row.treatmentStatus !== 'canceled'">Cancel</el-button>
+				<el-button type="danger" slot-scope="scope" @click="cancelTreatment(scope.$index)" v-if="scope.row.treatmentStatus !== 'canceled' && scope.row.treatmentStatus !== 'completed'">Cancel</el-button>
 			</el-table-column>
 		</el-table>
 	</div>
