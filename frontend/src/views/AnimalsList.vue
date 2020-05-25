@@ -1,15 +1,15 @@
 <template>
-	<div>
+	<div style="margin: 0 auto; width: 70%;">
 		<h1>Animals in our shelter (total amount: {{animals.length}})</h1>
 		<div class="list-container" v-if="animals && animals.length">
 			<div v-for="animal of animals">
 				<el-container class="list-item">
-					<el-aside width="200px" >
+					<el-aside width="200px">
 						<img class="img-limit" :src="animal.imageUrl">
 					</el-aside>
 					<el-container>
 						<el-header>
-							<p>{{animal.name}} is currently {{animal.status}}</p>
+							<strong>{{animal.name}}</strong> is currently {{animal.status}}
 						</el-header>
 						<el-main>
 							<b>Description:</b> {{animal.description}}
@@ -65,19 +65,11 @@
 
 	.list-item {
 		background-color: $color-light;
-		height: 250px;
+		height: fit-content;
 	}
-
 
 	.el-main {
 		text-align: left;
-	}
-
-	.el-header, .el-footer {
-		background-color: $color-secondary;
-		color: white;
-		text-align: left;
-		border-radius: 30px;
 	}
 
 	.el-aside {
@@ -87,8 +79,21 @@
 	}
 
 	.img-limit {
+		border-radius: 10%;
+		margin-top: 12px;
 		max-width: 180px;
 		max-height: 230px;
 		box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+	}
+
+	.el-header {
+		background-color: $color-secondary;
+		color: white;
+		width: fit-content;
+		/*max-width: 600px;*/
+		margin-top: 12px;
+		line-height: 60px;
+		text-align: left;
+		border-radius: 30px;
 	}
 </style>

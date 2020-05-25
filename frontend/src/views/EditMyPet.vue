@@ -81,7 +81,10 @@
 <script>
 
 	import axios from "axios";
+	import Vue from "vue";
+	import VueRouter from "vue-router";
 
+	Vue.use(VueRouter)
 	export default {
 		name: "EditMyPet",
 		data() {
@@ -142,7 +145,7 @@
 				axios.post(this.$APIURL + 'animal/update/' + this.animalModel.id, this.form)
 					.then(response => {
 						console.log(response);
-						this.$router.push({path: 'animals'});
+						this.$router.push({path: '/myPets'});
 						location.reload();
 					}).catch(e => {
 					this.errors.push(e)

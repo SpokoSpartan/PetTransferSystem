@@ -7,7 +7,6 @@
 			text-color="#fff"
 			active-text-color="#dba11c"
 			background-color="#0F4C81">
-
 			<div style="float: left; padding-left: 16px;">
 				<img alt="Vue logo" src="../src/assets/logo-blue.png">
 			</div>
@@ -20,13 +19,16 @@
 			<el-menu-item v-if="this.$isLogged" index="3">
 				<router-link to="/animal/add">Add animal</router-link>
 			</el-menu-item>
-			<el-menu-item v-if="!this.$isLogged" style="float: right;" index="4">
+      <el-menu-item v-if="this.$isLogged" index="4">
+        <router-link to="/organization">Organization</router-link>
+      </el-menu-item>
+			<el-menu-item v-if="!this.$isLogged" style="float: right;" index="5">
 				<router-link to="/register">Register</router-link>
 			</el-menu-item>
-			<el-menu-item v-if="!this.$isLogged" style="float: right;" index="5">
+			<el-menu-item v-if="!this.$isLogged" style="float: right;" index="6">
 				<router-link to="/login">Login</router-link>
 			</el-menu-item>
-			<el-menu-item v-if="this.$isLogged" @click="afterLogout" style="float: right;" index="5">
+			<el-menu-item v-if="this.$isLogged" @click="afterLogout" style="float: right;" index="6">
 				<router-link to="/animals">Logout</router-link>
 			</el-menu-item>
 		</el-menu>

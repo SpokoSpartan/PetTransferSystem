@@ -56,6 +56,11 @@ const routes = [
 		path: '/adopt/:id',
 		name: 'Adopt pet',
 		component: () => import('../views/AdoptAnimal.vue')
+	},
+	{
+		path: '/organization',
+		name: 'Manage organization',
+		component: () => import('../views/ManageOrganization.vue')
 	}
 ]
 
