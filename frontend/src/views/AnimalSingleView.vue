@@ -11,11 +11,11 @@
 						<img class="img-limit" :src="animalModel.imageUrl">
 					</div>
 					<div style="text-align: left;">
-						<p>Species: {{animalModel.species}}</p>
-						<p>Race: {{animalModel.race}}</p>
-						<p>Sex: {{animalModel.sex}}</p>
-						<p>Sterilized: {{translateBooleanToHuman(animalModel.sterilized)}}</p>
-						<p>Birth date: {{getAgeWithBirthDate(animalModel.birthDate)}} </p>
+						<p><b>Species: </b> {{animalModel.species}}</p>
+						<p><b>Race: </b>{{animalModel.race}}</p>
+						<p><b>Sex: </b>{{animalModel.sex}}</p>
+						<p><b>Sterilized: </b>{{translateBooleanToHuman(animalModel.sterilized)}}</p>
+						<p><b>Birth date: </b>{{getAgeWithBirthDate(animalModel.birthDate)}} </p>
 					</div>
 				</el-aside>
 				<el-main style="text-align: left;">
@@ -25,12 +25,12 @@
 							<p><strong>In shelter from:</strong> {{getAgeWithBirthDate(animalModel.shelterJoinDate)}}</p>
 						</el-main>
 						<el-main style="min-width: 300px;">
-							<div>
+							<div style="border: 1px solid black; padding-left: 12px; padding-right: 12px;">
 								<h3>Contact info:</h3>
 								It is currently at {{animalModel.animalLocation.locationType}}: {{animalModel.animalLocation.fullName}}
-								<p>Address: {{animalModel.animalLocation.address}}</p>
-								<p>Email: {{animalModel.animalLocation.email}}</p>
-								<p>Phone: {{animalModel.animalLocation.phone}}</p>
+								<p><b>Address:</b> {{animalModel.animalLocation.address}}</p>
+								<p><b>Email:</b> {{animalModel.animalLocation.email}}</p>
+								<p><b>Phone:</b> {{animalModel.animalLocation.phone}}</p>
 							</div>
 						</el-main>
 					</el-container>
@@ -61,9 +61,7 @@
 				animalModel: new AnimalModel()
 			}
 		},
-		methods: {
-
-		},
+		methods: {},
 		created() {
 			let id = this.$route.params.id;
 			axios.get(this.$APIURL + 'animal/one/' + id)
@@ -84,6 +82,7 @@
 
 <style scoped>
 	.img-limit {
+		border-radius: 10%;
 		margin-top: 60px;
 		max-width: 400px;
 		/*max-height: 400px;*/

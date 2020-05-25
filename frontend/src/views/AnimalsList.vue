@@ -68,11 +68,9 @@
 		height: fit-content;
 	}
 
-
 	.el-main {
 		text-align: left;
 	}
-
 
 	.el-aside {
 		background-color: $color-light;

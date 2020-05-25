@@ -9,11 +9,8 @@
 					</el-aside>
 					<el-container>
 						<el-header>
-
-
 							{{animal.name}} is currently {{animal.status}}
-							<el-button style="margin-left: 12px;" type="success" round>Put up for adoption</el-button>
-
+							<el-button v-if="animal.status === 'new in shelter'" style="margin-left: 12px;" type="success" round>Put up for adoption</el-button>
 						</el-header>
 						<el-main>
 							<b>Description:</b> {{animal.description}}
