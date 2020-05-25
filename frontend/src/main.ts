@@ -12,7 +12,7 @@ Vue.config.productionTip = false;
 const apiBase = 'http://52.91.229.171:80/';
 Vue.prototype.$APIBASE = apiBase;
 Vue.prototype.$APIURL = apiBase + 'api/';
-Vue.prototype.$isLogged = true;
+Vue.prototype.$isLogged = localStorage.getItem('access_token') !== null;
 
 new Vue({
 	router,
