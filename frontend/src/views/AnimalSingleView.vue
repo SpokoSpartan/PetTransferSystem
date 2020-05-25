@@ -32,7 +32,7 @@
 								<p><b>Email:</b> {{animalModel.animalLocation.email}}</p>
 								<p><b>Phone:</b> {{animalModel.animalLocation.phone}}</p>
 							</div>
-              <div style="border: 1px solid black; padding-left: 12px; padding-right: 12px; margin-top: 30px;">
+              <div v-if="animalModel.adoption" style="border: 1px solid black; padding-left: 12px; padding-right: 12px; margin-top: 30px;">
                 <h3>Adopter info:</h3>
                 Was adopted by: {{this.animalModel.adoption.fullName}}
                 <p><b>Address:</b>  {{this.animalModel.adoption.address}} </p>
