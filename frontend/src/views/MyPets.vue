@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div style="margin: 0 auto; width: 70%;">
 		<h1>Your animals (total amount: {{animals.length}})</h1>
 
 		<div class="filters-container">
@@ -32,20 +32,20 @@
 							<p>Location: {{animal.location}}</p>
 							<router-link
 								:to="{ path: '/animal/' + animal.id, params: {id: animal.id}}">
-								<el-button type="primary" round>
-									Show full details
+								<el-button type="success" round>
+									More details
 								</el-button>
 							</router-link>
 							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 12px;"
 										 :to="{ path: '/edit/' + animal.id, params: {id: animal.id}}">
 								<el-button type="info" round>
-									Update pet info
+									Update info
 								</el-button>
 							</router-link>
 							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 12px;"
 										 :to="{ path: '/editTreatment/' + animal.id, params: {id: animal.id}}">
 								<el-button type="info" round>
-									Update treatment history
+									Update treatment
 								</el-button>
 							</router-link>
 							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="!animal.archived && animal.status === 'ready for adoption'">
@@ -58,12 +58,7 @@
 										   @click="reverseArchiving(animal)" round>Unhide
 								</el-button>
 							</router-link>
-							<router-link v-if="!(animal.status === 'adopted')" style="padding-left: 10px;" :to="{ path: ''}">
-								<el-button type="danger" @click="removeAnimal(animal)" round>
-									Remove animal
-								</el-button>
-							</router-link>
-							<router-link v-if="!(animal.status === 'adopted')" style="padding-left: 10px;"
+							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 10px;"
 										 :to="{ path: '/transfer/' + animal.id,  params: {id: animal.id}}">
 								<el-button style="background: #0074D9; border-color: #0074D9;" type="danger" round>
 									Transfer
@@ -73,6 +68,11 @@
 										 :to="{ path: '/adopt/' + animal.id,  params: {id: animal.id}}">
 								<el-button type="success" round>
 									Hand over for adoption
+								</el-button>
+							</router-link>
+							<router-link v-if="!(animal.status === 'adopted')" style="padding-left: 10px;" :to="{ path: ''}">
+								<el-button type="danger" @click="removeAnimal(animal)" round>
+									Remove
 								</el-button>
 							</router-link>
 						</el-main>
