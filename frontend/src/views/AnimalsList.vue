@@ -1,8 +1,22 @@
 <template>
 	<div style="margin: 0 auto; width: 70%;">
 		<h1>Animals in our shelter (total amount: {{animals.length}})</h1>
-		<div class="list-container" v-if="animals && animals.length">
-			<div v-for="animal of animals">
+		<div class="filters-container">
+			Filter animals by status:
+			<el-select v-model="selectedFilters" multiple placeholder="select status">
+				<el-option
+					v-for="item in filterOptions"
+					:key="item.value"
+					:label="item.label"
+					:value="item.value">
+				</el-option>
+			</el-select>
+			<el-button style="margin-left: 12px;" type="primary" round @click="applyFilters">Apply</el-button>
+			<el-button style="margin-left: 12px;" type="info" round @click="clearFilters">Clear</el-button>
+		</div>
+
+		<div class="list-container" v-if="filteredAnimals && filteredAnimals.length">
+			<div v-for="animal of filteredAnimals">
 				<el-container class="list-item">
 					<el-aside width="200px">
 						<img class="img-limit" :src="animal.imageUrl">
@@ -37,7 +51,16 @@
 		data() {
 			return {
 				animals: [],
-				errors: []
+				filteredAnimals: [],
+				errors: [],
+				selectedFilters: [],
+				filterOptions: [{
+					value: 'new in shelter',
+					label: 'New in shelter'
+				}, {
+					value: 'ready for adoption',
+					label: 'Ready for adoption'
+				}]
 			}
 		},
 		created() {
@@ -45,13 +68,30 @@
 			if (token !== null) {
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 			}
-			axios.get( this.$APIURL + 'animal/all?page=0&size=1000')
+			axios.get(this.$APIURL + 'animal/all?page=0&size=1000')
 				.then(response => {
 					this.animals = response.data.content;
+					this.filteredAnimals = response.data.content;
 					console.log(response.data.content);
 				}).catch(e => {
 				this.errors.push(e)
 			})
+		},
+		methods: {
+			applyFilters() {
+				this.filteredAnimals = Object.assign([], this.animals.filter((animal) => {
+					const status = animal.status;
+					this.selectedFilters.forEach((value => {
+						if (status === value) {
+							return true;
+						}
+					}))
+					return false;
+				}))
+			}, clearFilters() {
+				this.filteredAnimals = Object.assign([], this.animals);
+				this.selectedFilters = [];
+			}
 		}
 	}
 
@@ -59,6 +99,12 @@
 </script>
 
 <style scoped lang="scss">
+
+	.filters-container {
+		text-align: left;
+		margin-bottom: 12px;
+	}
+
 	.list-container {
 
 	}
@@ -66,6 +112,7 @@
 	.list-item {
 		background-color: $color-light;
 		height: fit-content;
+		max-height: 360px;
 	}
 
 	.el-main {

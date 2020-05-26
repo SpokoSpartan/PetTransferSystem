@@ -4,6 +4,9 @@ export const utils = {
 	},
 	methods: {
 		getAgeWithBirthDate: function (value: string) {
+			if (value == null || value == '') {
+				return '*';
+			}
 			let date = new Date(value);
 			return date.getDate() + "." + date.getMonth() + "." + date.getFullYear();
 		},
