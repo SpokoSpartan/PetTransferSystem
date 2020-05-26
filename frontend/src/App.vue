@@ -63,6 +63,9 @@
 
 </style>
 <script>
+    import eLocale from "element-ui/lib/locale";
+    import langEn from "element-ui/lib/locale/lang/en";
+
 	export default {
 		data() {
 			return {
@@ -85,7 +88,10 @@
 				this.$isLogged = true;
         this.$loggedAs = response.data.username;
 			}
-		}
+		},
+		mounted() {
+      eLocale.use(langEn);
+    }
 	}
 
 </script>
