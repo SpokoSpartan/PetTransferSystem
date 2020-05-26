@@ -22,13 +22,16 @@
       <el-menu-item v-if="this.$isLogged" index="4">
         <router-link to="/organization">Organization</router-link>
       </el-menu-item>
+			<el-menu-item v-if="this.$isLogged" style="float: right;" index="6">
+				<p style="margin: auto">Logged as: {{this.$loggedAs}}</p>
+			</el-menu-item>
 			<el-menu-item v-if="!this.$isLogged" style="float: right;" index="5">
 				<router-link to="/register">Register</router-link>
 			</el-menu-item>
-			<el-menu-item v-if="!this.$isLogged" style="float: right;" index="6">
+			<el-menu-item v-if="!this.$isLogged" style="float: right;" index="7">
 				<router-link to="/login">Login</router-link>
 			</el-menu-item>
-			<el-menu-item v-if="this.$isLogged" @click="afterLogout" style="float: right;" index="6">
+			<el-menu-item v-if="this.$isLogged" @click="afterLogout" style="float: right;" index="7">
 				<router-link to="/animals">Logout</router-link>
 			</el-menu-item>
 		</el-menu>
@@ -72,6 +75,7 @@
 				localStorage.removeItem('access_token');
 				localStorage.removeItem('refresh_token');
 				this.$isLogged = false;
+        this.$loggedAs = '';
 				this.$forceUpdate();
 			},
 			afterLogin(response) {
@@ -79,6 +83,7 @@
 				localStorage.setItem('access_token', response.data.access_token);
 				localStorage.setItem('refresh_token', response.data.refresh_token);
 				this.$isLogged = true;
+        this.$loggedAs = response.data.username;
 			}
 		}
 	}
