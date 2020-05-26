@@ -10,6 +10,7 @@
 			<el-form-item class="form-field" prop="password" label="Password">
 				<el-input placeholder="Login"
 						  v-model="form.password"
+							@keydown.enter.native="loginEnterPressed()"
 						  show-password/>
 			</el-form-item>
 			<br>
@@ -66,15 +67,18 @@
 						message: 'Bad credentials'
 					});
 				})
+			},
+			loginEnterPressed() {
+				this.onSubmit();
 			}
 		}
 
 	}
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 
-	> > > input {
+	>>> input {
 		border-radius: 30px;
 		text-decoration-color: black;
 		color: black;
@@ -84,7 +88,7 @@
 		float: left;
 	}
 
-	> > > textarea {
+	>>> textarea {
 		border-radius: 30px;
 		text-decoration-color: black;
 		color: black;
@@ -99,7 +103,7 @@
 		width: 90%;
 	}
 
-	> > > ::placeholder {
+	>>> ::placeholder {
 		color: black;
 	}
 

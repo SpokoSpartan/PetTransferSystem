@@ -27,6 +27,7 @@
 			</el-form-item>
 			<el-form-item class="form-field" prop="phoneNumber" label="Phone number" :error="getErrorForPhoneNumber()">
 				<el-input placeholder="Phone number"
+							@keydown.enter.native="registerEnterPressed()"
 						  v-model="form.phoneNumber"/>
 			</el-form-item>
 			<br>
@@ -93,6 +94,9 @@
 					});
 				})
 			},
+			registerEnterPressed() {
+				this.onSubmit();
+			},
 			getErrorForUsername() {
 				if (this.form.fullName === '') {
 					return;
@@ -153,9 +157,9 @@
 	}
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 
-	> > > input {
+	>>> input {
 		border-radius: 30px;
 		text-decoration-color: black;
 		color: black;
@@ -165,7 +169,7 @@
 		float: left;
 	}
 
-	> > > textarea {
+	>>> textarea {
 		border-radius: 30px;
 		text-decoration-color: black;
 		color: black;
@@ -180,7 +184,7 @@
 		width: 80%;
 	}
 
-	> > > ::placeholder {
+	>>> ::placeholder {
 		color: black;
 	}
 
