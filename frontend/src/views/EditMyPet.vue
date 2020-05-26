@@ -9,18 +9,21 @@
 						  maxlength="255"
 						  show-word-limit/>
 			</el-form-item>
+
 			<el-form-item class="form-field" prop="species" label="Species">
 				<el-input placeholder="Species"
 						  v-model="form.species"
 						  maxlength="255"
 						  show-word-limit/>
 			</el-form-item>
+
 			<el-form-item class="form-field" prop="race" label="Race">
 				<el-input placeholder="Race"
 						  v-model="form.race"
 						  maxlength="255"
 						  show-word-limit/>
 			</el-form-item>
+
 			<el-form-item class="form-field" prop="description" label="Description">
 				<el-input
 					type="textarea"
@@ -31,26 +34,28 @@
 					v-model="form.description">
 				</el-input>
 			</el-form-item>
+
 			<el-form-item class="form-field" prop="imageUrl" label="Image URL">
-				<div class="upload-fields" style="width: 50%; ">
-					<el-input placeholder="Image" v-model="form.imageUrl" style="float: left;"/>
-					<el-upload
+				<el-row :gutter="10">
+					<el-col :span="4" style="margin-right: 12px;">
+						<el-upload
+							action=""
+							:http-request="uploadFileAndGetLink"
+							:show-file-list="false"
+						>
+							<el-button size="small" type="primary">Click to upload</el-button>
+						</el-upload>
+					</el-col>
+					<el-col :span="8">
+						<el-input placeholder="Image URL" v-model="form.imageUrl"/>
+					</el-col>
 
-						style="width: 30%; float: left;"
-						action="https://jsonplaceholder.typicode.com/posts/"
-						multiple
-						:limit="1">
-						<!--						:on-preview="handlePreview"-->
-						<!--						:on-remove="handleRemove"-->
-						<!--						:before-remove="beforeRemove"-->
-						<!--						:on-exceed="handleExceed">-->
-						<!--						:file-list="fileList"-->
-
-						<el-button size="small" type="primary">Click to upload</el-button>
-					</el-upload>
-				</div>
-				<div style="width: 300px;">jpg/png, max file size allowed 500KB</div>
+					<el-col :span="6">
+						<div style="width: 250px;">jpg/png, max file size allowed 500KB</div>
+					</el-col>
+				</el-row>
 			</el-form-item>
+
 			<el-form-item class="form-field" label="Date of birth">
 				<el-date-picker
 					v-model="form.birthDate"
@@ -58,9 +63,11 @@
 					placeholder="Pick animal's birthdate">
 				</el-date-picker>
 			</el-form-item>
+
 			<el-form-item class="form-field" label="Sterilized?">
 				<el-checkbox v-model="form.sterilized">Sterilized</el-checkbox>
 			</el-form-item>
+
 			<el-form-item class="form-field">
 				<el-select v-model="form.sex" placeholder="Animal sex">
 					<el-option
@@ -161,6 +168,25 @@
 				this.form.sex = model.sex;
 				this.form.sterilized = "???"
 				this.form.imageUrl = model.imageUrl;
+			},
+			uploadFileAndGetLink(file, fileList) {
+				console.log('upload function')
+
+				const fd = new FormData();
+				fd.append("image", file.file);
+
+				const token = localStorage.getItem('access_token');
+				if (token !== null) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+				}
+				axios.post(this.$APIURL + 'file/image/upload', fd)
+					.then(response => {
+						this.uploadedImageURL = response.data.url;
+						this.form.imageUrl = this.uploadedImageURL;
+					}).catch(e => {
+					this.errors.push(e)
+
+				})
 			}
 		},
 		created() {

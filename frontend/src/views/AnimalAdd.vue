@@ -32,24 +32,24 @@
 				</el-input>
 			</el-form-item>
 			<el-form-item class="form-field" prop="imageUrl" label="Image URL">
-				<div class="upload-fields" style="width: 50%; ">
-					<el-input placeholder="Image" v-model="form.imageUrl" style="float: left;"/>
-					<el-upload
+				<el-row :gutter="10">
+					<el-col :span="4" style="margin-right: 12px;">
+						<el-upload
+							action=""
+							:http-request="uploadFileAndGetLink"
+							:show-file-list="false"
+						>
+							<el-button size="small" type="primary">Click to upload</el-button>
+						</el-upload>
+					</el-col>
+					<el-col :span="8">
+						<el-input placeholder="Image URL" v-model="form.imageUrl"/>
+					</el-col>
 
-						style="width: 30%; float: left;"
-						action="https://jsonplaceholder.typicode.com/posts/"
-						multiple
-						:limit="1">
-						<!--						:on-preview="handlePreview"-->
-						<!--						:on-remove="handleRemove"-->
-						<!--						:before-remove="beforeRemove"-->
-						<!--						:on-exceed="handleExceed">-->
-						<!--						:file-list="fileList"-->
-
-						<el-button size="small" type="primary">Click to upload</el-button>
-					</el-upload>
-				</div>
-				<div style="width: 300px;">jpg/png, max file size allowed 500KB</div>
+					<el-col :span="6">
+						<div style="width: 250px;">jpg/png, max file size allowed 500KB</div>
+					</el-col>
+				</el-row>
 			</el-form-item>
 			<el-form-item class="form-field" label="Date of birth">
 				<el-date-picker
@@ -59,7 +59,7 @@
 				</el-date-picker>
 			</el-form-item>
 
-			<el-form-item class="form-field"  label="Sex">
+			<el-form-item class="form-field" label="Sex">
 				<el-select v-model="form.sex" placeholder="Animal sex">
 					<el-option
 						v-for="sex in sexes"
@@ -91,7 +91,6 @@
 		name: "AnimalAdd",
 		data() {
 			return {
-				posts: [],
 				errors: [],
 				sexes: ['male', 'female', 'unknown'],
 				form: {
@@ -119,7 +118,6 @@
 		},
 		methods: {
 			onSubmit() {
-				console.log('submit!');
 				console.log(this.form);
 				const token = localStorage.getItem('access_token');
 				if (token !== null) {
@@ -127,11 +125,29 @@
 				}
 				axios.post(this.$APIURL + 'animal/create', this.form)
 					.then(response => {
-						this.posts = response;
 						this.$router.push({path: '/myPets'});
 						console.log(response);
 					}).catch(e => {
 					this.errors.push(e)
+				})
+			},
+			uploadFileAndGetLink(file, fileList) {
+				console.log('upload function')
+
+				const fd = new FormData();
+				fd.append("image", file.file);
+
+				const token = localStorage.getItem('access_token');
+				if (token !== null) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+				}
+				axios.post(this.$APIURL + 'file/image/upload', fd)
+					.then(response => {
+						this.uploadedImageURL = response.data.url;
+						this.form.imageUrl = this.uploadedImageURL;
+					}).catch(e => {
+					this.errors.push(e)
+
 				})
 			}
 		}
@@ -150,10 +166,6 @@
 		float: left;
 	}
 
-	.upload-fields {
-		/*float: left;*/
-		/*display: flex;*/
-	}
 
 	>>> textarea {
 		border-radius: 30px;

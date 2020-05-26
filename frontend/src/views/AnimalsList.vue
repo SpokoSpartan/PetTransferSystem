@@ -112,6 +112,7 @@
 	.list-item {
 		background-color: $color-light;
 		height: fit-content;
+		max-height: 360px;
 	}
 
 	.el-main {
