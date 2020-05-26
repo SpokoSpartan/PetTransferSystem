@@ -36,34 +36,34 @@
 									Show full details
 								</el-button>
 							</router-link>
-							<router-link style="padding-left: 12px;"
+							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 12px;"
 										 :to="{ path: '/edit/' + animal.id, params: {id: animal.id}}">
 								<el-button type="info" round>
 									Update pet info
 								</el-button>
 							</router-link>
-							<router-link style="padding-left: 12px;"
+							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 12px;"
 										 :to="{ path: '/editTreatment/' + animal.id, params: {id: animal.id}}">
 								<el-button type="info" round>
 									Update treatment history
 								</el-button>
 							</router-link>
-							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="!animal.archived">
+							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="!animal.archived && animal.status === 'ready for adoption'">
 								<el-button type="primary" style="background: #ffc520; border-color: #ffc520;"
 										   @click="archiveAnimal(animal)" round>Hide
 								</el-button>
 							</router-link>
-							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="animal.archived">
+							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="animal.archived && animal.status === 'ready for adoption'">
 								<el-button type="info" style="background: #009926; border-color: #009926;"
 										   @click="reverseArchiving(animal)" round>Unhide
 								</el-button>
 							</router-link>
-							<router-link style="padding-left: 10px;" :to="{ path: ''}">
+							<router-link v-if="!(animal.status === 'adopted')" style="padding-left: 10px;" :to="{ path: ''}">
 								<el-button type="danger" @click="removeAnimal(animal)" round>
 									Remove animal
 								</el-button>
 							</router-link>
-							<router-link style="padding-left: 10px;"
+							<router-link v-if="!(animal.status === 'adopted')" style="padding-left: 10px;"
 										 :to="{ path: '/transfer/' + animal.id,  params: {id: animal.id}}">
 								<el-button style="background: #0074D9; border-color: #0074D9;" type="danger" round>
 									Transfer
