@@ -76,9 +76,9 @@
 	}
 </script>
 
-<style scoped lang="scss">
+1<style scoped lang="scss">
 
-	>>> input {
+	> > > input {
 		border-radius: 30px;
 		text-decoration-color: black;
 		color: black;
