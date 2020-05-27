@@ -56,20 +56,8 @@
 				</el-row>
 			</el-form-item>
 
-			<el-form-item class="form-field" label="Date of birth">
-				<el-date-picker
-					v-model="form.birthDate"
-					type="date"
-					placeholder="Pick animal's birthdate">
-				</el-date-picker>
-			</el-form-item>
-
-			<el-form-item class="form-field" label="Sterilized?">
-				<el-checkbox v-model="form.sterilized">Sterilized</el-checkbox>
-			</el-form-item>
-
-			<el-form-item class="form-field">
-				<el-select v-model="form.sex" placeholder="Animal sex">
+			<el-form-item class="form-field" label="Sex">
+				<el-select v-model="form.sex" placeholder="Animal sex" style="width: 100%;">
 					<el-option
 						v-for="sex in sexes"
 						:key="sex"
@@ -77,6 +65,21 @@
 						:value="sex">
 					</el-option>
 				</el-select>
+			</el-form-item>
+
+			<el-form-item class="form-field" label="Date of birth">
+				<el-date-picker
+					v-model="form.birthDate"
+					type="date"
+					placeholder="Pick animal's birthdate"
+					style="width: 100%;">
+				</el-date-picker>
+			</el-form-item>
+
+			<el-form-item class="form-field" label="Sterilized?">
+				<el-checkbox v-model="form.sterilized"  style="float: left;">
+					Sterilized
+				</el-checkbox>
 			</el-form-item>
 
 			<el-button style="margin-bottom: 12px;" type="success" @click="onSubmit" round>Update</el-button>
@@ -164,9 +167,9 @@
 				this.form.species = model.species;
 				this.form.race = model.race;
 				this.form.description = model.descrption;
-				this.form.birthDate = "???"
+				this.form.birthDate = model.birthDate
 				this.form.sex = model.sex;
-				this.form.sterilized = "???"
+				this.form.sterilized = model.sterilized;
 				this.form.imageUrl = model.imageUrl;
 			},
 			uploadFileAndGetLink(file, fileList) {

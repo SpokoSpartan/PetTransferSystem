@@ -51,16 +51,9 @@
 					</el-col>
 				</el-row>
 			</el-form-item>
-			<el-form-item class="form-field" label="Date of birth">
-				<el-date-picker
-					v-model="form.birthDate"
-					type="date"
-					placeholder="Pick animal's birthdate">
-				</el-date-picker>
-			</el-form-item>
 
 			<el-form-item class="form-field" label="Sex">
-				<el-select v-model="form.sex" placeholder="Animal sex">
+				<el-select v-model="form.sex" placeholder="Animal sex" style="width: 100%;">
 					<el-option
 						v-for="sex in sexes"
 						:key="sex"
@@ -70,8 +63,19 @@
 				</el-select>
 			</el-form-item>
 
+			<el-form-item class="form-field" label="Date of birth">
+				<el-date-picker
+					v-model="form.birthDate"
+					type="date"
+					placeholder="Pick animal's birthdate"
+					style="width: 100%;">
+				</el-date-picker>
+			</el-form-item>
+
 			<el-form-item class="form-field" label="Sterilized?">
-				<el-checkbox v-model="form.sterilized">Sterilized</el-checkbox>
+				<el-checkbox v-model="form.sterilized"  style="float: left;">
+					Sterilized
+				</el-checkbox>
 			</el-form-item>
 
 			<el-button style="margin-bottom: 12px;" type="success" @click="onSubmit" round>Create</el-button>
@@ -86,7 +90,7 @@
 	import Vue from "vue";
 	import VueRouter from "vue-router";
 
-  Vue.use(VueRouter);
+	Vue.use(VueRouter);
 
 	export default {
 		name: "AnimalAdd",
