@@ -33,7 +33,8 @@
 						type="daterange"
 						range-separator="To"
 						start-placeholder="Start date"
-						end-placeholder="End date">
+						end-placeholder="End date"
+						style="width: 100%;">
 					</el-date-picker>
 				</div>
 			</el-form-item>
@@ -57,7 +58,7 @@
 		<br>
 		<el-table
 			:data="tableData"
-			:default-sort = "{prop: 'startDate', order: 'ascending'}"
+			:default-sort="{prop: 'startDate', order: 'ascending'}"
 			stripe
 			border
 			style="width: 100%; padding-top: 12px;">
@@ -172,8 +173,10 @@
 				this.form.place = model.place;
 				this.form.price = model.price;
 
-				this.startEndDates[0] = model.startDate;
-				this.startEndDates[1] = model.endDate;
+				let startDateArray = model.startDate.split('.');
+				let endDateArray = model.startDate.split('.');
+				this.startEndDates[0] = new Date(startDateArray[2], startDateArray[1], startDateArray[0]);
+				this.startEndDates[1] = new Date(endDateArray[2], endDateArray[1], endDateArray[0]);
 			}
 		},
 		created() {
@@ -189,7 +192,7 @@
 		text-decoration-color: black;
 		color: black;
 		border: black 1px solid;
-		width: 90%;
+		width: 100%;
 		margin: 0 auto;
 		float: left;
 	}
@@ -204,7 +207,7 @@
 		text-decoration-color: black;
 		color: black;
 		border: black 1px solid;
-		width: 90%;
+		width: 100%;
 		margin: 0 auto;
 		float: left;
 	}

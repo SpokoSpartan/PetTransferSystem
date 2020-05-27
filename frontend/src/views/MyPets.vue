@@ -26,61 +26,69 @@
 						<el-header>
 							{{animal.name}} is currently {{animal.status}}
 							<el-button v-if="animal.status === 'new in shelter'" @click="putUpForAdoption(animal)" style="margin-left: 12px;" type="success" round>Put up for adoption</el-button>
-						</el-header>
-						<el-main>
-							<b>Description:</b> {{animal.description}}
-							<p>Location: {{animal.location}}</p>
-							<router-link
-								:to="{ path: '/animal/' + animal.id, params: {id: animal.id}}">
-								<el-button type="success" round>
-									More details
-								</el-button>
-							</router-link>
-							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 12px;"
-										 :to="{ path: '/edit/' + animal.id, params: {id: animal.id}}">
-								<el-button type="info" round>
-									Update info
-								</el-button>
-							</router-link>
-							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 12px;"
-										 :to="{ path: '/editTreatment/' + animal.id, params: {id: animal.id}}">
-								<el-button type="info" round>
-									Update treatment
-								</el-button>
-							</router-link>
-							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="!animal.archived && animal.status === 'ready for adoption'">
-								<el-button type="primary" style="background: #ffc520; border-color: #ffc520;"
-										   @click="archiveAnimal(animal)" round>Hide
-								</el-button>
-							</router-link>
-							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="animal.archived && animal.status === 'ready for adoption'">
-								<el-button type="info" style="background: #009926; border-color: #009926;"
-										   @click="reverseArchiving(animal)" round>Unhide
-								</el-button>
-							</router-link>
-							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 10px;"
-										 :to="{ path: '/transfer/' + animal.id,  params: {id: animal.id}}">
-								<el-button style="background: #0074D9; border-color: #0074D9;" type="danger" round>
-									Transfer
-								</el-button>
-							</router-link>
 							<router-link v-if="animal.status === 'ready for adoption'" style="padding-left: 10px;"
 										 :to="{ path: '/adopt/' + animal.id,  params: {id: animal.id}}">
 								<el-button type="success" round>
 									Hand over for adoption
 								</el-button>
 							</router-link>
+						</el-header>
+						<el-main>
+							<b>Description:</b> {{animal.description}}
+							<p>Location: {{animal.location}}</p>
+							<router-link
+								:to="{ path: '/animal/' + animal.id, params: {id: animal.id}}">
+								<el-button type="success" round style="background: #0074D9; border-color: #0074D9;">
+									More details
+								</el-button>
+							</router-link>
+							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 12px;"
+										 :to="{ path: '/edit/' + animal.id, params: {id: animal.id}}">
+								<el-button type="default" round>
+									Update info
+								</el-button>
+							</router-link>
+
+							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 12px;"
+										 :to="{ path: '/editTreatment/' + animal.id, params: {id: animal.id}}">
+								<el-button type="default" round>
+									Update treatment
+								</el-button>
+							</router-link>
+
 							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 10px;"
-													 :to="{ path: ''}">
+										 :to="{ path: '/transfer/' + animal.id,  params: {id: animal.id}}">
+								<el-button type="info" round>
+									Transfer
+								</el-button>
+							</router-link>
+
+							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="animal.archived && animal.status === 'ready for adoption'">
+								<el-button type="info" style="background: #009926; border-color: #009926;"
+										   @click="reverseArchiving(animal)" round>
+									Unhide
+								</el-button>
+							</router-link>
+
+							<router-link style="padding-left: 12px;" :to="{ path: ''}" v-if="!animal.archived && animal.status === 'ready for adoption'">
+								<el-button type="warning" @click="archiveAnimal(animal)" round >
+									Hide
+								</el-button>
+							</router-link>
+
+							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 10px;"
+										 :to="{ path: ''}">
 								<el-button @click="markAsDead(animal)" type="danger" round>
 									Decease
 								</el-button>
 							</router-link>
+
 							<router-link v-if="!(animal.status === 'adopted')" style="padding-left: 10px;" :to="{ path: ''}">
-								<el-button type="danger" @click="removeAnimal(animal)" round>
+								<el-button @click="removeAnimal(animal)" type="danger" round>
 									Remove
 								</el-button>
 							</router-link>
+
 						</el-main>
 					</el-container>
 				</el-container>
@@ -91,9 +99,9 @@
 </template>
 
 <script>
-    import axios from "axios";
+	import axios from "axios";
 
-    export default {
+	export default {
 		name: "AnimalsList",
 		data() {
 			return {
@@ -207,57 +215,57 @@
 			clearFilters() {
 				this.filteredAnimals = Object.assign([], this.animals);
 				this.selectedFilters = [];
-      },
+			},
 			putUpForAdoption(animal) {
-       const token = localStorage.getItem('access_token');
-       if (token !== null) {
-         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-        }
-        axios.post(this.$APIURL + 'status/animal/' + animal.id + '/add?status=READY_FOR_ADOPTION')
-          .then(() => {
-          	this.$message({
-            type: 'success',
-            message: 'Status changed'
-          });
-           	animal.status = 'ready for adoption';
-          })
-          .catch((e) =>
-            this.$message({
-            type: 'error',
-						message: 'An error occurred. Please refresh this page and try again.'
-          }));
-      },
-        markAsDead(animal) {
-            this.$confirm('This will permanently save this animal as dead. Continue?', 'Warning', {
-                confirmButtonText: 'OK',
-                cancelButtonText: 'Cancel',
-                type: 'warning'
-            }).then(() => {
-                const token = localStorage.getItem('access_token');
-                if (token !== null) {
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-                }
-                axios.post(this.$APIURL + 'status/animal/' + animal.id + '/add?status=DIED')
-                    .then(() => {
-                        this.$message({
-                            type: 'success',
-                            message: 'Completed'
-                        });
-                        animal.status = 'dead';
-                    })
-                    .catch((e) =>
-                        this.$message({
-                            type: 'error',
-                            message: 'An error occurred. Please refresh this page and try again.'
-                        }));
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: 'Canceled'
-                });
-            });
+				const token = localStorage.getItem('access_token');
+				if (token !== null) {
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 				}
-    },
+				axios.post(this.$APIURL + 'status/animal/' + animal.id + '/add?status=READY_FOR_ADOPTION')
+					.then(() => {
+						this.$message({
+							type: 'success',
+							message: 'Status changed'
+						});
+						animal.status = 'ready for adoption';
+					})
+					.catch((e) =>
+						this.$message({
+							type: 'error',
+							message: 'An error occurred. Please refresh this page and try again.'
+						}));
+			},
+			markAsDead(animal) {
+				this.$confirm('This will permanently save this animal as dead. Continue?', 'Warning', {
+					confirmButtonText: 'OK',
+					cancelButtonText: 'Cancel',
+					type: 'warning'
+				}).then(() => {
+					const token = localStorage.getItem('access_token');
+					if (token !== null) {
+						axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+					}
+					axios.post(this.$APIURL + 'status/animal/' + animal.id + '/add?status=DIED')
+						.then(() => {
+							this.$message({
+								type: 'success',
+								message: 'Completed'
+							});
+							animal.status = 'dead';
+						})
+						.catch((e) =>
+							this.$message({
+								type: 'error',
+								message: 'An error occurred. Please refresh this page and try again.'
+							}));
+				}).catch(() => {
+					this.$message({
+						type: 'info',
+						message: 'Canceled'
+					});
+				});
+			}
+		},
 		created() {
 			const token = localStorage.getItem('access_token');
 			if (token !== null) {
