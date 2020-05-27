@@ -70,6 +70,12 @@
 									Hand over for adoption
 								</el-button>
 							</router-link>
+							<router-link v-if="!(animal.status === 'adopted' || animal.status === 'dead')" style="padding-left: 10px;"
+													 :to="{ path: ''}">
+								<el-button @click="markAsDead(animal)" type="danger" round>
+									Decease
+								</el-button>
+							</router-link>
 							<router-link v-if="!(animal.status === 'adopted')" style="padding-left: 10px;" :to="{ path: ''}">
 								<el-button type="danger" @click="removeAnimal(animal)" round>
 									Remove
@@ -220,7 +226,37 @@
             type: 'error',
 						message: 'An error occurred. Please refresh this page and try again.'
           }));
-      }
+      },
+        markAsDead(animal) {
+            this.$confirm('This will permanently save this animal as dead. Continue?', 'Warning', {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+            }).then(() => {
+                const token = localStorage.getItem('access_token');
+                if (token !== null) {
+                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+                }
+                axios.post(this.$APIURL + 'status/animal/' + animal.id + '/add?status=DIED')
+                    .then(() => {
+                        this.$message({
+                            type: 'success',
+                            message: 'Completed'
+                        });
+                        animal.status = 'dead';
+                    })
+                    .catch((e) =>
+                        this.$message({
+                            type: 'error',
+                            message: 'An error occurred. Please refresh this page and try again.'
+                        }));
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: 'Canceled'
+                });
+            });
+				}
     },
 		created() {
 			const token = localStorage.getItem('access_token');
