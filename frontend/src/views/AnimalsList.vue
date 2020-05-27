@@ -2,15 +2,25 @@
 	<div style="margin: 0 auto; width: 70%;">
 		<h1>Animals in our shelter (total amount: {{animals.length}})</h1>
 		<div class="filters-container">
-			Filter animals by status:
-			<el-select v-model="selectedFilters" multiple placeholder="select status">
+			Filter animals by species:
+			<el-select v-model="selectedSpecies" multiple placeholder="select species">
 				<el-option
-					v-for="item in filterOptions"
-					:key="item.value"
-					:label="item.label"
-					:value="item.value">
+					v-for="item in optionSpecies"
+					:key="item"
+					:label="item"
+					:value="item">
 				</el-option>
 			</el-select>
+			or by race:
+			<el-select v-model="selectedRaces" multiple placeholder="select race">
+				<el-option
+					v-for="item in optionsRaces"
+					:key="item"
+					:label="item"
+					:value="item">
+				</el-option>
+			</el-select>
+
 			<el-button style="margin-left: 12px;" type="primary" round @click="applyFilters">Apply</el-button>
 			<el-button style="margin-left: 12px;" type="info" round @click="clearFilters">Clear</el-button>
 		</div>
@@ -52,15 +62,13 @@
 			return {
 				animals: [],
 				filteredAnimals: [],
+				races: [],
+				species: [],
+				selectedRaces: [],
+				selectedSpecies: [],
 				errors: [],
-				selectedFilters: [],
-				filterOptions: [{
-					value: 'new in shelter',
-					label: 'New in shelter'
-				}, {
-					value: 'ready for adoption',
-					label: 'Ready for adoption'
-				}]
+				optionsRaces: [],
+				optionSpecies: []
 			}
 		},
 		created() {
@@ -71,26 +79,54 @@
 			axios.get(this.$APIURL + 'animal/all?page=0&size=1000')
 				.then(response => {
 					this.animals = response.data.content;
-					this.filteredAnimals = response.data.content;
-					console.log(response.data.content);
+					this.filteredAnimals = Object.assign([], this.animals);
+					this.getFilterOptions();
+					console.log(this.animals);
 				}).catch(e => {
 				this.errors.push(e)
 			})
 		},
 		methods: {
 			applyFilters() {
-				this.filteredAnimals = Object.assign([], this.animals.filter((animal) => {
-					const status = animal.status;
-					this.selectedFilters.forEach((value => {
-						if (status === value) {
-							return true;
+				if (this.selectedRaces.length === 0 && this.selectedSpecies.length === 0) {
+					this.filteredAnimals = Object.assign([], this.animals);
+				} else {
+					this.filteredAnimals = Object.assign([], this.animals.filter((animal) => {
+						const race = animal.race;
+						const species = animal.species;
+
+						for (let i = 0; i < this.selectedRaces.length; i++) {
+							if (race === this.selectedRaces[i]) {
+								return true;
+							}
 						}
+						for (let i = 0; i < this.selectedSpecies.length; i++) {
+							if (species === this.selectedSpecies[i]) {
+								return true;
+							}
+						}
+
+						return false;
 					}))
-					return false;
-				}))
-			}, clearFilters() {
+				}
+
+			},
+			clearFilters() {
 				this.filteredAnimals = Object.assign([], this.animals);
-				this.selectedFilters = [];
+				this.selectedRaces = [];
+				this.selectedSpecies = [];
+			},
+			getFilterOptions() {
+				this.animals.forEach((a) => {
+					if (!this.optionsRaces.includes(a.race)) {
+						this.optionsRaces.push(a.race);
+					}
+					if (!this.optionSpecies.includes(a.species)) {
+						this.optionSpecies.push(a.species);
+					}
+				})
+				console.log(this.optionsRaces)
+				console.log(this.optionSpecies)
 			}
 		}
 	}
