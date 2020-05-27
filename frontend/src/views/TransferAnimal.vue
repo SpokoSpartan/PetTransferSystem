@@ -2,61 +2,56 @@
 	<div>
 		<h1>Transfer animal</h1>
 		<el-row>
-			<el-col :span="11"><div class="grid-content bg-purple">
-				<el-form class="form-container" style="width: 70%" ref="form" label-position="left" label-width="90%;">
-					<h2 style="margin-top: 5%;">Animal to be transferred:</h2>
-					<img width="60%" class="img-limit" :src="this.animalModel.imageUrl">
-					<h2>{{this.animalModel.name}}</h2>
-				</el-form>
-			</div></el-col>
-			<el-col :span="2"><div class="grid-content bg-purple-light">
-				<img style="margin-top: 60%;" src="../assets/icons-arrow.png">
-			</div></el-col>
-			<el-col :span="11"><div class="grid-content bg-purple-light">
-				<el-form class="form-container" style="width: 90%" ref="form" :model="form" :rules="rules" label-position="left" label-width="90%;">
-					<h2>Find user:</h2>
-					<el-form-item class="form-field" prop="pattern" label="Find user" id="login-username">
+			<el-col :span="11">
+				<div class="grid-content bg-purple">
+					<div class="form-container" style="width: 50%; padding-top: 2px; padding-bottom: 2px; background-color: white;" ref="form" label-position="left" label-width="90%;">
+						<h2 style="padding-top: 2px;">Animal to be transferred: {{this.animalModel.name}}</h2>
+						<img width="60%" class="img-limit" :src="this.animalModel.imageUrl">
+					</div>
+				</div>
+			</el-col>
+			<el-col :span="2">
+				<div class="grid-content bg-purple-light">
+					<img style="margin-top: 60%;" src="../assets/icons-arrow.png">
+				</div>
+			</el-col>
+			<el-col :span="11">
+				<div class="grid-content bg-purple-light">
+					<el-form class="form-container" style="width: 90%; padding-top: 2px;" ref="form" :model="form" :rules="rules" label-position="left" label-width="90%;">
+						<h2>Find user:</h2>
+						<el-form-item class="form-field" prop="pattern" label="Find user" id="login-username">
 
-						<el-row>
-							<el-col :span="17">
-							<el-input placeholder="User name or email"
-									  @keydown.enter.native="findUsers"
-									  v-model="form.pattern"/>
-							</el-col>
-							<el-col :span="2">
-							<el-button type="primary" @click="findUsers" round>Search</el-button>
-							</el-col>
-						</el-row>
-					</el-form-item>
-					<el-table
-						:data="users"
-						style="width: 100%">
-						<el-table-column
-							label="Name"
-							prop="fullName">
-						</el-table-column>
-						<el-table-column
-							label="Email"
-							prop="email">
-						</el-table-column>
-						<el-table-column
-							label="Phone number"
-							prop="phoneNumber">
-						</el-table-column>
-						<el-table-column
-							label="Actions">
-							<template slot-scope="scope">
-								<el-button
-									round
-									type="primary"
-									size="normal"
-									@click="transferAnimalTo(scope.$index)">Transfer</el-button>
-							</template>
-						</el-table-column>
-					</el-table>
-					<br>
-				</el-form>
-			</div></el-col>
+							<el-row>
+								<el-col :span="17">
+									<el-input placeholder="User name or email"
+											  @keydown.enter.native="findUsers"
+											  v-model="form.pattern"/>
+								</el-col>
+								<el-col :span="2">
+									<el-button type="primary" @click="findUsers" round>Search</el-button>
+								</el-col>
+							</el-row>
+						</el-form-item>
+						<el-table :data="users" style="width: 100%;">
+							<el-table-column label="Name" prop="fullName"></el-table-column>
+							<el-table-column label="Email" prop="email"></el-table-column>
+							<el-table-column label="Phone number" prop="phoneNumber"></el-table-column>
+							<el-table-column
+								label="Actions">
+								<template slot-scope="scope">
+									<el-button
+										round
+										type="primary"
+										size="normal"
+										@click="transferAnimalTo(scope.$index)">Transfer
+									</el-button>
+								</template>
+							</el-table-column>
+						</el-table>
+						<br>
+					</el-form>
+				</div>
+			</el-col>
 		</el-row>
 	</div>
 </template>
@@ -152,8 +147,8 @@
 	}
 </script>
 
-<style scoped>
-	>>> input {
+<style scoped lang="scss">
+	> > > input {
 		border-radius: 30px;
 		text-decoration-color: black;
 		color: black;
@@ -163,12 +158,7 @@
 		float: left;
 	}
 
-	.upload-fields {
-		/*float: left;*/
-		/*display: flex;*/
-	}
-
-	>>> textarea {
+	> > > textarea {
 		border-radius: 30px;
 		text-decoration-color: black;
 		color: black;
@@ -197,5 +187,11 @@
 		width: 50%;
 		border-radius: 5px;
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
+	}
+
+	.img-limit {
+		border-radius: 10%;
+		max-width: 400px;
+		margin-bottom: 12px;
 	}
 </style>

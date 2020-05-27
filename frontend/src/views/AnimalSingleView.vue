@@ -91,6 +91,5 @@
 		border-radius: 10%;
 		margin-top: 60px;
 		max-width: 400px;
-		/*max-height: 400px;*/
 	}
 </style>
