@@ -76,7 +76,7 @@
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 	>>> input {
 		border-radius: 30px;

@@ -22,17 +22,17 @@
       <el-menu-item v-if="this.$isLogged" index="4">
         <router-link to="/organization">Organization</router-link>
       </el-menu-item>
-			<el-menu-item v-if="this.$isLogged" style="float: right;" index="6">
-				<p style="margin: auto">Logged as: {{this.$loggedAs}}</p>
-			</el-menu-item>
 			<el-menu-item v-if="!this.$isLogged" style="float: right;" index="5">
 				<router-link to="/register">Register</router-link>
 			</el-menu-item>
-			<el-menu-item v-if="!this.$isLogged" style="float: right;" index="7">
+			<el-menu-item v-if="!this.$isLogged" style="float: right;" index="6">
 				<router-link to="/login">Login</router-link>
 			</el-menu-item>
 			<el-menu-item v-if="this.$isLogged" @click="afterLogout" style="float: right;" index="7">
 				<router-link to="/animals">Logout</router-link>
+			</el-menu-item>
+			<el-menu-item v-if="this.$isLogged" style="float: right;line-height: 60px;" index="8" >
+				<a>Logged as: {{this.$loggedAs}}</a>
 			</el-menu-item>
 		</el-menu>
 		<div>
@@ -63,8 +63,8 @@
 
 </style>
 <script>
-    import eLocale from "element-ui/lib/locale";
-    import langEn from "element-ui/lib/locale/lang/en";
+	import eLocale from "element-ui/lib/locale";
+	import langEn from "element-ui/lib/locale/lang/en";
 
 	export default {
 		data() {
