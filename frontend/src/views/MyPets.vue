@@ -1,6 +1,6 @@
 <template>
 	<div style="margin: 0 auto; width: 70%;">
-		<h1>Your animals (total amount: {{animals.length}})</h1>
+		<h1>Your animals (total: {{animals.length}})</h1>
 
 		<div class="filters-container">
 			Filter animals by status:

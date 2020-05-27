@@ -1,6 +1,6 @@
 <template>
 	<div style="margin: 0 auto; width: 70%;">
-		<h1>Animals in our shelter (total amount: {{animals.length}})</h1>
+		<h1>Animals in our shelter (total: {{animals.length}})</h1>
 		<div class="filters-container">
 			Filter animals by species:
 			<el-select v-model="selectedSpecies" multiple placeholder="select species">
@@ -120,15 +120,15 @@
 			},
 			getFilterOptions() {
 				this.animals.forEach((a) => {
-					if (!this.optionsRaces.includes(a.race)) {
+					if (!!a.race && !this.optionsRaces.includes(a.race)) {
 						this.optionsRaces.push(a.race);
 					}
-					if (!this.optionSpecies.includes(a.species)) {
+					if (!!a.species && !this.optionSpecies.includes(a.species)) {
 						this.optionSpecies.push(a.species);
 					}
 				})
-				console.log(this.optionsRaces)
-				console.log(this.optionSpecies)
+				this.optionsRaces = this.optionsRaces.sort();
+				this.optionSpecies.sort();
 			}
 		}
 	}
